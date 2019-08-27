@@ -1,0 +1,12 @@
+<ion-tabs *ngIf="this.kiosksmodel.currentTab === 'voting'">
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="assigned" (click)="changeTab('assigned')">
+      <ion-label>Assigned</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="unassigned" (click)="changeTab('unassigned')">
+      <ion-label>Un-Assigned</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
+<ion-router-outlet *ngIf="this.kiosksmodel.currentTab !== 'voting'"></ion-router-outlet>

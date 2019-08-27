@@ -1,0 +1,339 @@
+// App Styles
+// ----------------------------------------------------------------------------
+// Put style rules here that you want to apply to the entire application. These
+// styles are for the entire app and not just one component. Additionally, this
+// file can hold Sass mixins, functions, and placeholder classes to be imported
+// and used throughout the application.
+@import '../theme/fonts';
+
+ion-slides {
+  height: 80vh;
+}
+
+.bg-white {
+  background: white;
+}
+
+.sc-ion-card-ios-h {
+  -webkit-box-shadow: 0 4px 15px rgba(0, 0, 0, .05);
+  -moz-box-shadow: 0 4px 15px rgba(0, 0, 0, .05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, .05);
+}
+
+.ion-success {
+  background: #21B14C;
+}
+
+.line-height-point6 {
+  line-height: 0.6;
+}
+
+.line-height-point8 {
+  line-height: 0.8;
+}
+
+.line-height-one {
+  line-height: 1;
+}
+
+.line-height-onepoint2 {
+  line-height: 1.2;
+}
+
+.line-height-onepoint5 {
+  line-height: 1.5;
+}
+
+.font-size-32 {
+  font-size: 32px;
+}
+
+.font-size-28 {
+  font-size: 28px;
+}
+
+.font-size-24 {
+  font-size: 24px;
+}
+
+.font-size-20 {
+  font-size: 20px;
+}
+
+.font-size-16 {
+  font-size: 16px;
+}
+
+.font-size-12 {
+  font-size: 12px;
+}
+
+.font-size-14 {
+  font-size: 14px;
+}
+
+.font-size-18 {
+  font-size: 18px;
+}
+
+.native-input.sc-ion-input-ios {
+  border-radius: 5px;
+  border: 0.5px solid grey;
+  margin-top: 10px;
+  background: white;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.native-input.sc-ion-input-android {
+  border-radius: 5px;
+  border: 0.5px solid grey;
+  margin-top: 10px;
+  background: white;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.borderbottomnone {
+  border-bottom: none;
+}
+
+
+.header-rightsideimage {
+  background: url("../assets/icon/moi-logo/moi-logo.png");
+  height: 48px;
+  width: 44px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
+.header-white-moilogo {
+  background: url("../assets/icon/moi-logo/moi-logo_transperant@3x.png");
+  height: 32px;
+  width: 35px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
+.header-white-message {
+  background: url("../assets/main_screen/black-back-closed-envelope-shape-1@3x.png");
+  height: 24px;
+  width: 30px;
+  margin-right: 10px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
+.header-appimage {
+  background: url("../assets/icon/shura-logo/shura-logo-2019.png");
+  height: 138px;
+  width: 125px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.button-round-app {
+  padding-left: 2em;
+  padding-right: 2em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+.image-common-64 {
+  height: 64px;
+  width: 64px;
+}
+
+app-dashboard {
+  ion-icon {
+    font-size: 38px;
+  }
+}
+
+.home-page-card-icon-right {
+  z-index: 10;
+  position: absolute;
+  right: 0;
+  top: 32%;
+}
+
+.back-button-icon-left {
+  text-align: left;
+  font-size: 20px;
+}
+
+.ion-padding-left-5 {
+  padding-left: 5px;
+}
+
+.ion-padding-right-5 {
+  padding-left: 5px;
+}
+
+.data-text-center {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.width-height-100 {
+  width: 100px;
+  height: 100px;
+}
+
+.ion-margin-top-8 {
+  margin-top: 8px;
+}
+
+.ion-margin-top-12 {
+  margin-top: 12px;
+}
+
+.ion-padding-right-8 {
+  padding-right: 8px;
+}
+
+.ion-padding-right-12 {
+  padding-right: 12px;
+}
+
+.ion-padding-right-16 {
+  padding-right: 16px;
+}
+
+.ion-padding-right-20 {
+  padding-right: 20px;
+}
+
+.ion-padding-right-24 {
+  padding-right: 24px;
+}
+
+.ion-padding-bottom-8 {
+  padding-bottom: 8px;
+}
+
+.ion-padding-bottom-12 {
+  padding-bottom: 12px;
+}
+
+.ion-padding-bottom-16 {
+  padding-bottom: 16px;
+}
+
+.ion-padding-bottom-20 {
+  padding-bottom: 20px;
+}
+
+.ion-padding-bottom-24 {
+  padding-bottom: 24px;
+}
+
+.ion-padding-left-8 {
+  padding-left: 8px;
+}
+
+.ion-padding-left-12 {
+  padding-left: 12px;
+}
+
+.ion-padding-left-16 {
+  padding-left: 16px;
+}
+
+.ion-padding-left-20 {
+  padding-left: 20px;
+}
+
+.ion-padding-left-24 {
+  padding-left: 24px;
+}
+
+.ion-padding-top-8 {
+  padding-top: 8px;
+}
+
+.ion-padding-top-12 {
+  padding-top: 12px;
+}
+
+.ion-padding-top-16 {
+  padding-top: 16px;
+}
+
+.ion-padding-top-20 {
+  padding-top: 20px;
+}
+
+.ion-padding-top-24 {
+  padding-top: 24px;
+}
+
+.committee-ion-select {
+  border: 1px solid #F1F1F1;
+  max-width: 100vw;
+  border-radius: 5px;
+  background: white;
+}
+
+.committee-ion-select-dark {
+  border: 1px solid #F1F1F1;
+  max-width: 100vw;
+  border-radius: 5px;
+  background: #F1F1F1;
+}
+
+.select-icon {
+  padding-right: 8px;
+  padding-top: 5px;
+}
+
+.alert-wrapper {
+  min-width: 100vw !important;
+  min-height: 90vh !important;;
+  display: flex !important;
+  bottom: 0;
+  position: absolute;
+  background: #FAFAFA !important;
+}
+
+.alert-checkbox-group, .alert-radio-group {
+  max-height: 100vh !important;
+}
+
+.alert-button-group {
+  position: absolute;
+  bottom: 0;
+}
+
+.list-ios {
+  margin-top: 0px;
+}
+
+.uploadimage {
+  margin-top: -50px;
+  padding: 5px;
+  margin-left: -5px;
+  --background: #de6817;
+  --background-activated: #de5210;
+}
+
+.committee-button-size-medium {
+  //padding-top: 5px;
+  //padding-bottom: 5px;
+  height: 35px;
+}
+
+.committee-button-size-medium-constract {
+  --ion-color-base: #ffffff !important;
+  --ion-color-contrast: green !important;
+  border: 1px solid green;
+  border-radius: 30px;
+  height: 35px;
+}
+

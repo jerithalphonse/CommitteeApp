@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="back-button-icon-left">Send Message</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="1"></ion-col>
+      <ion-col size="11">
+        <h5 color="dark-shade" class="fontweight-medium">Please select the options to send messages</h5>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-list lines="none">
+
+          <ion-card *ngIf="(user && user.roles && user.roles.messageTabAllMembers)" (click)="goto('chatsample')">
+            <ion-grid>
+              <ion-row class="ion-padding-bottom">
+                <ion-col size="12" class="ion-padding-left-16">
+                  <h4 class="line-height-point6">All Members</h4>
+                  <div class="ion-padding-right-24">Send messsage to all team members</div>
+                  <ion-icon name="arrow-forward" item-right class="message-page-card-icon-right font-size-32"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card>
+
+          <ion-card *ngIf="(user && user.roles && user.roles.messageTabHeadCommittees)" (click)="goto('committeehead')">
+            <ion-grid>
+              <ion-row class="ion-padding-bottom">
+                <ion-col size="12" class="ion-padding-left-16">
+                  <h4 class="line-height-point6">Committee Head</h4>
+                  <div class="ion-padding-right-24">Send message to all committee heads</div>
+                  <ion-icon name="arrow-forward" item-right class="message-page-card-icon-right font-size-32"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card>
+
+          <ion-card *ngIf="(user && user.roles && user.roles.messageTabToHeadCommittee)" (click)="goto('toheadcommittee')">
+            <ion-grid>
+              <ion-row class="ion-padding-bottom">
+                <ion-col size="12" class="ion-padding-left-16">
+                  <h4 class="line-height-point6">Head Committee</h4>
+                  <div class="ion-padding-right-24">Send message to head committee</div>
+                  <ion-icon name="arrow-forward" item-right class="message-page-card-icon-right font-size-32"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card>
+
+          <ion-card *ngIf="(user && user.roles && user.roles.messageTabWaliOfficers)" (click)="goto('waliofficers')">
+            <ion-grid>
+              <ion-row class="ion-padding-bottom">
+                <ion-col size="12" class="ion-padding-left-16">
+                  <h4 class="line-height-point6">Wali Officer</h4>
+                  <div class="ion-padding-right-24">Send message to all wali officer's</div>
+                  <ion-icon name="arrow-forward" item-right class="message-page-card-icon-right font-size-32"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card>
+
+          <ion-card *ngIf="(user && user.roles && user.roles.messageTabRestrictMessage)">
+            <ion-grid>
+              <ion-row class="ion-padding-bottom">
+                <ion-col size="12" class="ion-padding-left-16">
+                  <h4 class="line-height-point6">Restrict Message</h4>
+                  <div class="ion-padding-right-24">Restrict wali officer's to reply back <ion-toggle color="success" class="message-restrict-icon"></ion-toggle></div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

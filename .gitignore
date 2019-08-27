@@ -1,0 +1,6 @@
+platforms
+plugins
+.git
+.idea
+node_modules
+www

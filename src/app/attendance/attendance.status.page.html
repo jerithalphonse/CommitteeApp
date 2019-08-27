@@ -1,0 +1,24 @@
+<ion-tabs *ngIf="!user.roles.attendanceTabReassign">
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="voting" (click)="changeTab('voting', 'any')">
+      <ion-label>Voting</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="counting" (click)="changeTab('counting', 'any')">
+      <ion-label>Counting</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="organizing" (click)="changeTab('counting', 'any')">
+      <ion-label>Organizing</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
+<ion-tabs *ngIf="user.roles.attendanceTabReassign">
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="assigned" (click)="changeTab(undefined, 'assigned')">
+      <ion-label>Assigned</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="unassigned" (click)="changeTab(undefined, 'unassigned')">
+      <ion-label>Un Assigned</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

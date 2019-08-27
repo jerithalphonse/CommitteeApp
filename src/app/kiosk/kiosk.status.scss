@@ -1,0 +1,30 @@
+ion-item.committee-background-white{
+  --ion-background-color: white;
+  --inner-border-width: 0px;
+}
+ion-item.committee-background-transparent{
+  --ion-background-color: trasparent;
+  --inner-border-width: 0px;
+}
+ion-card{
+  margin: 5px 0px 10px 0px;
+  box-shadow: 0px 2px 13px 1px rgba(0, 0, 0, 0.05);
+}
+ion-card ion-card-header {
+  background: white;
+}
+ion-card ion-card-content {
+  background: var(--ion-background-color);
+}
+
+.tab-selected ion-label{
+  padding: 8px 3em 8px 3em;
+  border: 1px solid #25B745;
+  border-radius: 7px;
+  background: #E6FFEB;
+  color: #25B745;
+}
+.card-content-ios{
+  padding-top: 5px;
+  padding-bottom: 5px;
+}

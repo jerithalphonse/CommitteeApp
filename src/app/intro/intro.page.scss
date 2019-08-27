@@ -1,0 +1,23 @@
+.welcome-card ion-img {
+  max-height: 35vh;
+  overflow: hidden;
+}
+
+.header-rightsideimage {
+  background: url("../../assets/icon/moi-logo/moi-logo.png");
+  height: 48px;
+  width: 44px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
+.header-leftsideimage {
+  background: url("../../assets/icon/shura-logo/shura-logo-2019.png");
+  height: 64px;
+  width: 64px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+

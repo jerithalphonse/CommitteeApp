@@ -1,0 +1,7 @@
+{
+  "name": "imtac",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

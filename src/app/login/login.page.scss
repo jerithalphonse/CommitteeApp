@@ -1,0 +1,17 @@
+.welcome-card ion-img {
+  max-height: 35vh;
+  overflow: hidden;
+}
+
+ion-content{
+  --ion-background-color: transparent;
+  background: url(../../assets/bg_login/bg@3x.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.toolbar-container {
+  --min-height: 56px;
+  min-height: 56px;
+}

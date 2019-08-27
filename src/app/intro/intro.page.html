@@ -1,0 +1,74 @@
+<ion-content class="content">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="3" class="header-leftsideimage">
+
+      </ion-col>
+      <ion-col>
+
+      </ion-col>
+      <ion-col size="3" class="header-rightsideimage">
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-slides pager="true" [options]="slideOpts">
+    <ion-slide>
+      <div class="">
+        <h2 class="ion-text-center"> Tutorial </h2>
+        <ion-card class="bg-white">
+          <ion-card-content class="ion-text-justify">
+            Welcome to the Al-Shura Elections official mobile application
+          </ion-card-content>
+          <ion-card-content class="ion-text-justify">
+           This is a introduction that is meant to explain different sections and functions of the application
+          </ion-card-content>
+          <ion-card-content class="ion-text-justify">
+            Please swipe right to continue
+          </ion-card-content>
+          <ion-card-content class="ion-text-justify">
+            When you reach the end of the tutorial, you may click on the get started button to close intro and start using the application
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="">
+        <h2 class="ion-text-center"> Home Page </h2>
+        <ion-card class="bg-white">
+          <ion-card-content class="ion-text-justify">
+            This is the page that will first load when the application starts
+          </ion-card-content>
+          <ion-card-content class="ion-text-justify">
+            You can see the list of
+          </ion-card-content>
+          <ion-card-content class="ion-text-justify">
+            Please swipe right to continue
+          </ion-card-content>
+          <ion-card-content class="ion-text-justify">
+            When you reach the end of the tutorial, you may click on the get started button to close intro and start using the application
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="">
+        <h2 class="ion-text-center"> Features </h2>
+        <ion-card class="bg-white">
+          <ion-card-content class="ion-text-justify">
+            Once logged in you should be able to check out which polling station you were assigned to
+          </ion-card-content>
+          <ion-card-content class="ion-text-justify">
+            Able to find the co-ordinates to the specific location which you are assigned with
+          </ion-card-content>
+          <ion-card-content class="ion-text-center">
+            <ion-button color="success" shape="round" routerLink="/login" routerDirection="root">
+              <ion-ripple-effect></ion-ripple-effect>
+              Continue
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

@@ -1,0 +1,56 @@
+<ion-item>
+  <ion-grid>
+    <ion-row *ngIf="kiosksmodel.show.governorate">
+      <ion-col size="12">
+        <div class="font-size-14 fontweight-light">Governorate*</div>
+      </ion-col>
+      <ion-col size="12" *ngIf="readonly_view.governorate">
+        {{kiosksmodel.governorate.name}}
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="kiosksmodel.show.governorate && !readonly_view.governorate">
+      <ion-col size="12">
+        <ion-select [interfaceOptions]="customGovernorateOptions" [cancelText]="'Cancel'" [okText]="'Apply'"
+                    interface="alert" multiple="false" placeholder="Select One" class="committee-ion-select"
+                    [(ngModel)]="kiosksmodel.governorate.name" (ionChange)="dataService.onChangeGovernorate($event)">
+          <ion-select-option *ngFor="let data of kiosksmodel.governorates"
+                             value="{{data.name}}">{{data.name}}</ion-select-option>
+        </ion-select>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="kiosksmodel.show.wilayat">
+      <ion-col size="12">
+        <div class="font-size-14 fontweight-light">Wilayat*</div>
+      </ion-col>
+      <ion-col size="12" *ngIf="readonly_view.wilayat">
+        {{kiosksmodel.wilayat.name}}
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="kiosksmodel.show.wilayat && !readonly_view.wilayat">
+      <ion-col size="12">
+        <ion-select [interfaceOptions]="customWilayatOptions" [cancelText]="'Cancel'" [okText]="'Apply'"
+                    interface="alert" multiple="false" placeholder="Select One" class="committee-ion-select"
+                    [(ngModel)]="kiosksmodel.wilayat.name" (ionChange)="dataService.onChangeWilayat($event)"
+                    [disabled] ="!(kiosksmodel.governorate && kiosksmodel.governorate.name)"
+        >
+          <ion-select-option *ngFor="let data of kiosksmodel.wilayats" value="{{data.name}}">{{data.name}}</ion-select-option>
+        </ion-select>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="kiosksmodel.show.pollingstation">
+      <ion-col size="12">
+        <div class="font-size-14 fontweight-light">Polling Station</div>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="kiosksmodel.show.pollingstation">
+      <ion-col size="12">
+        <ion-select [interfaceOptions]="customPSOptions" [cancelText]="'Cancel'" [okText]="'Apply'"
+                    interface="alert" multiple="false" placeholder="Select One" class="committee-ion-select"
+                    [(ngModel)]="kiosksmodel.pollingstation.name" (ionChange)="dataService.onChangePollingStation($event)"
+                    [disabled] ="!(kiosksmodel.wilayat && kiosksmodel.wilayat.name)">
+          <ion-select-option *ngFor="let data of kiosksmodel.pollingstations" value="{{data.name}}">{{data.name}}</ion-select-option>
+        </ion-select>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-item>

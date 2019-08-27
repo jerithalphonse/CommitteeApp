@@ -1,0 +1,95 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="back-button-icon-left">Scan QR Code</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding style="background: none transparent;" *ngIf="view === 'scan'">
+  <div class="scan-area">
+  </div>
+  <div class="button-bottom">
+    <button (click)="toggleFlashLight()" ion-fab class="text-uppercase">
+      <ion-icon name="flash"></ion-icon>
+    </button>
+    <button (click)="toggleCamera()" ion-fab class="text-uppercase">
+      <ion-icon name="reverse-camera"></ion-icon>
+    </button>
+  </div>
+</ion-content>
+
+
+<ion-content *ngIf="view === 'assign'">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <span color="dark-shade" class="fontweight-medium">Polling Station*</span>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="assignkiosksmodel.kiosks && assignkiosksmodel.kiosks.pollingStation">
+      <ion-col size="12">
+        <h5 color="dark-shade" class="fontweight-medium">{{assignkiosksmodel.kiosks.pollingStation.arabicName}}</h5>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <span color="dark-shade" class="fontweight-medium">Kiosks*</span>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <h5 color="dark-shade" class="fontweight-medium">{{assignkiosksmodel.kiosks.serialNumber}}</h5>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="assignkiosksmodel.attendanceMarked && assignkiosksmodel.canMarkAttendance">
+      <ion-col size="12">
+        <ion-item style="height:100px">
+          Thank you {{this.user.nameEnglish}}. <br />
+          Your attendance have been marked
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="assignkiosksmodel.showAssigned">
+      <ion-col size="12">
+        <ion-item style="height:100px">
+          Thank you {{this.user.nameEnglish}}. <br />
+          The Kiosk has been assigned to you
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="assignkiosksmodel.userPartOfOtherPollingStation">
+      <ion-col size="12">
+        <ion-item style="height:100px">
+          Oh no, {{this.user.nameEnglish}}. <br />
+          You are not part of this polling station please contact your head commmittee
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="assignkiosksmodel.canMarkAttendance">
+      <ion-col size="12">
+        <ion-button size="medium" expand="block" color="success" shape="round" (click)="markAttendance()">
+          <ion-ripple-effect></ion-ripple-effect>
+          Mark Attendance
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="assignkiosksmodel.isSelfAssignable">
+      <ion-col size="12">
+        <ion-button size="medium" expand="block" color="success" shape="round" (click)="selfAssignKiosks()">
+          <ion-ripple-effect></ion-ripple-effect>
+          Self Assign Kiosks
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="!assignkiosksmodel.isSelfAssignable">
+    <ion-col size="12">
+      <ion-button size="medium" expand="block" color="success" shape="round" (click)="goto('dashboard')">
+        <ion-ripple-effect></ion-ripple-effect>
+        Home
+      </ion-button>
+    </ion-col>
+  </ion-row>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,79 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="back-button-icon-left">Attendance</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item class="committee-background-white">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="4">
+          <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast">Total Member</div>
+          <div *ngIf="attendancestatus.attendanceStatus"><strong>{{attendancestatus.attendanceStatus.total}}</strong></div>
+        </ion-col>
+        <ion-col size="3">
+          <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast">Present</div>
+          <div *ngIf="attendancestatus.attendanceStatus"><strong>{{attendancestatus.attendanceStatus.present}}</strong></div>
+        </ion-col>
+        <ion-col size="3">
+          <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast">Absent</div>
+          <div *ngIf="attendancestatus.attendanceStatus"><strong>{{attendancestatus.attendanceStatus.absent}}</strong></div>
+        </ion-col>
+        <ion-col size="2">
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12" class="font-size-14">
+          <ion-label>PollingStation</ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <ion-select [interfaceOptions]="customPSOptions" [cancelText]="'Cancel'" [okText]="'Apply'"
+                      interface="alert" multiple="false" placeholder="Select One" class="committee-ion-select-dark"
+                      [(ngModel)]="kiosksmodel.pollingstation.name"
+                      (ionChange)="onChangePollingStation($event)">
+            <ion-select-option *ngFor="let data of kiosksmodel.pollingstations"
+                               value="{{data.name}}">{{data.name}}</ion-select-option>
+          </ion-select>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+  <ion-item class="committee-background-transparent">
+    <ion-grid>
+      <ion-row *ngFor="let pollingstation of attendancestatus.pollingstations">
+        <ion-col size="12" *ngIf="pollingstation && pollingstation.users && pollingstation && pollingstation.users.length">
+          <h4 color="dark-shade" class="font-size-18 ion-margin-top-8">{{pollingstation.name}}</h4>
+        </ion-col>
+        <ion-col size="12" class="font-size-14" *ngFor="let userassigned of pollingstation.users">
+          <ion-card *ngIf="userassigned">
+            <ion-card-header>{{userassigned.nameEnglish}}
+              <div class="font-size-18 fontweight-bold"> {{userassigned.attendedAt}}
+                <ion-chip class="committee-chip-background-{{userassigned.attendedAt == '' ? 'black': 'green'}}">
+                  <ion-label color="light">{{userassigned.attendedAt == "" ? "NOT PRESENT": "PRESENT"}}</ion-label>
+                </ion-chip>
+              </div>
+            </ion-card-header>
+            <ion-card-content *ngIf="userassigned.kiosksAssigned && userassigned.kiosksAssigned.Kiosks && userassigned.kiosksAssigned && userassigned.kiosksAssigned.kioskId">
+              <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast">Assigned to
+                <span class="ion-float-end committee-button-text-color" *ngIf="user.roles.attendanceTabReassign" (click)="reAssignUser(userassigned, userassigned.kiosksAssigned.Kiosks)">Re-Assign</span></div>
+              <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast">
+               <span>
+                 {{userassigned.kiosksAssigned.Kiosks.serialNumber}}
+               </span>
+              </div>
+            </ion-card-content>
+            <ion-card-content *ngIf="!(userassigned.kiosksAssigned && userassigned.kiosksAssigned.Kiosks && userassigned.kiosksAssigned && userassigned.kiosksAssigned.kioskId)">
+              <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast">NONE</div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+</ion-content>
+

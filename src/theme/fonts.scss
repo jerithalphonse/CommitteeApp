@@ -1,0 +1,163 @@
+@font-face {
+  font-family: 'Lato';
+  src: url('../assets/fonts/Lato/Lato-Thin.ttf');
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Lato';
+  src: url('../assets/fonts/Lato/Lato-Light.ttf');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Lato';
+  src: url('../assets/fonts/Lato/Lato-Regular.ttf');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Lato';
+  src: url('../assets/fonts/Lato/Lato-Bold.ttf');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Lato';
+  src: url('../assets/fonts/Lato/Lato-Black.ttf');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Dubai';
+  src: url('../assets/fonts/Dubai/Dubai-Light.ttf');
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Dubai';
+  src: url('../assets/fonts/Dubai/Dubai-Medium.ttf');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Dubai';
+  src: url('../assets/fonts/Dubai/Dubai-Regular.ttf');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Dubai';
+  src: url('../assets/fonts/Dubai/Dubai-Bold.ttf');
+  font-weight: 700;
+  font-style: normal;
+}
+
+//$font-family-ios-base: "Lato";
+//$font-family-md-base:"Lato";
+//$font-family-wp-base:"Lato";
+
+
+html.ios {
+  --ion-default-font: "Lato", BlinkMacSystemFont, "Lato", "Roboto", sans-serif
+}
+
+html.md {
+  --ion-default-font: "Lato", sans-serif;
+}
+html.wp {
+  --ion-default-font: "Lato", sans-serif;
+}
+
+html {
+  --ion-font-family: var(--ion-default-font);
+
+}
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 16px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  line-height: 1.2;
+  color: var(--ion-color-committee-contrast)
+}
+
+.committee-color-contrast {
+  color: var(--ion-color-committee-contrast)
+}
+
+.committee-color-dark {
+  color: var(--ion-color-committee-dark)
+}
+
+.committee-color {
+  color: var(--ion-color-committee)
+}
+
+.committee-button-text-color {
+  color: var(--ion-color-primary)
+}
+
+.fontweight-thin{
+  font-weight: 100;
+}
+.fontweight-light{
+  font-weight: 300;
+}
+.fontweight-medium{
+  font-weight: 400;
+}
+.fontweight-bold{
+  font-weight: 700;
+}
+.fontweight-dark{
+  font-weight: 900;
+}
+
+.committee-chip-background-green {
+  background: #25B745 !important;
+  padding: 0px 16px 0px 16px;
+  margin: 0px 0px;
+  right: 10px;
+  font-size: 12px;
+  position: absolute;
+  top: 14px;
+}
+
+.committee-chip-background-blue {
+  background: #44B5D2 !important;
+  padding: 0px 16px 0px 16px;
+  margin: 0px 0px;
+  right: 10px;
+  font-size: 12px;
+  position: absolute;
+  top: 14px;
+}
+
+.committee-chip-background-black {
+  background: #000000 !important;
+  padding: 0px 16px 0px 16px;
+  margin: 0px 0px;
+  right: 10px;
+  font-size: 12px;
+  position: absolute;
+  top: 14px;
+}
+
+.committee-user-status-icon-green {
+  color: #25B745 !important;
+  padding-right: 5px;
+}
+
+.committee-user-status-icon-black {
+  color: #000000 !important;
+  padding-right: 5px;
+}
+

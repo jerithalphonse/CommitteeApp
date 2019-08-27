@@ -1,0 +1,157 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="secondary">
+      <ion-button>
+        <span class="header-white-moilogo"></span>
+      </ion-button>
+    </ion-buttons>
+    <ion-title> Al-Shura Elections</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <span class="header-white-message"></span>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row *ngIf="!(user && user.roles && user.roles.directionsTab)">
+      <ion-col size="1"></ion-col>
+      <ion-col size="11">
+        <h1>{{user && user.roles && user.roles.sudoname ? user.roles.sudoname : "" }}</h1>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-list lines="none">
+          <ion-card *ngIf="(user && user.roles && user.roles.directionsTab)">
+            <ion-card-header>
+              <h4>Hi!</h4>
+              <h6 *ngIf="user && user.roles && (user.roles.name === 'polling_station_supervisor_voting' || user.roles.name === 'polling_station_supervisor_couting_organizing')">You have been assigned as a supervisor for the following polling station</h6>
+              <h6 *ngIf="user && user.roles && (user.roles.name === 'committee_member_voting' || user.roles.name === 'committee_member_counting_organizing')">You have been assigned to the following polling station</h6>
+              <span>Polling station</span>
+              <h4 color="dark-shade">{{user.pollingStation.name}}</h4>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-button expand="block" color="success" shape="round" size="medium" (click)="openNavigation(user.pollingStation)">
+                <ion-ripple-effect></ion-ripple-effect>
+                Get Directions
+              </ion-button>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-card *ngIf="(user && user.roles && user.roles.kiosksTab)" (click)="goto('kiosk')">
+            <ion-grid>
+              <ion-row class="ion-padding-bottom">
+                <ion-col size="3">
+                  <ion-img src="/assets/main_screen/kiosk.png" class="image-common-64"></ion-img>
+                </ion-col>
+                <ion-col size="9" class="ion-padding-left-5">
+                  <h4 class="line-height-point6">Kiosks status</h4>
+                  <div class="ion-padding-right-24">Check the status for all the deployed kiosks</div>
+                  <ion-icon name="arrow-forward" item-right class="home-page-card-icon-right"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card>
+
+          <ion-card *ngIf="(user && user.roles && user.roles.attendanceTab)" (click)="goto('attendance')">
+            <ion-grid>
+              <ion-row class="ion-padding-bottom">
+                <ion-col size="3">
+                  <ion-img src="/assets/main_screen/attendance.png" class="image-common-64"></ion-img>
+                </ion-col>
+                <ion-col size="9">
+                  <h4 class="line-height-point6">Attendance</h4>
+                  <div class="ion-padding-right-24">Check attendance for all the committee members</div>
+                  <ion-icon name="arrow-forward" item-right class="home-page-card-icon-right"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card>
+
+          <ion-card *ngIf="(user && user.roles && user.roles.assignPollingStationTab)" (click)="goto('assignpollingstation')">
+            <ion-grid>
+              <ion-row class="ion-padding-bottom">
+                <ion-col size="3">
+                  <ion-img src="/assets/main_screen/attendance.png" class="image-common-64"></ion-img>
+                </ion-col>
+                <ion-col size="9">
+                  <h4 class="line-height-point6">Assign Polling Station</h4>
+                  <div class="ion-padding-right-24">Assign members & supervisor for polling station</div>
+                  <ion-icon name="arrow-forward" item-right class="home-page-card-icon-right"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card>
+
+          <ion-card *ngIf="(user && user.roles && user.roles.witnessTab)"  (click)="goto('witness')">
+            <ion-grid>
+              <ion-row class="ion-padding-bottom">
+                <ion-col size="3">
+                  <ion-img src="/assets/main_screen/witness.png" class="image-common-64"></ion-img>
+                </ion-col>
+                <ion-col size="9">
+                  <h4 class="line-height-point6">Witness ID</h4>
+                  <div class="ion-padding-right-24">Add or Check Witness ID present at the opening</div>
+                  <ion-icon name="arrow-forward" item-right class="home-page-card-icon-right"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card>
+
+          <ion-card *ngIf="(user && user.roles && user.roles.messageTab)" (click)="goto('messaging')">
+            <ion-grid>
+              <ion-row class="ion-padding-bottom">
+                <ion-col size="3">
+                  <ion-img src="/assets/main_screen/message.png" class="image-common-64"></ion-img>
+                </ion-col>
+                <ion-col size="9">
+                  <h4 class="line-height-point6">Message</h4>
+                  <div class="ion-padding-right-24" *ngIf="user.roles.name === 'head_committee'">Send message to all members, wali officers</div>
+                  <div class="ion-padding-right-24" *ngIf="user.roles.name === 'wali_assistant' || user.roles.name === 'wali_officer'">Send message to all members, Head committee</div>
+                  <div class="ion-padding-right-24" *ngIf="user.roles.name !== 'head_committee' && user.roles.name !== 'user_wali_assistant' && user.roles.name !== 'wali_officer' && user.roles.name !== 'wali_assistant'">Send message to all team members</div>
+                  <ion-icon name="arrow-forward" item-right class="home-page-card-icon-right"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card>
+          <ion-card *ngIf="(user && user.roles && user.roles.messageTabCheckMessage)">
+            <ion-grid>
+              <ion-row class="ion-padding-bottom">
+                <ion-col size="3">
+                  <ion-img src="/assets/main_screen/message.png" class="image-common-64"></ion-img>
+                </ion-col>
+                <ion-col size="9">
+                  <h4 class="line-height-point6">Check Message</h4>
+                  <div class="ion-padding-right-24">Check messages send by our committee head</div>
+                  <ion-icon name="arrow-forward" item-right class="home-page-card-icon-right"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card>
+
+          <ion-card *ngIf="(user && user.roles && user.roles.scanQRTab)" (click)="goto('scanqr')">
+            <ion-grid>
+              <ion-row class="ion-padding-bottom">
+                <ion-col size="3">
+                  <ion-img src="/assets/main_screen/scan_qr.png" class="image-common-64"></ion-img>
+                </ion-col>
+                <ion-col size="9">
+                  <h4 class="line-height-point6">Scan QR Code</h4>
+                  <div class="ion-padding-right-24" *ngIf="user.roles.scanQrTabSelfAssignKiosks">Scan to mark attendance or self assign kiosk</div>
+                  <div class="ion-padding-right-24" *ngIf="!user.roles.scanQrTabSelfAssignKiosks">Scan QR code to mark your attendance</div>
+                  <ion-icon name="arrow-forward" item-right class="home-page-card-icon-right"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

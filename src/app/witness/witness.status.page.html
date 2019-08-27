@@ -1,0 +1,106 @@
+<ion-header *ngIf="!cameraopened && !previewmode">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="dashboard" (click)="goto('dashboard')"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="back-button-icon-left"> Witness ID</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content *ngIf="!cameraopened && !previewmode">
+  <ion-item class="committee-background-white">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" class="font-size-14">
+          <ion-label>Witness Id's of the people present in the polling station</ion-label>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+  <ion-item>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast">Polling stations</div>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngFor="let pollingstation of witnessmodel.pollingstations">
+        <ion-col size="12">
+          <h4 color="dark-shade" class="font-size-18 ion-margin-top-8">{{pollingstation.name}}</h4>
+        </ion-col>
+        <ion-col size="12" class="font-size-14">
+          <div class="masonry">
+            <img *ngFor="let item of pollingstation.witness" [src]="item.imageUrl" (click)="openImageFullView(item)">
+          </div>
+          <ion-button color="success" size="default" class="committee-button-size-medium-constract" shape="round" (click)="addWitnessImages()" *ngIf="pollingstation.witness.length && user.roles.witnessTabAddMore">
+            <ion-ripple-effect></ion-ripple-effect>
+            Add more
+          </ion-button>
+          <ion-button color="success" size="default" class="committee-button-size-medium" shape="round" (click)="addWitnessImages()" *ngIf="pollingstation.witness.length === 0  && user.roles.witnessTabAddMore" >
+            <ion-ripple-effect></ion-ripple-effect>
+            Add Witness ID's
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+</ion-content>
+
+<ion-header *ngIf="cameraopened || previewmode">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="witness" (click)="closeCamera()"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="back-button-icon-left"> Witness ID</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content style="background: none transparent;" *ngIf="cameraopened" class="camera">
+  <div class="scan-area">
+  </div>
+  <div class="button-capture-bottom">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="1"></ion-col>
+        <ion-col size="3">
+          <button (click)="toggleFlash()" ion-fab class="text-uppercase">
+            <ion-icon name="flash"></ion-icon>
+          </button>
+        </ion-col>
+        <ion-col size="4">
+          <ion-button color="success" size="default" class="committee-button-size-medium" shape="round" (click)="captureImage()">
+            <ion-ripple-effect></ion-ripple-effect>
+            Capture
+          </ion-button>
+        </ion-col>
+        <ion-col size="3">
+          <button (click)="toggleCamera()" ion-fab class="text-uppercase">
+            <ion-icon name="reverse-camera"></ion-icon>
+          </button>
+        </ion-col>
+        <ion-col size="1"></ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>
+<ion-content *ngIf="previewmode" fullscreen="true">
+  <div class="image-area" >
+    <ion-img src="{{blob.image}}" class="image-preview"></ion-img>
+    <div class="button-bottom">
+      <ion-grid class="transparent">
+        <ion-row class="transparent ion-text-center">
+          <ion-col size="6" class="transparent">
+            <ion-button color="success" size="default" class="committee-button-size-medium" shape="round" (click)="saveImage()">
+              <ion-ripple-effect></ion-ripple-effect>
+              Save
+            </ion-button>
+          </ion-col>
+          <ion-col size="6" class="transparent">
+            <ion-button color="success" size="default" class="committee-button-size-medium ion-color-danger" shape="round" (click)="closeCamera()">
+              <ion-ripple-effect></ion-ripple-effect>
+              Delete
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </div>
+</ion-content>

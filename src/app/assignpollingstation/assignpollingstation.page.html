@@ -1,0 +1,169 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="back-button-icon-left">Assign Polling Station</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="view === 'pollingstation'">
+  <ion-grid>
+    <ion-row *ngIf="!user.roles.directionsTab">
+      <ion-col size="1"></ion-col>
+      <ion-col size="11">
+        <h5 color="dark-shade" class="fontweight-medium">Please select the following polling station assign members and
+          supervisor</h5>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-list lines="none">
+          <ion-radio-group>
+            <ion-list-header>
+              Polling Station*
+            </ion-list-header>
+            <ion-item *ngFor="let data of kiosksmodel.pollingstations">
+              <ion-label>{{data.arabicName}}</ion-label>
+              <ion-radio value="{{data.id}}" [checked]="kiosksmodel.pollingstation && kiosksmodel.pollingstation.id === data.id" (ionSelect)="kiosksmodel.changePollingStation(data.name)"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list>
+      </ion-col>
+      <ion-col size="12">
+        <ion-button size="medium" expand="block" color="success" shape="round" (click)="changeView('supervisor')"
+                    [disabled]="!(kiosksmodel.pollingstation.id)">
+          <ion-ripple-effect></ion-ripple-effect>
+          Continue
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-content *ngIf="view === 'supervisor'">
+  <ion-grid>
+    <ion-row *ngIf="!user.roles.directionsTab">
+      <ion-col size="1"></ion-col>
+      <ion-col size="11">
+        <span color="dark-shade" class="fontweight-medium">Polling Station*</span>
+      </ion-col>
+      <ion-col size="1"></ion-col>
+      <ion-col size="11">
+        <h5 color="dark-shade" class="fontweight-medium">{{kiosksmodel.pollingstation.arabicName}}</h5>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="1"></ion-col>
+      <ion-col size="11">
+        <h6>Please choose the supervisor for the selected polling station</h6>
+      </ion-col>
+      <ion-col size="12">
+        <ion-list lines="none">
+          <ion-radio-group>
+            <ion-list-header>
+              Select Supervisor*
+            </ion-list-header>
+            <ion-item *ngFor="let data of assignpollingstation.users">
+              <ion-label>{{data.nameArabic}}</ion-label>
+              <ion-radio value="{{data.id}}" [checked]="assignpollingstation.supervisor && data.id === assignpollingstation.supervisor.id" (ionSelect)="assignpollingstation.assignsupervisor(data)"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list>
+      </ion-col>
+      <ion-col size="12">
+        <ion-button size="medium" expand="block" color="success" shape="round" (click)="changeView('teammembers')"
+                    [disabled]="!(kiosksmodel.pollingstation.arabicName)">
+          <ion-ripple-effect></ion-ripple-effect>
+          Continue
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-content *ngIf="view === 'teammembers'">
+  <ion-grid>
+    <ion-row *ngIf="!user.roles.directionsTab">
+      <ion-col size="1"></ion-col>
+      <ion-col size="11">
+        <span color="dark-shade" class="fontweight-medium">Polling Station*</span>
+      </ion-col>
+      <ion-col size="1"></ion-col>
+      <ion-col size="11">
+        <h5 color="dark-shade" class="fontweight-medium">{{kiosksmodel.pollingstation.arabicName}}</h5>
+      </ion-col>
+      <ion-col size="1"></ion-col>
+      <ion-col size="11">
+        <span color="dark-shade" class="fontweight-medium">SuperVisor*</span>
+      </ion-col>
+      <ion-col size="1"></ion-col>
+      <ion-col size="11" *ngIf="assignpollingstation.supervisor">
+        <h5 color="dark-shade" class="fontweight-medium">{{assignpollingstation.supervisor.nameArabic}}</h5>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="1"></ion-col>
+      <ion-col size="11">
+        <h6>Please add Committee members for the selected polling station</h6>
+      </ion-col>
+      <ion-col size="12">
+        <ion-list lines="none">
+          <ion-list-header>
+            Add Members*
+          </ion-list-header>
+          <ion-item *ngFor="let data of assignpollingstation.nonsupervisorusers">
+            <ion-label>{{data.nameEnglish}}</ion-label>
+            <ion-checkbox slot="end" [(ngModel)]="data.selected" (ionChange)="assignpollingstation.assignMember($event, data)"></ion-checkbox>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+      <ion-col size="12">
+        <ion-button size="medium" expand="block" color="success" shape="round" (click)="changeView('preview')"
+                    [disabled]="!(assignpollingstation.users.length)">
+          <ion-ripple-effect></ion-ripple-effect>
+          Save & Assign Polling Station
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-content *ngIf="view === 'preview'">
+  <ion-grid>
+    <ion-row *ngIf="!user.roles.directionsTab">
+      <ion-col size="1"></ion-col>
+      <ion-col size="11">
+        <span color="dark-shade" class="fontweight-medium">Polling Station*</span>
+      </ion-col>
+      <ion-col size="1"></ion-col>
+      <ion-col size="11">
+        <h5 color="dark-shade" class="fontweight-medium">{{kiosksmodel.pollingstation.arabicName}}</h5>
+      </ion-col>
+      <ion-col size="1"></ion-col>
+      <ion-col size="11">
+        <span color="dark-shade" class="fontweight-medium">SuperVisor*</span>
+      </ion-col>
+      <ion-col size="1"></ion-col>
+      <ion-col size="11" *ngIf="assignpollingstation.supervisor">
+        <h5 color="dark-shade" class="fontweight-medium">{{assignpollingstation.supervisor.nameArabic}}</h5>
+      </ion-col>
+      <ion-col size="1"></ion-col>
+      <ion-col size="11">
+        <span color="dark-shade" class="fontweight-medium">Members*</span>
+      </ion-col>
+      <ion-col size="1"></ion-col>
+      <ion-col size="11">
+        <div *ngFor="let data of assignpollingstation.nonsupervisorusers">
+          <h5 color="dark-shade" class="fontweight-medium" *ngIf="data.selected">{{data.nameArabic}}</h5>
+        </div>
+      </ion-col>
+      <ion-col size="12">
+        <ion-button size="medium" expand="block" color="success" shape="round" (click)="submit()">
+          <ion-ripple-effect></ion-ripple-effect>
+          Done
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
