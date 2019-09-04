@@ -42,11 +42,13 @@ export class AssignkioskstouserPage implements OnInit {
   }
 
   submit() {
-    this.assignKiosksService.updateKiosksToUser(this.attendanceStatusModel.selectedKiosksAssigned.id, this.user.id, this.attendanceStatusModel.selectedUser.id, this.kiosksmodel.kiosk.id,
+    this.assignKiosksService.updateKiosksToUser(this.attendanceStatusModel.selectedKiosksAssigned
+      && this.attendanceStatusModel.selectedKiosksAssigned.id ? this.attendanceStatusModel.selectedKiosksAssigned.id : undefined,
+      this.user.id, this.attendanceStatusModel.selectedUser.id, this.kiosksmodel.kiosk.id,
       this.attendanceStatusModel.selectedPollingStation.id).subscribe(success => {
       this.attendanceStatusService.getAttendanceStatusByWilayatId(this.kiosksmodel.wilayat.code, this.kiosksmodel.pollingstation,
         this.kiosksmodel.currentTab, this.kiosksmodel.assigned).subscribe(() => {
-        this.goto('attendance/attendancestatus/assigned');
+        this.goto('attendance');
       }, (errors) => {
         // TODO Handle errors for not finding any kiosks
       });

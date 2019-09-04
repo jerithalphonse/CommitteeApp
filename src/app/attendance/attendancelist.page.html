@@ -68,7 +68,7 @@
               </div>
             </ion-card-content>
             <ion-card-content *ngIf="!(userassigned.kiosksAssigned && userassigned.kiosksAssigned.Kiosks && userassigned.kiosksAssigned && userassigned.kiosksAssigned.kioskId)">
-              <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast">NONE</div>
+              <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast">NONE <span class="ion-float-end committee-button-text-color" *ngIf="user.roles.attendanceTabReassign" (click)="AssignUser(userassigned)">Assign Member</span></div>
             </ion-card-content>
           </ion-card>
         </ion-col>

@@ -1,68 +1,175 @@
-import { Injectable } from '@angular/core';
-import { Events } from '@ionic/angular';
+import {Injectable} from '@angular/core';
+import {Events} from '@ionic/angular';
 import 'rxjs/operators/map';
 import {HttpClient} from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map} from 'rxjs/operators';
-import {config} from '../../_models';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {config, PollingStation, User, Wilayat} from '../../_models';
+import {APIService, WitnessStatusModel} from '../../_services/authentication.service';
 
 export class ChatMessage {
-  messageId: string;
-  userId: string;
-  userName: string;
-  userAvatar: string;
-  toUserId: string;
-  time: number | string;
-  message: string;
-  status: string;
+  public Id: string;
+  public By: string;
+  public CreatedAt: string;
+  public Message: string;
+  public To: string;
+  public WilayatCode: string;
+  public Wilayat: Wilayat;
+  public CreatedBy: User;
+
+  constructor(props) {
+    this.Id = props.id ? props.id : null;
+    this.By = props.by ? props.by : null;
+    this.CreatedAt = props.createdAt ? props.createdAt : '';
+    this.Message = props.message ? props.message : '';
+    this.To = props.to ? props.to : '';
+    this.WilayatCode = props.wilayatCode ? props.wilayatCode : '';
+    this.Wilayat = props.wilayat ? new Wilayat(props.wilayat) : new Wilayat({});
+    this.CreatedBy = props.createdBy ? new User(props.createdBy) : new User({});
+  }
 }
 
-export class UserInfo {
-  id: string;
-  name?: string;
-  avatar?: string;
-}
+export class ChatList {
+  public allmessages: Array<ChatMessage> = [];
+  public chatrole: string;
 
-export const userAvatar = 'https://github.com/HsuanXyz/ionic3-chat/blob/master/src/assets/user.jpg?raw=true';
-export const toUserAvatar = 'https://github.com/HsuanXyz/ionic3-chat/blob/master/src/assets/to-user.jpg?raw=true';
-
-@Injectable()
-export class ChatService {
-
-  constructor(private http: HttpClient,
-              private events: Events) {
+  constructor(props) {
+    this.initMessage(props, new User({}));
   }
 
-  mockNewMsg(msg) {
-    const mockMsg: ChatMessage = {
-      messageId: Date.now().toString(),
-      userId: '210000198410281948',
-      userName: 'Hancock',
-      userAvatar: toUserAvatar,
-      toUserId: '140000198202211138',
-      time: Date.now(),
-      message: msg.message,
-      status: 'success'
+  public initMessage(data, user: User) {
+    const decider = (message) => {
+      if (user && user.roles.id === 1 && (message.To === 'wilayat_officer' || message.To === 'head_committee')) {
+        return message;
+      } else if (user && user.roles.id === 2 && (message.To === 'wilayat_officer' || message.To === 'head_committee' ||
+        message.To === 'committee_head' || message.To === 'wilayat_officer_only')) {
+        return message;
+      } else if (user && user.roles.id === 3 && (message.To === 'wilayat_officer' || message.To === 'head_committee' ||
+        message.To === 'committee_head' || message.To === 'wilayat_officer_only')) {
+        return message;
+      } else if (user && user.roles.id === 4 && (message.To === 'wilayat_officer' || message.To === 'head_committee' ||
+        message.To === 'committee_head_only' ||
+        (message.To === 'committee_head' && message.CreatedBy.roles.id === 4) || (message.To === 'team_members_voting' &&
+          (message.CreatedBy.roles.id === 6 || message.CreatedBy.roles.id === 8)))) {
+        return message;
+      } else if (user && user.roles.id === 5 && (message.To === 'wilayat_officer' || message.To === 'head_committee' ||
+        message.To === 'committee_head_only' ||
+        (message.To === 'committee_head' && message.CreatedBy.roles.id === 5) || (message.To === 'team_members_organizing_counting' && (message.CreatedBy.roles.id === 7 || message.CreatedBy.roles.id === 9)))) {
+        return message;
+      } else if (user && user.roles.id === 6 && (message.To === 'wilayat_officer' || message.To === 'head_committee' ||
+        (message.To === 'committee_head' && message.CreatedBy.roles.id === 4) || (message.To === 'team_members_voting' && (message.CreatedBy.roles.id === 6 || message.CreatedBy.roles.id === 8)))) {
+        return message;
+      } else if (user && user.roles.id === 7 && (message.To === 'wilayat_officer' || message.To === 'head_committee' ||
+        (message.To === 'committee_head' && message.CreatedBy.roles.id === 5) || (message.To === 'team_members_organizing_counting' && (message.CreatedBy.roles.id === 7 || message.CreatedBy.roles.id === 9)))) {
+        return message;
+      } else if (user && user.roles.id === 8 && (message.To === 'wilayat_officer' || message.To === 'head_committee' ||
+        (message.To === 'committee_head' && message.CreatedBy.roles.id === 4) || (message.To === 'team_members_voting' && (message.CreatedBy.roles.id === 6 || message.CreatedBy.roles.id === 8)))) {
+        return message;
+      } else if (user && user.roles.id === 9 && (message.To === 'wilayat_officer' || message.To === 'head_committee' ||
+        (message.To === 'committee_head' && message.CreatedBy.roles.id === 5) || (message.To === 'team_members_organizing_counting' && (message.CreatedBy.roles.id === 7 || message.CreatedBy.roles.id === 9)))) {
+      }
+      return false;
     };
-
-    setTimeout(() => {
-      this.events.publish('chat:received', mockMsg, Date.now());
-    }, Math.random() * 1800);
+    this.allmessages = [];
+    for (const i in data) {
+      let temp = new ChatMessage(data[i]);
+      temp = decider(temp);
+      if (data[i] && temp) {
+        this.allmessages.push(temp);
+      }
+    }
   }
 
-  getMsgList(): Observable<ChatMessage[]> {
-    const msgListUrl = 'https://raw.githubusercontent.com/HsuanXyz/ionic3-chat/master/src/assets/mock/msg-list.json';
-    return this.http.get<any>(msgListUrl)
-      .pipe(map(response => response.array.map(msg => ({
-        ...msg,
-        userAvatar: msg.userAvatar === './assets/user.jpg' ? userAvatar : toUserAvatar
-      }))));
-  }
-
-  sendMsg(msg: ChatMessage) {
-    return new Promise(resolve => setTimeout(() => resolve(msg), Math.random() * 1000))
-      .then(() => this.mockNewMsg(msg));
+  setChatRole(chatrole: string) {
+    this.chatrole = chatrole;
   }
 }
 
+@Injectable({providedIn: 'root'})
+export class ChatService {
+  public currentDataServiceSubject: BehaviorSubject<ChatList>;
+  public currentDataService: Observable<ChatList>;
+
+  constructor(private http: HttpClient, private apiService: APIService) {
+    this.currentDataServiceSubject = new BehaviorSubject<ChatList>(new ChatList({}));
+    this.currentDataService = this.currentDataServiceSubject.asObservable();
+  }
+
+  public get currentDataServiceSubjectValue(): ChatList {
+    return this.currentDataServiceSubject.value;
+  }
+
+  sendMsg(msg: string, user: User, type: any) {
+    const mapperTo = (role, message_type) => {
+      if (message_type) {
+        return message_type;
+      } else {
+        if (role && role.id === 1) {
+          return 'head_committee';
+        } else if (role && role.id === 2) {
+          return 'wilayat_officer';
+        } else if (role && role.id === 3) {
+          return 'wilayat_officer';
+        } else if (role && role.id === 4) {
+          return 'committee_head';
+        } else if (role && role.id === 5) {
+          return 'committee_head';
+        } else if (role && role.id === 6) {
+          return 'team_members_voting';
+        } else if (role && role.id === 7) {
+          return 'team_members_organizing_counting';
+        } else if (role && role.id === 8) {
+          return 'team_members_voting';
+        } else if (role && role.id === 9) {
+          return 'team_members_organizing_counting';
+        }
+      }
+    };
+    const subscriberFunc = (observer) => {
+      let temp = new ChatMessage({
+        by: user.id,
+        createdAt: new Date(),
+        message: msg,
+        wilayatCode: user.wilayatCode,
+        to: mapperTo(user.roles, type)
+      });
+      delete temp.Id;
+      delete temp.CreatedBy;
+      delete temp.Wilayat;
+      this.http.post(`${config.apiUrl}/messaging/wilayat`, temp).subscribe(messages => {
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        observer.next(messages);
+        return observer.complete();
+      }, errors => {
+        observer.error(errors);
+      });
+    };
+    return new Observable(subscriberFunc);
+  }
+
+  getMessagesByWilyatId(code: string, user) {
+    const subscriberFunc = (observer) => {
+      this.http.get(`${config.apiUrl}/messaging/wilayat/` + code)
+        .subscribe(messages => {
+          // store user details and jwt token in local storage to keep user logged in between page refreshes
+          this.currentDataServiceSubject.value.initMessage(messages, user);
+          this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
+          observer.next(messages);
+          return observer.complete();
+        }, errors => {
+          observer.error(errors);
+        });
+    };
+    return new Observable(subscriberFunc);
+  }
+  setChatRole(chatrole: string) {
+    const subscriberFunc = (observer) => {
+      this.currentDataServiceSubject.value.setChatRole(chatrole);
+      this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
+      observer.next();
+      return observer.complete();
+    };
+    return new Observable(subscriberFunc);
+  }
+}
 

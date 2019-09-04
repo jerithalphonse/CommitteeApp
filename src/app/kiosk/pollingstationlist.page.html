@@ -81,6 +81,9 @@
                  <span class="ion-float-end committee-button-text-color" *ngIf="user.roles.attendanceTabReassign" (click)="reAssignUser(member, kiosk)">Re-Assign</span></span>
               </div>
             </ion-card-content>
+            <ion-card-content *ngIf="kiosk && kiosk.kioskassigned && kiosk.kioskassigned.length == 0">
+              <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast">NONE <span class="ion-float-end committee-button-text-color" *ngIf="user.roles.attendanceTabReassign" (click)="assignUser(kiosk)">Assign Member</span></div>
+            </ion-card-content>
           </ion-card>
         </ion-col>
       </ion-row>

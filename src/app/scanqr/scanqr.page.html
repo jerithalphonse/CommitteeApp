@@ -67,7 +67,7 @@
         </ion-item>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="assignkiosksmodel.canMarkAttendance">
+    <ion-row *ngIf="assignkiosksmodel.canMarkAttendance && !assignkiosksmodel.userPartOfOtherPollingStation">
       <ion-col size="12">
         <ion-button size="medium" expand="block" color="success" shape="round" (click)="markAttendance()">
           <ion-ripple-effect></ion-ripple-effect>
@@ -75,7 +75,7 @@
         </ion-button>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="assignkiosksmodel.isSelfAssignable">
+    <ion-row *ngIf="assignkiosksmodel.isSelfAssignable && !assignkiosksmodel.userPartOfOtherPollingStation">
       <ion-col size="12">
         <ion-button size="medium" expand="block" color="success" shape="round" (click)="selfAssignKiosks()">
           <ion-ripple-effect></ion-ripple-effect>

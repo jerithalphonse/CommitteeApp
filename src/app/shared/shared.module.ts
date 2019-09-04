@@ -7,14 +7,14 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 
 import { SelectGovernorateComponent } from './selectgovernorate';
 import {ChatService} from './chat/chat-service';
-import {ChatComponent} from './chat/chat.component';
+import {ChatComponent, DateConvert} from './chat/chat.component';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule
   ],
-  declarations: [SelectGovernorateComponent, ChatComponent],
+  declarations: [SelectGovernorateComponent, ChatComponent, DateConvert],
   exports: [
     SelectGovernorateComponent
   ], providers: [PhotoViewer, ChatService]

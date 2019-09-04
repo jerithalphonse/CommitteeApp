@@ -8,6 +8,7 @@ import { KioskPage } from './kiosk.page';
 import { KioskStatusPage } from './kiosk.status.page';
 import {PollingStationListPage} from './pollingstationlist.page';
 import {SharedModule} from '../shared/shared.module';
+import {AttendancelistPage} from '../attendance/attendancelist.page';
 
 @NgModule({
   imports: [
@@ -24,6 +25,9 @@ import {SharedModule} from '../shared/shared.module';
         path: 'kioskstatus',
         component: KioskStatusPage,
         children : [
+          { path: 'voting', component: PollingStationListPage },
+          { path: 'counting', component: PollingStationListPage },
+          { path: 'organizing', component: PollingStationListPage },
           { path: 'assigned', component: PollingStationListPage },
           { path: 'unassigned', component: PollingStationListPage },
           { path: 'any', component: PollingStationListPage }

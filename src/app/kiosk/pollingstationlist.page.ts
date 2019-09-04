@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 export class PollingStationListPage implements OnInit {
   public user = new User({});
   public kiosksmodel = new KiosksModel();
-  public kioksstatus = new KiosksStatusModel({});
+  public kioksstatus = new KiosksStatusModel();
   customPSOptions: any = {
     header: 'Select a Polling Station',
     translucent: true
@@ -41,12 +41,21 @@ export class PollingStationListPage implements OnInit {
   }
   ngOnInit() {}
   reAssignUser(user, kiosks) {
-    this.dataService.getUsersByPollingStationId(kiosks.pollingStation).subscribe(() => {
+    this.dataService.getUsersByPollingStationId(kiosks.pollingStation, this.user).subscribe(() => {
       this.dataService.setSelectedUsers(user);
     }, () => {
       // TODO handle incase if any errors
     });
     this.kiosksStatusService.setDataToRedirect(kiosks.pollingStation, kiosks, user);
+    this.navCtrl.navigateRoot('/kiosk/assignusertokiosk');
+  }
+  assignUser(kiosks) {
+    this.dataService.getUsersByPollingStationId(kiosks.pollingStation, this.user).subscribe(() => {
+      this.dataService.setSelectedUsers(undefined);
+    }, () => {
+      // TODO handle incase if any errors
+    });
+    this.kiosksStatusService.setDataToRedirect(kiosks.pollingStation, kiosks, undefined);
     this.navCtrl.navigateRoot('/kiosk/assignusertokiosk');
   }
   goto(url) {

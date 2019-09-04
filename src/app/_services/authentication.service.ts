@@ -19,143 +19,6 @@ export class KiosksStatusViewModel extends Kiosks {
   }
 }
 
-export class KiosksStatusModel {
-  public kiosks: Array<Kiosks> = [];
-  public pollingstations: any = [];
-  public pollingstationsAll: any = [];
-  public kiosksStatus: any = {total: 0, opened: 0, locked: 0, closed: 0};
-
-  public selectedUser: User;
-  public selectedPollingStation: PollingStation;
-  public selectedKiosksSelected: any;
-  constructor(props) {
-
-  }
-
-  setDataToRedirect(pollingStation: PollingStation, kiosk: any, user: User) {
-    this.selectedPollingStation = pollingStation;
-    this.selectedKiosksSelected = kiosk;
-    this.selectedUser = user;
-  }
-
-  updatePollingStationKeys(pollingstations: Array<PollingStation>) {
-    this.pollingstations = [];
-    this.pollingstationsAll = [];
-    for (const i in pollingstations) {
-      if (pollingstations[i] && pollingstations[i].id) {
-        this.pollingstations.push({name: pollingstations[i].name, kiosks: []});
-        this.pollingstationsAll.push({name: pollingstations[i].name, kiosks: []});
-      }
-    }
-  }
-
-  clearPollingStationsWitnessInfo() {
-    for (const i in this.pollingstations) {
-      if (this.pollingstations[i]) {
-        this.pollingstations[i].kiosks = [];
-        this.pollingstationsAll[i].kiosks = [];
-      }
-    }
-  }
-
-  calculateKiosksStatus(pollingstations) {
-    this.kiosksStatus = {total: 0, opened: 0, locked: 0, closed: 0};
-    for (const i in pollingstations) {
-      if (pollingstations[i] && pollingstations[i].kiosks) {
-        this.kiosksStatus.total += pollingstations[i].kiosks.length;
-        for (const j in pollingstations[i].kiosks) {
-          if (pollingstations[i].kiosks[j].openTime && pollingstations[i].kiosks[j].closeTime) {
-            this.kiosksStatus.closed++;
-          } else if (pollingstations[i].kiosks[j].openTime && !pollingstations[i].kiosks[j].closeTime) {
-            this.kiosksStatus.opened++;
-          } else if (!pollingstations[i].kiosks[j].openTime && !pollingstations[i].kiosks[j].closeTime) {
-            this.kiosksStatus.locked++;
-          }
-        }
-      }
-    }
-  }
-
-  applyFiltersPollingStation(pollingStationName, committeetype, assignedstatus) {
-    const filterData = (pollingStation, type, assigned) => {
-      let kiosks = [];
-      for (const i in pollingStation.kiosks) {
-        if (assigned === 'assigned' && pollingStation.kiosks[i].kioskassigned && pollingStation.kiosks[i].kioskassigned.length) {
-          kiosks.push(pollingStation.kiosks[i]);
-        } else if (assigned === 'unassigned' && pollingStation.kiosks[i].kioskassigned && pollingStation.kiosks[i].kioskassigned.length === 0) {
-          kiosks.push(pollingStation.kiosks[i]);
-        } else if (assigned === 'any') {
-          kiosks.push(pollingStation.kiosks[i]);
-        }
-      }
-      return {name: pollingStation.name, kiosks};
-    };
-    if (pollingStationName === 'All') {
-      for (const i in this.pollingstationsAll) {
-        if (this.pollingstationsAll && this.pollingstationsAll[i].name) {
-          let temp = filterData(this.pollingstationsAll[i], committeetype, assignedstatus);
-          for (const j in this.pollingstations) {
-            if (this.pollingstations[i] && this.pollingstations[i].name === temp.name) {
-              this.pollingstations[i].kiosks = temp.kiosks;
-              break;
-            }
-          }
-        }
-      }
-    } else {
-      for (const i in this.pollingstationsAll) {
-        if (this.pollingstationsAll && this.pollingstationsAll[i].name === pollingStationName) {
-          let temp = filterData(this.pollingstationsAll[i], committeetype, assignedstatus);
-          for (const j in this.pollingstations) {
-            if (this.pollingstations[i] && this.pollingstations[i].name === temp.name) {
-              this.pollingstations[i].kiosks = temp.kiosks;
-              break;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  addAssignedKiosks(kiosksAssigned, pollingstation, type, assigned) {
-    this.clearPollingStationsWitnessInfo();
-    kiosksAssigned = _.groupBy(kiosksAssigned, 'id');
-    // group list of kiosks memebers
-    let kiosklist = [];
-    for (const i in kiosksAssigned) {
-      if (kiosksAssigned[i] && kiosksAssigned[i].length) {
-        let temp = new KiosksStatusViewModel(kiosksAssigned[i][0]);
-        if (kiosksAssigned[i][0].kiosksAssigned) {
-          temp.kioskassigned = [new KiosksAssign(kiosksAssigned[i][0].kiosksAssigned)];
-          for (let j = 1; j < kiosksAssigned[i].length; j++) {
-            temp.kioskassigned.push(new KiosksAssign(kiosksAssigned[i][j].kiosksAssigned));
-          }
-        }
-        kiosklist.push(temp);
-      }
-    }
-    const pollingStations = {};
-    for (const i in kiosklist) {
-      if (kiosklist[i] && kiosklist[i].id) {
-        if (pollingStations[kiosklist[i].pollingStation.name]) {
-          pollingStations[kiosklist[i].pollingStation.name].push(kiosklist[i]);
-        } else {
-          pollingStations[kiosklist[i].pollingStation.name] = [];
-          pollingStations[kiosklist[i].pollingStation.name].push(kiosklist[i]);
-        }
-      }
-    }
-    for (const i in this.pollingstationsAll) {
-      if (this.pollingstationsAll[i] && pollingStations && pollingStations[this.pollingstationsAll[i].name]) {
-        this.pollingstationsAll[i].kiosks = pollingStations[this.pollingstationsAll[i].name];
-      }
-    }
-    this.calculateKiosksStatus(this.pollingstationsAll);
-    this.applyFiltersPollingStation(pollingstation && pollingstation.name ? pollingstation.name : 'All', type, assigned);
-  }
-
-}
-
 export class Witness {
   public id: number;
   public imageUrl: string;
@@ -690,11 +553,16 @@ export class KiosksModel {
       }
     }
   }
-  setUsersList(users: any) {
+  setUsersList(users: any, user) {
     this.users = [];
     for (const i in users) {
-      if (users[i]) {
-        this.users.push(users[i]);
+      if (users[i] && users[i].roles) {
+        const id = users[i].roles.id;
+        if ((id === 4 || id === 6 || id === 8) && (user.roles.id === 4 || user.roles.id === 6)) {
+          this.users.push(new UserModel(users[i]));
+        } else if ((id === 5 || id === 7 || id === 9) && (user.roles.id === 5 || user.roles.id === 7)) {
+          this.users.push(new UserModel(users[i]));
+        }
       }
     }
   }
@@ -872,20 +740,37 @@ export class APIService {
 
   updateKiosksToUser(id, assignedById, assignedToId, kiosksId, PollingStationID) {
     const subscriberFunc = (observer) => {
-      return this.http.put<any>(`${config.apiUrl}/kiosksassignment/` + id, {
-        MemberId: assignedToId,
-        AssignedBy: assignedById,
-        KioskId: kiosksId,
-        PollingStationID,
-        isDeleted: false
-      })
-        .subscribe(success => {
-          // store user details and jwt token in local storage to keep user logged in between page refreshes
-          observer.next(success);
-          return observer.complete();
-        }, errors => {
-          observer.error(errors);
-        });
+      if (id) {
+        return this.http.put<any>(`${config.apiUrl}/kiosksassignment/` + id, {
+          MemberId: assignedToId,
+          AssignedBy: assignedById,
+          KioskId: kiosksId,
+          PollingStationID,
+          isDeleted: false
+        })
+          .subscribe(success => {
+            // store user details and jwt token in local storage to keep user logged in between page refreshes
+            observer.next(success);
+            return observer.complete();
+          }, errors => {
+            observer.error(errors);
+          });
+      } else {
+        return this.http.post<any>(`${config.apiUrl}/kiosksassignment/assignUserToKiosks`, {
+          MemberId: assignedToId,
+          AssignedBy: assignedById,
+          KioskId: kiosksId,
+          PollingStationID,
+          isDeleted: false
+        })
+          .subscribe(success => {
+            // store user details and jwt token in local storage to keep user logged in between page refreshes
+            observer.next(success);
+            return observer.complete();
+          }, errors => {
+            observer.error(errors);
+          });
+      }
     };
     return new Observable(subscriberFunc);
   }
@@ -973,6 +858,143 @@ export class APIService {
     };
     return new Observable(subscriberFunc);
   }
+}
+@Injectable({providedIn: 'root'})
+export class KiosksStatusModel {
+  public kiosks: Array<Kiosks> = [];
+  public pollingstations: any = [];
+  public pollingstationsAll: any = [];
+  public kiosksStatus: any = {total: 0, opened: 0, locked: 0, closed: 0};
+
+  public selectedUser: User;
+  public selectedPollingStation: PollingStation;
+  public selectedKiosksSelected: any;
+  constructor() {
+
+  }
+
+  setDataToRedirect(pollingStation: PollingStation, kiosk: any, user: User) {
+    this.selectedPollingStation = pollingStation;
+    this.selectedKiosksSelected = kiosk;
+    this.selectedUser = user;
+  }
+
+  updatePollingStationKeys(pollingstations: Array<PollingStation>) {
+    this.pollingstations = [];
+    this.pollingstationsAll = [];
+    for (const i in pollingstations) {
+      if (pollingstations[i] && pollingstations[i].id) {
+        this.pollingstations.push({name: pollingstations[i].name, kiosks: []});
+        this.pollingstationsAll.push({name: pollingstations[i].name, kiosks: []});
+      }
+    }
+  }
+
+  clearPollingStationsWitnessInfo() {
+    for (const i in this.pollingstations) {
+      if (this.pollingstations[i]) {
+        this.pollingstations[i].kiosks = [];
+        this.pollingstationsAll[i].kiosks = [];
+      }
+    }
+  }
+
+  calculateKiosksStatus(pollingstations) {
+    this.kiosksStatus = {total: 0, opened: 0, locked: 0, closed: 0};
+    for (const i in pollingstations) {
+      if (pollingstations[i] && pollingstations[i].kiosks) {
+        this.kiosksStatus.total += pollingstations[i].kiosks.length;
+        for (const j in pollingstations[i].kiosks) {
+          if (pollingstations[i].kiosks[j].openTime && pollingstations[i].kiosks[j].closeTime) {
+            this.kiosksStatus.closed++;
+          } else if (pollingstations[i].kiosks[j].openTime && !pollingstations[i].kiosks[j].closeTime) {
+            this.kiosksStatus.opened++;
+          } else if (!pollingstations[i].kiosks[j].openTime && !pollingstations[i].kiosks[j].closeTime) {
+            this.kiosksStatus.locked++;
+          }
+        }
+      }
+    }
+  }
+
+  applyFiltersPollingStation(pollingStationName, committeetype, assignedstatus) {
+    const filterData = (pollingStation, type, assigned) => {
+      let kiosks = [];
+      for (const i in pollingStation.kiosks) {
+        if (assigned === 'assigned' && pollingStation.kiosks[i].kioskassigned && pollingStation.kiosks[i].kioskassigned.length) {
+          kiosks.push(pollingStation.kiosks[i]);
+        } else if (assigned === 'unassigned' && pollingStation.kiosks[i].kioskassigned && pollingStation.kiosks[i].kioskassigned.length === 0) {
+          kiosks.push(pollingStation.kiosks[i]);
+        } else if (assigned === 'any') {
+          kiosks.push(pollingStation.kiosks[i]);
+        }
+      }
+      return {name: pollingStation.name, kiosks};
+    };
+    if (pollingStationName === 'All') {
+      for (const i in this.pollingstationsAll) {
+        if (this.pollingstationsAll && this.pollingstationsAll[i].name) {
+          let temp = filterData(this.pollingstationsAll[i], committeetype, assignedstatus);
+          for (const j in this.pollingstations) {
+            if (this.pollingstations[i] && this.pollingstations[i].name === temp.name) {
+              this.pollingstations[i].kiosks = temp.kiosks;
+              break;
+            }
+          }
+        }
+      }
+    } else {
+      for (const i in this.pollingstationsAll) {
+        if (this.pollingstationsAll && this.pollingstationsAll[i].name === pollingStationName) {
+          let temp = filterData(this.pollingstationsAll[i], committeetype, assignedstatus);
+          for (const j in this.pollingstations) {
+            if (this.pollingstations[i] && this.pollingstations[i].name === temp.name) {
+              this.pollingstations[i].kiosks = temp.kiosks;
+              break;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  addAssignedKiosks(kiosksAssigned, pollingstation, type, assigned) {
+    this.clearPollingStationsWitnessInfo();
+    kiosksAssigned = _.groupBy(kiosksAssigned, 'id');
+    // group list of kiosks memebers
+    let kiosklist = [];
+    for (const i in kiosksAssigned) {
+      if (kiosksAssigned[i] && kiosksAssigned[i].length) {
+        let temp = new KiosksStatusViewModel(kiosksAssigned[i][0]);
+        if (kiosksAssigned[i][0].kiosksAssigned) {
+          temp.kioskassigned = [new KiosksAssign(kiosksAssigned[i][0].kiosksAssigned)];
+          for (let j = 1; j < kiosksAssigned[i].length; j++) {
+            temp.kioskassigned.push(new KiosksAssign(kiosksAssigned[i][j].kiosksAssigned));
+          }
+        }
+        kiosklist.push(temp);
+      }
+    }
+    const pollingStations = {};
+    for (const i in kiosklist) {
+      if (kiosklist[i] && kiosklist[i].id) {
+        if (pollingStations[kiosklist[i].pollingStation.name]) {
+          pollingStations[kiosklist[i].pollingStation.name].push(kiosklist[i]);
+        } else {
+          pollingStations[kiosklist[i].pollingStation.name] = [];
+          pollingStations[kiosklist[i].pollingStation.name].push(kiosklist[i]);
+        }
+      }
+    }
+    for (const i in this.pollingstationsAll) {
+      if (this.pollingstationsAll[i] && pollingStations && pollingStations[this.pollingstationsAll[i].name]) {
+        this.pollingstationsAll[i].kiosks = pollingStations[this.pollingstationsAll[i].name];
+      }
+    }
+    this.calculateKiosksStatus(this.pollingstationsAll);
+    this.applyFiltersPollingStation(pollingstation && pollingstation.name ? pollingstation.name : 'All', type, assigned);
+  }
+
 }
 
 @Injectable({providedIn: 'root'})
@@ -1090,10 +1112,10 @@ export class DataService {
     return new Observable(subscriberFunc);
   }
 
-  getUsersByPollingStationId(pollingStation: PollingStation) {
+  getUsersByPollingStationId(pollingStation: PollingStation, user: User) {
     const subscriberFunc = (observer) => {
       return this.apiService.getUsersByPollingStationId(pollingStation.id).subscribe((success) => {
-        this.currentDataServiceSubject.value.setUsersList(success);
+        this.currentDataServiceSubject.value.setUsersList(success, user);
         this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
         observer.next(success);
       }, (errors) => {
@@ -1357,7 +1379,7 @@ export class KiosksStatusService {
   public currentDataService: Observable<KiosksStatusModel>;
 
   constructor(private http: HttpClient, private apiService: APIService) {
-    this.currentDataServiceSubject = new BehaviorSubject<KiosksStatusModel>(new KiosksStatusModel({}));
+    this.currentDataServiceSubject = new BehaviorSubject<KiosksStatusModel>(new KiosksStatusModel());
     this.currentDataService = this.currentDataServiceSubject.asObservable();
   }
 
@@ -1391,20 +1413,37 @@ export class KiosksStatusService {
   }
   updateKiosksToUser(id, assignedById, assignedToId, kiosksId, PollingStationID) {
     const subscriberFunc = (observer) => {
-      return this.http.put<any>(`${config.apiUrl}/kiosksassignment/` + id, {
-        MemberId: assignedToId,
-        AssignedBy: assignedById,
-        KioskId: kiosksId,
-        PollingStationID,
-        isDeleted: false
-      })
-        .subscribe(success => {
-          // store user details and jwt token in local storage to keep user logged in between page refreshes
-          observer.next(success);
-          return observer.complete();
-        }, errors => {
-          observer.error(errors);
-        });
+      if (id) {
+        return this.http.put<any>(`${config.apiUrl}/kiosksassignment/` + id, {
+          MemberId: assignedToId,
+          AssignedBy: assignedById,
+          KioskId: kiosksId,
+          PollingStationID,
+          isDeleted: false
+        })
+          .subscribe(success => {
+            // store user details and jwt token in local storage to keep user logged in between page refreshes
+            observer.next(success);
+            return observer.complete();
+          }, errors => {
+            observer.error(errors);
+          });
+      } else {
+        return this.http.post<any>(`${config.apiUrl}/kiosksassignment/assignUserToKiosks`, {
+          MemberId: assignedToId,
+          AssignedBy: assignedById,
+          KioskId: kiosksId,
+          PollingStationID,
+          isDeleted: false
+        })
+          .subscribe(success => {
+            // store user details and jwt token in local storage to keep user logged in between page refreshes
+            observer.next(success);
+            return observer.complete();
+          }, errors => {
+            observer.error(errors);
+          });
+      }
     };
     return new Observable(subscriberFunc);
   }
@@ -1496,13 +1535,14 @@ export class WitnessStatusService {
 // public string UploadedTime { get; set; }
 // public string WilayatCode { get; set; }
 // public int PollingStationID { get; set; }
-  updateWitnessId(url: string, user: User) {
+  updateWitnessId(url: string, user: User, pollingStation: PollingStation) {
+    // alert(pollingStation.id);
     this.apiService.postWitnessId({
       ImageUrl: url,
       UploadedBy: user.id,
       UploadedTime: new Date().toISOString(),
       WilayatCode: user.wilayatCode,
-      PollingStationID: user.pollingStationId
+      PollingStationID: pollingStation.id
     }).subscribe((witnessadded) => {
       this.apiService.getWitnessStatusByWilayatId(user.wilayatCode).subscribe((success) => {
         this.currentDataServiceSubject.value.updateWitnessData(success);

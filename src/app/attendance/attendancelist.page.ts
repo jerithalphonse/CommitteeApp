@@ -65,4 +65,13 @@ export class AttendancelistPage implements OnInit {
     this.attendanceStatusService.setDataToRedirect(kiosks.pollingStation, user.kiosksAssigned, user);
     this.navCtrl.navigateRoot('/attendance/assignkioskstouser');
   }
+  AssignUser(user) {
+    this.dataService.getKiosksByPollingStationId(user.pollingStation).subscribe(() => {
+      this.dataService.setSelectedKiosks(undefined);
+    }, () => {
+      // TODO handle incase if any errors
+    });
+    this.attendanceStatusService.setDataToRedirect(user.pollingStation, user.kiosksAssigned, user);
+    this.navCtrl.navigateRoot('/attendance/assignkioskstouser');
+  }
 }

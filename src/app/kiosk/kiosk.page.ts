@@ -12,11 +12,11 @@ import { AlertController } from '@ionic/angular';
 export class KioskPage implements OnInit {
   public user = new User({});
   public kiosksmodel = new KiosksModel();
-  public redirector = 'voting';
+  public redirector = 'assigned';
 
   constructor(private authenticationService: AuthenticationService, public dataService: DataService,
               public alertController: AlertController,  public navCtrl: NavController, private kiosksStatusService: KiosksStatusService) {
-    this.kiosksmodel.currentTab = 'voting';
+    this.kiosksmodel.currentTab = 'assigned';
     this.authenticationService.currentUser.subscribe(value => {
       this.user = value;
       if (this.user && this.user.roles && this.user.roles.id !== 1) {
@@ -55,7 +55,7 @@ export class KioskPage implements OnInit {
     if (this.kiosksmodel && this.kiosksmodel.wilayat && this.kiosksmodel.wilayat.code) {
       this.kiosksmodel.changeTab(this.getRoleType(),
         this.redirector === 'assigned' ? 'assigned' : 'any');
-      this.getKiosksStatus(this.kiosksmodel.currentTab);
+      this.getKiosksStatus(this.redirector);
     }
     this.navCtrl.navigateRoot(url);
   }

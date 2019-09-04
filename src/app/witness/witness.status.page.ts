@@ -8,7 +8,7 @@ import {
   WitnessStatusService
 } from '../_services/authentication.service';
 import {NavController, MenuController, LoadingController, ActionSheetController} from '@ionic/angular';
-import {User} from '../_models';
+import {PollingStation, User} from '../_models';
 import { AlertController, Platform } from '@ionic/angular';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 
@@ -23,9 +23,10 @@ export class WitnessStatusPage implements OnInit {
   private isFlashLightOn = false;
   private blob = { image: undefined, blob: undefined};
   public initialized = false;
-  private previewmode = false;
+  public previewmode = false;
   public kiosksmodel = new KiosksModel();
   public witnessmodel = new WitnessStatusModel({});
+  public selectedPollingstation: PollingStation;
 
   constructor(private authenticationService: AuthenticationService, public dataService: DataService,
               public alertController: AlertController,  public navCtrl: NavController, public witnessStatusService: WitnessStatusService,
@@ -81,7 +82,12 @@ export class WitnessStatusPage implements OnInit {
       this.cameraopened = false;
     });
   }
-  async addWitnessImages() {
+  async addWitnessImages(pollingstation) {
+    for (const i in this.kiosksmodel.pollingstations) {
+      if (this.kiosksmodel && this.kiosksmodel.pollingstations[i] && this.kiosksmodel.pollingstations[i].name === pollingstation.name) {
+        this.selectedPollingstation =  this.kiosksmodel.pollingstations[i];
+      }
+    }
     const actionSheet = this.actionSheetCtrl.create({
       cssClass: 'action-sheets-basic-page',
       buttons: [
@@ -125,7 +131,7 @@ export class WitnessStatusPage implements OnInit {
     formData.append('files', this.blob.blob, 'witness_' + Math.random() + '.png');
     this.authenticationService.uploadImage(formData, (data) => {
       if (data && data.filesUploaded && data.filesUploaded.length) {
-        this.witnessStatusService.updateWitnessId(data.filesUploaded[0], this.user);
+        this.witnessStatusService.updateWitnessId(data.filesUploaded[0], this.user, this.selectedPollingstation);
       } else {
         // TODO sorry couldnt upload the file
       }

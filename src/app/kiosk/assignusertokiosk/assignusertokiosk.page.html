@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="dashboard"></ion-back-button>
+      <ion-back-button defaultHref="kiosk"></ion-back-button>
     </ion-buttons>
     <ion-title class="back-button-icon-left">Assign Kiosk</ion-title>
   </ion-toolbar>
@@ -40,14 +40,14 @@
             </ion-list-header>
             <ion-item *ngFor="let data of kiosksmodel.users">
               <ion-label>{{data.nameEnglish}}</ion-label>
-              <ion-radio value="{{data.id}}" [checked]="data.id === kiosksmodel.kiosk.id" (ionSelect)="changeKiosks($event, data)"></ion-radio>
+              <ion-radio value="{{data.id}}" [checked]="kiosksStatusModel.selectedUser && data.id === kiosksStatusModel.selectedUser.id" (ionSelect)="changeUser($event, data)"></ion-radio>
             </ion-item>
           </ion-radio-group>
         </ion-list>
       </ion-col>
       <ion-col size="12">
         <ion-button size="medium" expand="block" color="success" shape="round" (click)="submit()"
-                    [disabled]="!(kiosksmodel.kiosk && kiosksmodel.kiosk.id)">
+                    [disabled]="!(kiosksmodel.user && kiosksmodel.user.id)">
           <ion-ripple-effect></ion-ripple-effect>
          Assign Kiosks
         </ion-button>

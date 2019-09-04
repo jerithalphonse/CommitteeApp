@@ -31,11 +31,11 @@
           <div class="masonry">
             <img *ngFor="let item of pollingstation.witness" [src]="item.imageUrl" (click)="openImageFullView(item)">
           </div>
-          <ion-button color="success" size="default" class="committee-button-size-medium-constract" shape="round" (click)="addWitnessImages()" *ngIf="pollingstation.witness.length && user.roles.witnessTabAddMore">
+          <ion-button color="success" size="default" class="committee-button-size-medium-constract" shape="round" (click)="addWitnessImages(pollingstation)" *ngIf="pollingstation.witness.length && user.roles.witnessTabAddMore">
             <ion-ripple-effect></ion-ripple-effect>
             Add more
           </ion-button>
-          <ion-button color="success" size="default" class="committee-button-size-medium" shape="round" (click)="addWitnessImages()" *ngIf="pollingstation.witness.length === 0  && user.roles.witnessTabAddMore" >
+          <ion-button color="success" size="default" class="committee-button-size-medium" shape="round" (click)="addWitnessImages(pollingstation)" *ngIf="pollingstation.witness.length === 0  && user.roles.witnessTabAddMore" >
             <ion-ripple-effect></ion-ripple-effect>
             Add Witness ID's
           </ion-button>

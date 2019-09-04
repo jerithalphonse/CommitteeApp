@@ -6,7 +6,6 @@ import { RouterModule } from '@angular/router';
 
 import {MessagingPage} from './messaging.page';
 import {SharedModule} from '../shared/shared.module';
-import {MessagingStatusPage} from './messaging.status.page';
 import {ChatComponent} from '../shared/chat/chat.component';
 
 
@@ -22,23 +21,11 @@ import {ChatComponent} from '../shared/chat/chat.component';
         component: MessagingPage,
       },
       {
-        path: 'chatsample',
+        path: 'chat/:name',
         component: ChatComponent
       }
-      // {
-      //   path: 'messages',
-      //   component: MessagingTypeHandlerPage,
-      //   children : [
-      //     { path: 'allmembers', component: SendMessagePage },
-      //     { path: 'committeehead', component: SendMessagePage },
-      //     { path: 'waliofficers', component: SendMessagePage },
-      //     { path: 'toheadcommittee', component: SendMessagePage },
-      //     { path: 'checkmessages', component: SendMessagePage },
-      //     { path: 'sendmessages', component: SendMessagePage },
-      //   ]
-      // }
     ])
   ],
-  declarations: [MessagingPage, MessagingStatusPage]
+  declarations: [MessagingPage]
 })
 export class MessagingModule {}

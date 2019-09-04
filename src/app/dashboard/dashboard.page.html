@@ -10,7 +10,7 @@
     </ion-buttons>
     <ion-title> Al-Shura Elections</ion-title>
     <ion-buttons slot="end">
-      <ion-button>
+      <ion-button (click)="goto('messaging/chat/readonly')">
         <span class="header-white-message"></span>
       </ion-button>
     </ion-buttons>
@@ -104,7 +104,7 @@
             </ion-grid>
           </ion-card>
 
-          <ion-card *ngIf="(user && user.roles && user.roles.messageTab)" (click)="goto('messaging')">
+          <ion-card *ngIf="(user && user.roles && user.roles.messageTab)" (click)="navigateToMessaging(user.roles)">
             <ion-grid>
               <ion-row class="ion-padding-bottom">
                 <ion-col size="3">
@@ -114,13 +114,13 @@
                   <h4 class="line-height-point6">Message</h4>
                   <div class="ion-padding-right-24" *ngIf="user.roles.name === 'head_committee'">Send message to all members, wali officers</div>
                   <div class="ion-padding-right-24" *ngIf="user.roles.name === 'wali_assistant' || user.roles.name === 'wali_officer'">Send message to all members, Head committee</div>
-                  <div class="ion-padding-right-24" *ngIf="user.roles.name !== 'head_committee' && user.roles.name !== 'user_wali_assistant' && user.roles.name !== 'wali_officer' && user.roles.name !== 'wali_assistant'">Send message to all team members</div>
+                  <div class="ion-padding-right-24" *ngIf="user.roles.name !== 'head_committee' && user.roles.name !== 'wali_officer' && user.roles.name !== 'wali_assistant'">Send message to all team members</div>
                   <ion-icon name="arrow-forward" item-right class="home-page-card-icon-right"></ion-icon>
                 </ion-col>
               </ion-row>
             </ion-grid>
           </ion-card>
-          <ion-card *ngIf="(user && user.roles && user.roles.messageTabCheckMessage)">
+          <ion-card *ngIf="(user && user.roles && user.roles.messageTabCheckMessage)" (click)="goto('messaging/chat/allmembers')">
             <ion-grid>
               <ion-row class="ion-padding-bottom">
                 <ion-col size="3">

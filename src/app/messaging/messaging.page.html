@@ -19,7 +19,7 @@
       <ion-col size="12">
         <ion-list lines="none">
 
-          <ion-card *ngIf="(user && user.roles && user.roles.messageTabAllMembers)" (click)="goto('chatsample')">
+          <ion-card *ngIf="(user && user.roles && user.roles.messageTabAllMembers)" (click)="goto('messaging/chat/allmembers')">
             <ion-grid>
               <ion-row class="ion-padding-bottom">
                 <ion-col size="12" class="ion-padding-left-16">
@@ -31,7 +31,7 @@
             </ion-grid>
           </ion-card>
 
-          <ion-card *ngIf="(user && user.roles && user.roles.messageTabHeadCommittees)" (click)="goto('committeehead')">
+          <ion-card *ngIf="(user && user.roles && user.roles.messageTabHeadCommittees)" (click)="goto('messaging/chat/committeehead')">
             <ion-grid>
               <ion-row class="ion-padding-bottom">
                 <ion-col size="12" class="ion-padding-left-16">
@@ -43,7 +43,7 @@
             </ion-grid>
           </ion-card>
 
-          <ion-card *ngIf="(user && user.roles && user.roles.messageTabToHeadCommittee)" (click)="goto('toheadcommittee')">
+          <ion-card *ngIf="(user && user.roles && user.roles.messageTabToHeadCommittee)" (click)="goto('messaging/chat/toheadcommittee')">
             <ion-grid>
               <ion-row class="ion-padding-bottom">
                 <ion-col size="12" class="ion-padding-left-16">
@@ -55,7 +55,7 @@
             </ion-grid>
           </ion-card>
 
-          <ion-card *ngIf="(user && user.roles && user.roles.messageTabWaliOfficers)" (click)="goto('waliofficers')">
+          <ion-card *ngIf="(user && user.roles && user.roles.messageTabWaliOfficers)" (click)="goto('messaging/chat/waliofficers')">
             <ion-grid>
               <ion-row class="ion-padding-bottom">
                 <ion-col size="12" class="ion-padding-left-16">

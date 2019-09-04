@@ -1,36 +1,35 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="messaging"></ion-back-button>
+      <ion-back-button defaultHref="dashboard"></ion-back-button>
     </ion-buttons>
-    <ion-title class="back-button-icon-left">Send Message</ion-title>
+    <ion-title class="back-button-icon-left" *ngIf="chat.chatrole !== 'readonly'">Send Message</ion-title>
+    <ion-title class="back-button-icon-left" *ngIf="chat.chatrole === 'readonly'">Check Messages</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
   <div class="message-wrap">
 
-    <div *ngFor="let msg of msgList"
-         class="message"
-         [class.left]=" msg.userId === toUser.id "
-         [class.right]=" msg.userId === user.id ">
-      <img class="user-img" [src]="msg.userAvatar" alt="" >
-      <ion-spinner name="dots" *ngIf="msg.status === 'pending'"></ion-spinner>
-      <div class="msg-detail">
-        <div class="msg-info">
-          <p>
-            {{msg.userName}}&nbsp;&nbsp;&nbsp;{{msg.time}}</p>
-        </div>
-        <div class="msg-content">
-          <span class="triangle"></span>
-          <p class="line-breaker ">{{msg.message}}</p>
-        </div>
-      </div>
+    <div *ngFor="let message of chat.allmessages"
+         class="message"  [class.left]="message.By != user.id"
+         [class.right]="message.By == user.id">
+      <ion-card style="margin-top: 0px;margin-right: 0px;margin-left: 0px; margin-bottom: 0px; box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05)">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12" class="ion-padding-left-16">
+              <div class="ion-padding-right-24">{{message.CreatedBy.nameArabic}}</div>
+              <h6> {{message.Message}}</h6>
+              <div class="ion-padding-right-24">{{message.CreatedAt | dateconvert}}</div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card>
     </div>
 
   </div>
 </ion-content>
 
-<ion-footer no-border>
+<ion-footer no-border *ngIf="chat.chatrole !== 'readonly'">
   <div class="input-wrap">
     <textarea #chat_input
               placeholder="Type your message"

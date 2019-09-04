@@ -1,6 +1,20 @@
-import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
-import {Events, IonContent} from '@ionic/angular';
-import {ChatService, ChatMessage, UserInfo} from './chat-service';
+import {Component, OnInit, ViewChild, ElementRef, Pipe, PipeTransform} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import {AlertController, Events, IonContent, NavController} from '@ionic/angular';
+import {ChatService, ChatMessage, ChatList} from './chat-service';
+import {AuthenticationService, WitnessStatusService} from '../../_services/authentication.service';
+import {User} from '../../_models';
+import * as moment from 'moment';
+
+
+@Pipe({
+  name: 'dateconvert'
+})
+export class DateConvert implements PipeTransform {
+  transform(value): any {
+    return moment(value).fromNow();
+  }
+}
 
 @Component({
   selector: 'app-chat',
@@ -8,29 +22,39 @@ import {ChatService, ChatMessage, UserInfo} from './chat-service';
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit {
-
   @ViewChild(IonContent) content: IonContent;
   @ViewChild('chat_input') messageInput: ElementRef;
-  msgList: ChatMessage[] = [];
-  user: UserInfo;
-  toUser: UserInfo;
-  editorMsg = '';
+  public chat: ChatList = new ChatList({});
+  public user = new User({});
+  public editorMsg = '';
 
-  constructor(private chatService: ChatService,
-              private events: Events) {}
+  constructor(private chatService: ChatService, private authenticationService: AuthenticationService,
+              public alertController: AlertController, private route: ActivatedRoute,
+              public navCtrl: NavController, private witnessStatusService: WitnessStatusService) {
+    this.authenticationService.currentUser.subscribe(value => {
+      this.user = value;
+      this.getMessagesByWilyatId(this.user.wilayat.code);
+    });
+    this.chatService.currentDataService.subscribe(value => {
+      this.chat = value;
+    });
+  }
 
   ngOnInit() {
+    this.chatService.setChatRole(this.route.snapshot.paramMap.get('name')).subscribe((success) => {
+      console.log('chat role set', success);
+    });
   }
+
   onFocus() {
     this.scrollToBottom();
   }
-  getMsg() {
+
+  getMessagesByWilyatId(code: string) {
     // Get mock message list
     return this.chatService
-      .getMsgList()
+      .getMessagesByWilyatId(code, this.user)
       .subscribe(res => {
-
-        this.msgList = res;
         this.scrollToBottom();
       });
   }
@@ -42,49 +66,18 @@ export class ChatComponent implements OnInit {
     if (!this.editorMsg.trim()) {
       return;
     }
-
-    // Mock message
-    const id = Date.now().toString();
-    let newMsg: ChatMessage = {
-      messageId: Date.now().toString(),
-      userId: this.user.id,
-      userName: this.user.name,
-      userAvatar: this.user.avatar,
-      toUserId: this.toUser.id,
-      time: Date.now(),
-      message: this.editorMsg,
-      status: 'pending'
-    };
-
-    this.pushNewMsg(newMsg);
-    this.editorMsg = '';
-    this.chatService.sendMsg(newMsg)
-      .then(() => {
-        let index = this.getMsgIndexById(id);
-        if (index !== -1) {
-          this.msgList[index].status = 'success';
-        }
-      });
-  }
-
-  /**
-   * @name pushNewMsg
-   * @param msg
-   */
-  pushNewMsg(msg: ChatMessage) {
-    const userId = this.user.id,
-      toUserId = this.toUser.id;
-    // Verify user relationships
-    if (msg.userId === userId && msg.toUserId === toUserId) {
-      this.msgList.push(msg);
-    } else if (msg.toUserId === userId && msg.userId === toUserId) {
-      this.msgList.push(msg);
+    let type = null;
+    if (this.chat.chatrole === 'committeehead') {
+      type = 'committee_head_only';
+    } else if (this.chat.chatrole === 'toheadcommittee') {
+      type = 'wilayat_officer_only';
     }
-    this.scrollToBottom();
-  }
 
-  getMsgIndexById(id: string) {
-    return this.msgList.findIndex(e => e.messageId === id);
+    this.chatService.sendMsg(this.editorMsg, this.user, null).subscribe(() => {
+      this.editorMsg = '';
+      this.getMessagesByWilyatId(this.user.wilayatCode);
+      this.scrollToBottom();
+    });
   }
 
   scrollToBottom() {

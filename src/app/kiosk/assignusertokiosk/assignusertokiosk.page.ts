@@ -37,17 +37,17 @@ export class AssignUserToKioskPage implements OnInit {
     });
   }
 
-  changeKiosks(event, kiosks) {
-    this.dataService.setSelectedKiosks(kiosks);
+  changeUser(event, user) {
+    this.dataService.setSelectedUsers(user);
   }
 
   submit() {
-    this.kioskStatusService.updateKiosksToUser(this.attendanceStatusModel.selectedKiosksAssigned.id, this.user.id,
-      this.attendanceStatusModel.selectedUser.id, this.kiosksmodel.kiosk.id,
-      this.attendanceStatusModel.selectedPollingStation.id).subscribe(success => {
+    this.kioskStatusService.updateKiosksToUser(this.kiosksStatusModel.selectedUser && this.kiosksStatusModel.selectedUser.id ? this.kiosksStatusModel.selectedUser.id : undefined, this.user.id,
+      this.kiosksmodel.user.id, this.kiosksStatusModel.selectedKiosksSelected.id,
+      this.kiosksStatusModel.selectedPollingStation.id).subscribe(success => {
       this.kioskStatusService.getKiosksStatusByWilayatId(this.kiosksmodel.wilayat.code, this.kiosksmodel.pollingstation,
         this.kiosksmodel.currentTab, this.kiosksmodel.assigned).subscribe(() => {
-        this.goto('attendance/attendancestatus/assigned');
+        this.goto('kiosk');
       }, (errors) => {
         // TODO Handle errors for not finding any kiosks
       });
@@ -58,7 +58,9 @@ export class AssignUserToKioskPage implements OnInit {
 
   ngOnInit() {
   }
-
+  // goBack() {
+  //   this.navCtrl.pop();
+  // }
   goto(url: string) {
     this.navCtrl.navigateRoot(url);
   }
