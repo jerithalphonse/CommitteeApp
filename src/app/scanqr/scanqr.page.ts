@@ -83,6 +83,7 @@ export class ScanQrPage {
       this.scanSub.unsubscribe(); // stop scanning
     });
   }
+
   getDataForScannedKiosks() {
     const validateTheUserScannedData = (data) => {
       data.canCurrentUserSelfAssignForKiosks(this.user);
@@ -98,6 +99,7 @@ export class ScanQrPage {
       // TODO Handle errors for not finding any kiosks
     });
   }
+
   changeView(view: string) {
     if (view === 'assign') {
       this.getDataForScannedKiosks();
@@ -173,5 +175,11 @@ export class ScanQrPage {
 
   markAttendance() {
     // TODO Mark attendance for the user
+    if (!this.user.attendedAt) {
+      this.user.attendedAt = new Date().toISOString();
+      this.authenticationService.updateUser(this.user).subscribe(() => {
+        this.assignkiosksmodel.canCurrentUserSelfAssignForKiosks(this.user);
+      });
+    }
   }
 }

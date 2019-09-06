@@ -89,8 +89,8 @@ export class WitnessStatusModel {
 }
 
 export class AssignKiosksModel {
-  public kioskassigned: Array<KiosksAssign> = [];
-  public kioskAssignedToCurrent: Array<KiosksAssign> = [];
+  public users: Array<UserModel> = [];
+  public kioskAssignedToCurrent: Array<UserModel> = [];
   public kiosks = new Kiosks({});
   public isSelfAssignable = false;
   public attendanceMarked = false;
@@ -107,17 +107,17 @@ export class AssignKiosksModel {
     }
   }
 
-  addKiosksAssigned(kiosks: any) {
-    this.kioskassigned = [];
-    for (const i in kiosks) {
-      if (kiosks && kiosks[i]) {
-        this.kioskassigned.push(new KiosksAssign(kiosks[i]));
+  addUsersAssigned(users: any) {
+    this.users = [];
+    for (const i in users) {
+      if (users && users[i]) {
+        this.users.push(new UserModel(users[i]));
       }
     }
   }
 
   canCurrentUserMarkAttendanceForKiosks(user) {
-    if (user && this.kiosks && user.pollingStationId === this.kiosks.pollingStationID) {
+    if (user && this.kiosks && user.pollingStationId === this.kiosks.pollingStationID && !user.attendedAt) {
       return true;
     }
     return false;
@@ -134,28 +134,29 @@ export class AssignKiosksModel {
     const canMarkAttendance = this.canCurrentUserMarkAttendanceForKiosks(user);
     // if user canMarkAttendance check if he already did
     let currentAssigned;
+    user.attendedAt ? this.attendanceMarked = true : this.attendanceMarked = false;
     if (canMarkAttendance) {
       this.canMarkAttendance = true;
-      for (const i in this.kioskassigned) {
-        if (this.kioskassigned[i].kioskId === this.kiosks.id) {
-          this.kioskAssignedToCurrent.push(this.kioskassigned[i]);
-        }
-        if (this.kioskassigned[i] && this.kioskassigned[i].memberId === user.id) {
-          this.kioskassigned[i].AttendanceStartedAt ? this.attendanceMarked = true : this.attendanceMarked = false;
-          currentAssigned = this.kioskassigned[i];
-          this.showAssigned = true;
-        }
-      }
     }
-    // if user doesnt belong to any kiosk check if this kiosks is assigned to 2 people already and role of user
-    // to be part of voting commite and check if supervisor have not assigned him any kiosks
-    if (!(this.kioskAssignedToCurrent && this.kioskAssignedToCurrent.length >= 2) && (user.roleId === 4 || user.roleId === 6 || user.roleId === 8) &&
-      (!currentAssigned || (currentAssigned && currentAssigned.assignedbymember === currentAssigned.memberId))) {
-      this.isSelfAssignable = true;
+    for (const i in this.users) {
+      if (this.users[i] && this.users[i].kiosks.id === this.kiosks.id) {
+        this.kioskAssignedToCurrent.push(this.users[i]);
+      }
+      if (this.users[i] && this.users[i].kiosksAssigned.memberId === user.id) {
+        currentAssigned = this.users[i];
+        this.showAssigned = true;
+      }
     }
     if (user && user.kiosks && user.kiosks.pollingStationID !== user.pollingStationId) {
       // check if user if not part of this polling station
       this.userPartOfOtherPollingStation = true;
+    } else {
+      // if user doesnt belong to any kiosk check if this kiosks is assigned to 2 people already and role of user
+      // to be part of voting commite and check if supervisor have not assigned him any kiosks
+      if (!(this.kioskAssignedToCurrent && this.kioskAssignedToCurrent.length > 2) && (user.roleId === 4 || user.roleId === 6 ||
+        user.roleId === 8) && !currentAssigned) {
+        this.isSelfAssignable = true;
+      }
     }
   }
 }
@@ -692,7 +693,7 @@ export class APIService {
         assignpollingstation.supervisor.roleId = 7 : '';
       assignpollingstation.supervisor.pollingStationId = pollingstation.id;
       let tempuser = new UserModel(assignpollingstation.supervisor);
-      tempuser.removeKeys(['kiosks', 'roles', 'wilayat', 'pollingStation']);
+      tempuser.removeKeys(['kiosks', 'roles', 'wilayat', 'pollingStation', 'kiosksAssigned', 'governorate']);
       users.push(tempuser);
       let temp = assignpollingstation.getSelectedMembers();
       for (const i in temp) {
@@ -700,7 +701,7 @@ export class APIService {
           user.roleId === 4 ? temp[i].roleId = 8 : user.roleId === 5 ? temp[i].role = 9 : '';
           temp[i].pollingStationId = pollingstation.id;
           tempuser = new UserModel(temp[i]);
-          tempuser.removeKeys(['kiosks', 'roles', 'wilayat', 'pollingStation']);
+          tempuser.removeKeys(['kiosks', 'roles', 'wilayat', 'pollingStation', 'kiosksAssigned', 'governorate']);
           users.push(tempuser);
         }
       }
@@ -1164,22 +1165,28 @@ export class AuthenticationService {
   }
 
   updateUser(user: User) {
-    let tempuser = new UserModel(user);
-    tempuser.removeKeys(['kiosks', 'roles', 'wilayat', 'pollingStation', 'selected']);
-    return this.http.put<any>(`${config.apiUrl}/users/` + tempuser.id, {...tempuser})
-      .subscribe(() => {
-        return this.http.get<any>(`${config.apiUrl}/users/` + tempuser.id).subscribe((userresponse) => {
-          userresponse.token = user.token;
-          // store user details and jwt token in local storage to keep user logged in between page refreshes
-          localStorage.setItem('currentUser', JSON.stringify(userresponse));
-          this.currentUserSubject.next(new User(userresponse));
-          return userresponse;
+    const subscriberFunc = (observer) => {
+      let tempuser = new UserModel(user);
+      tempuser.removeKeys(['kiosks', 'roles', 'wilayat', 'pollingStation', 'selected']);
+      return this.http.put<any>(`${config.apiUrl}/users/` + tempuser.id, {...tempuser})
+        .subscribe(() => {
+          return this.http.get<any>(`${config.apiUrl}/users/` + tempuser.id).subscribe((userresponse) => {
+            userresponse.token = user.token;
+            // store user details and jwt token in local storage to keep user logged in between page refreshes
+            localStorage.setItem('currentUser', JSON.stringify(userresponse));
+            this.currentUserSubject.next(new User(userresponse));
+            observer.next();
+            observer.complete();
+            return userresponse;
+          });
+        }, (errors) => {
+          console.log(errors);
+          observer.error(errors);
+        }, () => {
+          console.log('completed');
         });
-      }, (errors) => {
-        console.log(errors);
-      }, () => {
-        console.log('completed');
-      });
+    };
+    return new Observable(subscriberFunc);
   }
 
   uploadImage(formdata, cb) {
@@ -1578,7 +1585,7 @@ export class AssignKiosksService {
     const subscriberFunc = (observer) => {
       if (kiosks && kiosks.kiosks) {
         this.apiService.getKiosksAssignedStatusByPollingStationId(kiosks.kiosks.pollingStationID).subscribe((success) => {
-          this.currentDataServiceSubject.value.addKiosksAssigned(success);
+          this.currentDataServiceSubject.value.addUsersAssigned(success);
           this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
           observer.next(this.currentDataServiceSubject.value);
         }, (errors) => {

@@ -93,7 +93,7 @@ export class User {
     this.wilayatCode = props.wilayatCode ? props.wilayatCode : '';
     this.commiteeType = props.commiteeType ? props.commiteeType : '';
     this.attendedAt = props.attendedAt ? props.attendedAt : '';
-    this.kioskId = props.kioskId ? props.kioskId : '';
+    this.kioskId = props.kioskId ? props.kioskId : null;
     this.governorateCode = props.governorateCode ? props.governorateCode : '';
     this.roles = new Role(props.roles ? props.roles : {});
     this.token = props.token ? props.token : '';
