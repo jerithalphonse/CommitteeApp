@@ -34,7 +34,7 @@ export class DashboardScreenPage implements OnInit {
     } else if (role && (role.name === 'wali_assistant' || role.name === 'wali_officer')) {
       this.goto('messaging');
     } else if (role.name !== 'head_committee' && role.name !== 'wali_officer' && role.name !== 'wali_assistant') {
-      this.goto('messaging/chat/allmembers');
+      this.goto('messaging/chat/toallmembers');
     }
   }
 

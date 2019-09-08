@@ -80,6 +80,10 @@
                 {{member.member.nameEnglish}}
                  <span class="ion-float-end committee-button-text-color" *ngIf="user.roles.attendanceTabReassign" (click)="reAssignUser(member, kiosk)">Re-Assign</span></span>
               </div>
+              <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast" *ngIf="kiosk.kioskassigned && kiosk.kioskassigned.length == 1">
+                <span class="ion-padding-left-20 font-size-12">NONE</span>
+                <span class="ion-float-end committee-button-text-color" *ngIf="user.roles.attendanceTabReassign" (click)="reAssignUser(null, kiosk)">Assign</span>
+              </div>
             </ion-card-content>
             <ion-card-content *ngIf="kiosk && kiosk.kioskassigned && kiosk.kioskassigned.length == 0">
               <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast">NONE <span class="ion-float-end committee-button-text-color" *ngIf="user.roles.attendanceTabReassign" (click)="assignUser(kiosk)">Assign Member</span></div>

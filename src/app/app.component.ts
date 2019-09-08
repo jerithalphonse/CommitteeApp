@@ -52,21 +52,21 @@ export class AppComponent {
 
   toggleEdit() {
     if (this.toggleedit) {
-      this.authenticationService.updateUser(this.user);
+      this.authenticationService.updateUser(this.user).subscribe(() => {});
     }
     this.toggleedit = !this.toggleedit;
   }
 
   toggleEmailEdit() {
     if (this.toggleeditemail) {
-      this.authenticationService.updateUser(this.user);
+      this.authenticationService.updateUser(this.user).subscribe(() => {});
     }
     this.toggleeditemail = !this.toggleeditemail;
   }
 
   togglePhoneEdit() {
     if (this.toggleeditmobile) {
-      this.authenticationService.updateUser(this.user);
+      this.authenticationService.updateUser(this.user).subscribe(() => {});
     }
     this.toggleeditmobile = !this.toggleeditmobile;
   }

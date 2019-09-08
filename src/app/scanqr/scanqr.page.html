@@ -43,53 +43,56 @@
         <h5 color="dark-shade" class="fontweight-medium">{{assignkiosksmodel.kiosks.serialNumber}}</h5>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="assignkiosksmodel.attendanceMarked && assignkiosksmodel.canMarkAttendance">
-      <ion-col size="12">
-        <ion-item style="height:100px">
-          Thank you {{this.user.nameEnglish}}. <br />
+    <ion-row style="margin:12% 0px 25% 0px">
+      <ion-col size="12" *ngIf="!assignkiosksmodel.userPartOfOtherPollingStation">
+        <ion-img src="/assets/main_screen/document.png" class="image-common-64 margin-auto"></ion-img>
+        <ion-item  lines="none" class="ion-text-center margin-custom-top-center" >
+          Thank you {{this.user.nameEnglish}}
+        </ion-item>
+        <ion-item lines="none" class="ion-text-center margin-custom-top-center" *ngIf="assignkiosksmodel.attendanceMarked && !assignkiosksmodel.canMarkAttendance">
           Your attendance have been marked
         </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row *ngIf="assignkiosksmodel.showAssigned">
-      <ion-col size="12">
-        <ion-item style="height:100px">
-          Thank you {{this.user.nameEnglish}}. <br />
+        <ion-item lines="none" class="ion-text-center margin-custom-top-center" *ngIf="assignkiosksmodel.showAssigned">
           The Kiosk has been assigned to you
         </ion-item>
       </ion-col>
-    </ion-row>
-    <ion-row *ngIf="assignkiosksmodel.userPartOfOtherPollingStation">
-      <ion-col size="12">
-        <ion-item style="height:100px">
-          Oh no, {{this.user.nameEnglish}}. <br />
-          You are not part of this polling station please contact your head commmittee
+      <ion-col size="12" *ngIf="assignkiosksmodel.userPartOfOtherPollingStation">
+        <ion-img src="/assets/main_screen/document.png" class="image-common-64 margin-auto"></ion-img>
+        <ion-item  lines="none" class="ion-text-center margin-custom-top-center" >
+          Hi {{this.user.nameEnglish}}
+        </ion-item>
+        <ion-item lines="none" class="ion-text-center margin-custom-top-center" *ngIf="assignkiosksmodel.userPartOfOtherPollingStation">
+          You have been assigned to a different polling station please contact your head commmittee
         </ion-item>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="assignkiosksmodel.canMarkAttendance && !assignkiosksmodel.userPartOfOtherPollingStation">
-      <ion-col size="12">
-        <ion-button size="medium" expand="block" color="success" shape="round" (click)="markAttendance()">
-          <ion-ripple-effect></ion-ripple-effect>
-          Mark Attendance
-        </ion-button>
-      </ion-col>
-    </ion-row>
-    <ion-row *ngIf="assignkiosksmodel.isSelfAssignable && !assignkiosksmodel.userPartOfOtherPollingStation">
-      <ion-col size="12">
-        <ion-button size="medium" expand="block" color="success" shape="round" (click)="selfAssignKiosks()">
-          <ion-ripple-effect></ion-ripple-effect>
-          Self Assign Kiosks
-        </ion-button>
-      </ion-col>
-    </ion-row>
-    <ion-row *ngIf="!assignkiosksmodel.isSelfAssignable">
-    <ion-col size="12">
-      <ion-button size="medium" expand="block" color="success" shape="round" (click)="goto('dashboard')">
-        <ion-ripple-effect></ion-ripple-effect>
-        Home
-      </ion-button>
-    </ion-col>
-  </ion-row>
+    <ion-grid style="position: absolute;
+    bottom: 5vh;
+    width: 100%;">
+      <ion-row *ngIf="assignkiosksmodel.canMarkAttendance && !assignkiosksmodel.userPartOfOtherPollingStation">
+        <ion-col size="12">
+          <ion-button size="medium" expand="block" color="success" shape="round" (click)="markAttendance()">
+            <ion-ripple-effect></ion-ripple-effect>
+            Mark Attendance
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="assignkiosksmodel.isSelfAssignable && !assignkiosksmodel.userPartOfOtherPollingStation">
+        <ion-col size="12">
+          <ion-button size="medium" expand="block" color="success" shape="round" (click)="selfAssignKiosks()">
+            <ion-ripple-effect></ion-ripple-effect>
+            Self Assign Kiosks
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="!assignkiosksmodel.isSelfAssignable || assignkiosksmodel.attendanceMarked">
+        <ion-col size="12">
+          <ion-button size="medium" expand="block" color="success" shape="round" (click)="goto('dashboard')">
+            <ion-ripple-effect></ion-ripple-effect>
+            Home
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-grid>
 </ion-content>
