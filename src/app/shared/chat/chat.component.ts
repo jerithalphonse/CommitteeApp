@@ -67,13 +67,15 @@ export class ChatComponent implements OnInit {
       return;
     }
     let type = null;
-    if (this.chat.chatrole === 'committeehead') {
-      type = 'committee_head_only';
-    } else if (this.chat.chatrole === 'toheadcommittee') {
+    if (this.chat.chatrole === 'towaliofficers') {
       type = 'wilayat_officer_only';
+    } else if (this.chat.chatrole === 'toheadcommittee') {
+      type = 'head_committee_only';
+    } else if (this.chat.chatrole === 'tocommitteehead') {
+      type = 'committee_head_only';
     }
 
-    this.chatService.sendMsg(this.editorMsg, this.user, null).subscribe(() => {
+    this.chatService.sendMsg(this.editorMsg, this.user, type).subscribe(() => {
       this.editorMsg = '';
       this.getMessagesByWilyatId(this.user.wilayatCode);
       this.scrollToBottom();
