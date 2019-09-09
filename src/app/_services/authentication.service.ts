@@ -147,7 +147,7 @@ export class AssignKiosksModel {
         this.showAssigned = true;
       }
     }
-    if (user && user.kiosks && user.kiosks.pollingStationID !== user.pollingStationId) {
+    if (this.kiosks && this.kiosks.pollingStationID !== user.pollingStationId) {
       // check if user if not part of this polling station
       this.userPartOfOtherPollingStation = true;
     } else {
