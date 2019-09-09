@@ -72,12 +72,16 @@ export class ChatList {
       const getMessage = (list, roleid) => {
         for (const i in list) {
           if (list && list[i] === message.To) {
-            if ((roleid === 4 || roleid === 6 || roleid === 8)) {
-              return message.CreatedBy.roles.id === 4 ? message : false;
-            } else if ((roleid === 5 || roleid === 7 || roleid === 9)) {
-              return message.CreatedBy.roles.id === 5 ? message : false;
-            } else {
+            if (message.CreatedBy && message.CreatedBy.roles && message.CreatedBy.roles.id <= 3) {
               return message;
+            } else {
+              if ((roleid === 4 || roleid === 6 || roleid === 8)) {
+                return message.CreatedBy.roles.id === 4 ? message : false;
+              } else if ((roleid === 5 || roleid === 7 || roleid === 9)) {
+                return message.CreatedBy.roles.id === 5 ? message : false;
+              } else {
+                return message;
+              }
             }
           }
         }
