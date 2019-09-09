@@ -36,7 +36,8 @@ export class SelectGovernorateComponent implements OnInit {
               public alertController: AlertController,  public navCtrl: NavController) {
     this.authenticationService.currentUser.subscribe(value => {
       this.user = value;
-      if (this.user && this.user.roles && (this.user.roles.id === 2 || this.user.roles.id === 3 || this.user.roles.id === 4 || this.user.roles.id === 5)) {
+      if (this.user && this.user.roles && (this.user.roles.name === 'wali_officer' || this.user.roles.name === 'wali_assistant' ||
+        this.user.roles.name === 'committee_head_voting' || this.user.roles.name === 'committee_head_counting')) {
         this.dataService.getGovernates();
         this.dataService.setGovernate(this.user.governorate);
         this.dataService.getWilayatFromGovernorateId(this.user.governorate);
@@ -44,7 +45,7 @@ export class SelectGovernorateComponent implements OnInit {
         this.dataService.getPollingStationForWilayatId(this.user.wilayat, {});
         this.readonly_view.governorate = true;
         this.readonly_view.wilayat = true;
-      } else if (this.user && this.user.roles && this.user.roles.id === 1) {
+      } else if (this.user && this.user.roles && this.user.roles.name === 'head_committee') {
         this.dataService.getGovernates();
       }
     });

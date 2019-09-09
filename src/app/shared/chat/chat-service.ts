@@ -39,43 +39,52 @@ export class ChatList {
 
   public initMessage(data, user: User) {
     const viewtypes = {
-      1: {
+      head_committee: {
         readonly: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'wilayat_officer_only', 'committee_head_only', 'head_committee_only'],
         toallmembers: ['head_committee', 'wilayat_officer', 'wilayat_assistant'],
         towaliofficers: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'wilayat_officer_only'],
         tocommitteehead: ['head_committee', 'committee_head_only'],
-      }, 2: {
+      }, wali_officer: {
         readonly: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'wilayat_officer_only'],
         toallmembers: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head'],
         toheadcommittee: ['head_committee', 'head_committee_only', 'wilayat_officer_only'],
-      }, 3: {
+      }, wali_assistant: {
         readonly: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'wilayat_officer_only'],
         toallmembers: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head'],
         toheadcommittee: ['head_committee', 'wilayat_officer_only', 'head_committee_only'],
-      }, 4: {
+      }, committee_head_voting: {
         readonly: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head', 'committee_head_only'],
         toallmembers: ['committee_head']
-      }, 5: {
+      }, committee_head_counting: {
         readonly: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head', 'committee_head_only'],
         toallmembers: ['committee_head']
-      }, 6: {
+      }, polling_station_supervisor_voting: {
         readonly: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head']
-      }, 7: {
+      }, polling_station_supervisor_counting: {
         readonly: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head']
-      }, 8: {
+      }, committee_member_voting: {
         readonly: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head']
-      }, 9: {
+      }, committee_member_counting: {
         readonly: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head']
-      },
+      }, committee_head_organizing: {
+        readonly: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head', 'committee_head_only'],
+        toallmembers: ['committee_head']
+      }, polling_station_supervisor_organizing: {
+        readonly: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head']
+      }, committee_member_organizing: {
+        readonly: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head']
+      }
     };
     const decider = (message) => {
-      const getMessage = (list, roleid) => {
+      const getMessage = (list, rolename) => {
         for (const i in list) {
           if (list && list[i] === message.To) {
-            if ((roleid === 4 || roleid === 6 || roleid === 8)) {
-              return message.CreatedBy.roles.id === 4 ? message : false;
-            } else if ((roleid === 5 || roleid === 7 || roleid === 9)) {
-              return message.CreatedBy.roles.id === 5 ? message : false;
+            if ((rolename === 'committee_head_voting' || rolename === 'polling_station_supervisor_voting' || rolename === 'committee_member_voting')) {
+              return message.CreatedBy.roles.name === 'committee_head_voting' ? message : false;
+            } else if ((rolename === 'committee_head_counting' || rolename === 'polling_station_supervisor_counting' || rolename === 'committee_member_counting')) {
+              return message.CreatedBy.roles.name === 'committee_head_counting' ? message : false;
+            } else if ((rolename === 'committee_head_organizing' || rolename === 'polling_station_supervisor_organizing' || rolename === 'committee_member_organizing')) {
+              return message.CreatedBy.roles.name === 'committee_head_organizing' ? message : false;
             } else {
               return message;
             }
@@ -83,51 +92,21 @@ export class ChatList {
         }
         return false;
       };
-      if (user && user.roles && user.roles.id) {
-        const temp = viewtypes[user.roles.id];
+      if (user && user.roles && user.roles.name) {
+        const temp = viewtypes[user.roles.name];
         if (temp && this.chatrole === 'toallmembers') {
-          return getMessage(temp[this.chatrole], user.roles.id);
+          return getMessage(temp[this.chatrole], user.roles.name);
         } else if (temp && this.chatrole === 'towaliofficers') {
-          return getMessage(temp[this.chatrole], user.roles.id);
+          return getMessage(temp[this.chatrole], user.roles.name);
         } else if (temp && this.chatrole === 'toheadcommittee') {
-          return getMessage(temp[this.chatrole], user.roles.id);
+          return getMessage(temp[this.chatrole], user.roles.name);
         } else if (temp && this.chatrole === 'tocommitteehead') {
-          return getMessage(temp[this.chatrole], user.roles.id);
+          return getMessage(temp[this.chatrole], user.roles.name);
         } else if (temp && this.chatrole === 'readonly') {
-          return getMessage(temp[this.chatrole], user.roles.id);
+          return getMessage(temp[this.chatrole], user.roles.name);
         }
         return false;
       }
-      // if (user && user.roles.id === 1 && (message.To === 'wilayat_officer' || message.To === 'head_committee')) {
-      //   return message;
-      // } else if (user && user.roles.id === 2 && (message.To === 'wilayat_officer' || message.To === 'head_committee' ||
-      //   message.To === 'committee_head' || message.To === 'wilayat_officer_only')) {
-      //   return message;
-      // } else if (user && user.roles.id === 3 && (message.To === 'wilayat_officer' || message.To === 'head_committee' ||
-      //   message.To === 'committee_head' || message.To === 'wilayat_officer_only')) {
-      //   return message;
-      // } else if (user && user.roles.id === 4 && (message.To === 'wilayat_officer' || message.To === 'head_committee' ||
-      //   message.To === 'committee_head_only' ||
-      //   (message.To === 'committee_head' && message.CreatedBy.roles.id === 4) || (message.To === 'team_members_voting' &&
-      //     (message.CreatedBy.roles.id === 6 || message.CreatedBy.roles.id === 8)))) {
-      //   return message;
-      // } else if (user && user.roles.id === 5 && (message.To === 'wilayat_officer' || message.To === 'head_committee' ||
-      //   message.To === 'committee_head_only' ||
-      //   (message.To === 'committee_head' && message.CreatedBy.roles.id === 5) || (message.To === 'team_members_organizing_counting' && (message.CreatedBy.roles.id === 7 || message.CreatedBy.roles.id === 9)))) {
-      //   return message;
-      // } else if (user && user.roles.id === 6 && (message.To === 'wilayat_officer' || message.To === 'head_committee' ||
-      //   (message.To === 'committee_head' && message.CreatedBy.roles.id === 4) || (message.To === 'team_members_voting' && (message.CreatedBy.roles.id === 6 || message.CreatedBy.roles.id === 8)))) {
-      //   return message;
-      // } else if (user && user.roles.id === 7 && (message.To === 'wilayat_officer' || message.To === 'head_committee' ||
-      //   (message.To === 'committee_head' && message.CreatedBy.roles.id === 5) || (message.To === 'team_members_organizing_counting' && (message.CreatedBy.roles.id === 7 || message.CreatedBy.roles.id === 9)))) {
-      //   return message;
-      // } else if (user && user.roles.id === 8 && (message.To === 'wilayat_officer' || message.To === 'head_committee' ||
-      //   (message.To === 'committee_head' && message.CreatedBy.roles.id === 4) || (message.To === 'team_members_voting' && (message.CreatedBy.roles.id === 6 || message.CreatedBy.roles.id === 8)))) {
-      //   return message;
-      // } else if (user && user.roles.id === 9 && (message.To === 'wilayat_officer' || message.To === 'head_committee' ||
-      //   (message.To === 'committee_head' && message.CreatedBy.roles.id === 5) || (message.To === 'team_members_organizing_counting' && (message.CreatedBy.roles.id === 7 || message.CreatedBy.roles.id === 9)))) {
-      // }
-      // return false;
     };
     this.allmessages = [];
     for (const i in data) {

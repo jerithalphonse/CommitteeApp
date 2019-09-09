@@ -189,6 +189,7 @@ export class UserModel extends User {
 export class AssignPollingStationModel {
   public users: Array<UserModel> = [];
   public nonsupervisorusers: Array<UserModel> = [];
+  public nonsupervisorusersorginal = {};
   public supervisor: UserModel;
 
   constructor(props) {
@@ -212,6 +213,7 @@ export class AssignPollingStationModel {
     for (const i in this.users) {
       if (this.users && this.users[i] && this.supervisor && this.users[i].username !== this.supervisor.username) {
         this.nonsupervisorusers.push(this.users[i]);
+        this.nonsupervisorusersorginal[this.users[i].id] = new UserModel(this.users[i]);
       }
     }
   }
@@ -233,7 +235,12 @@ export class AssignPollingStationModel {
   getSelectedMembers() {
     let selectedusers = [];
     for (const i in this.nonsupervisorusers) {
-      if (this.nonsupervisorusers[i] && this.nonsupervisorusers[i].selected) {
+      if (this.nonsupervisorusers[i] && this.nonsupervisorusers[i].selected && this.nonsupervisorusersorginal) {
+        // check if the nonsupervisoruser is previously selected
+        let temp = this.nonsupervisorusersorginal[this.nonsupervisorusers[i].id];
+        if (temp && temp.selected) {
+
+        }
         selectedusers.push(this.nonsupervisorusers[i]);
       }
     }
@@ -315,10 +322,15 @@ export class AttendanceStatusModel {
       let users = [];
       for (const i in pollingStationinfo.users) {
         if (pollingStationinfo.users[i] && pollingStationinfo.users[i].roles) {
-          const id = pollingStationinfo.users[i].roles.id;
-          if ((id === 4 || id === 6 || id === 8) && type === 'voting') {
+          const name = pollingStationinfo.users[i].roles.name;
+          if ((name === 'committee_head_voting' || name === 'polling_station_supervisor_voting' ||
+            name === 'committee_member_voting') && type === 'voting') {
             filterAssigned(assigned, pollingStationinfo, i);
-          } else if ((id === 5 || id === 7 || id === 9) && type === 'counting') {
+          } else if ((name === 'committee_head_counting' || name === 'polling_station_supervisor_counting' ||
+            name === 'committee_member_counting') && type === 'counting') {
+            filterAssigned(assigned, pollingStationinfo, i);
+          } else if ((name === 'committee_head_organizing' || name === 'polling_station_supervisor_organizing' ||
+            name === 'committee_member_organizing') && type === 'organizing') {
             filterAssigned(assigned, pollingStationinfo, i);
           }
         }
@@ -558,10 +570,17 @@ export class KiosksModel {
     this.users = [];
     for (const i in users) {
       if (users[i] && users[i].roles) {
-        const id = users[i].roles.id;
-        if ((id === 4 || id === 6 || id === 8) && (user.roles.id === 4 || user.roles.id === 6)) {
+        const name = users[i].roles.name;
+        if ((name === 'committee_head_voting' || name === 'polling_station_supervisor_voting' || name === 'committee_member_voting') &&
+          (user.roles.name === 'committee_head_voting' || user.roles.name === 'polling_station_supervisor_voting')) {
           this.users.push(new UserModel(users[i]));
-        } else if ((id === 5 || id === 7 || id === 9) && (user.roles.id === 5 || user.roles.id === 7)) {
+        } else if ((name === 'committee_head_counting' || name === 'polling_station_supervisor_counting' ||
+          name === 'committee_member_counting') && (user.roles.name === 'committee_head_counting' ||
+          user.roles.name === 'polling_station_supervisor_counting')) {
+          this.users.push(new UserModel(users[i]));
+        } else if ((name === 'committee_head_organizing' || name === 'polling_station_supervisor_organizing' ||
+          name === 'committee_member_organizing') && (user.roles.name === 'committee_head_organizing' ||
+          user.roles.name === 'polling_station_supervisor_organizing')) {
           this.users.push(new UserModel(users[i]));
         }
       }
@@ -827,11 +846,14 @@ export class APIService {
           // check if user is already assigned
           if (usersfetched[i] && usersfetched[i].pollingStation && usersfetched[i].pollingStation.id) {
             if (usersfetched[i] && usersfetched[i].pollingStation && usersfetched[i].pollingStation.id &&
-              (usersfetched[i].roleId === 7 || usersfetched[i].roleId === 6)) {
-              if (user.roles && user.roles.id === 4 && usersfetched[i].roleId === 6 && pollingStation.id === usersfetched[i].pollingStation.id) {
+              (usersfetched[i].roleId === 7 || usersfetched[i].roleId === 6 || usersfetched[i].roleId === 1003)) {
+              if (user.roles && user.roles.name === 'committee_head_voting' && usersfetched[i].roleId === 6 && pollingStation.id === usersfetched[i].pollingStation.id) {
                 usersfetched[i].selected = true;
                 supervisor = usersfetched[i];
-              } else if (user.roles && user.roles.id === 5 && usersfetched[i].roleId === 7 && pollingStation.id === usersfetched[i].pollingStation.id) {
+              } else if (user.roles && user.roles.name === 'committee_head_counting ' && usersfetched[i].roleId === 7 && pollingStation.id === usersfetched[i].pollingStation.id) {
+                usersfetched[i].selected = true;
+                supervisor = usersfetched[i];
+              } else if (user.roles && user.roles.name === 'committee_head_organizing ' && usersfetched[i].roleId === 1002 && pollingStation.id === usersfetched[i].pollingStation.id) {
                 usersfetched[i].selected = true;
                 supervisor = usersfetched[i];
               }
@@ -839,7 +861,14 @@ export class APIService {
               usersfetched[i].selected = true;
             }
           }
-          tempusers.push(usersfetched[i]);
+          // seggregate to committees
+          if (user.roles.name === 'committee_head_voting' && (usersfetched[i].roleId === 6 || usersfetched[i].roleId === 8)) {
+            tempusers.push(usersfetched[i]);
+          } else if (user.roles.name === 'committee_head_counting' && (usersfetched[i].roleId === 7 || usersfetched[i].roleId === 9)) {
+            tempusers.push(usersfetched[i]);
+          } else if (user.roles.name === 'committee_head_organizing' && (usersfetched[i].roleId === 1003 || usersfetched[i].roleId === 1004)) {
+            tempusers.push(usersfetched[i]);
+          }
         }
       }
       return {

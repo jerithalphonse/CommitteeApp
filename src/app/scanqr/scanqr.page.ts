@@ -89,6 +89,7 @@ export class ScanQrPage {
       data.canCurrentUserSelfAssignForKiosks(this.user);
     };
     this.assignkiosksservice.getKiosksById(this.scandata).subscribe(success => {
+      alert(JSON.stringify(success));
       this.assignkiosksservice.getUsersAssignedToPollingStation(success).subscribe(data => {
         validateTheUserScannedData(data);
       }, errors => {
