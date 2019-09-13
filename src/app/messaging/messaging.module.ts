@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import {MessagingPage} from './messaging.page';
 import {SharedModule} from '../shared/shared.module';
 import {ChatComponent} from '../shared/chat/chat.component';
+import {TranslateModule} from '@ngx-translate/core';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import {ChatComponent} from '../shared/chat/chat.component';
     FormsModule,
     IonicModule,
     SharedModule,
+    TranslateModule,
     RouterModule.forChild([
       {
         path: '',

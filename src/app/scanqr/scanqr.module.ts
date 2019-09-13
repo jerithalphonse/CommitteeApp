@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 
 import {ScanQrPage} from './scanqr.page';
 import {SharedModule} from '../shared/shared.module';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import {SharedModule} from '../shared/shared.module';
     FormsModule,
     IonicModule,
     SharedModule,
+    TranslateModule,
     RouterModule.forChild([
       {
         path: '',

@@ -8,6 +8,7 @@ import {AttendancePage} from './attendance.page';
 import {SharedModule} from '../shared/shared.module';
 import {AttendanceStatusPage} from './attendance.status.page';
 import {AttendancelistPage} from './attendancelist.page';
+import {TranslateModule} from '@ngx-translate/core';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import {AttendancelistPage} from './attendancelist.page';
     FormsModule,
     IonicModule,
     SharedModule,
+    TranslateModule,
     RouterModule.forChild([
       {
         path: '',

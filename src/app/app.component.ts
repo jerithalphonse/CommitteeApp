@@ -6,7 +6,10 @@ import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {AuthenticationService} from './_services/authentication.service';
 import {User} from './_models';
 import * as firebase from 'firebase';
-
+import {LanguageService} from './_services/language.service';
+import { PopoverController, AlertController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
+import {LanguagePopoverPage} from './shared/language.popover.page';
 const config = {
   apiKey: 'AIzaSyDHhSWHdykCVNwmpJxGIpwZ-Dk4Crofo7I',
   authDomain: 'imtac-sample.firebaseapp.com',
@@ -33,7 +36,9 @@ export class AppComponent {
     private statusBar: StatusBar,
     private authenticationService: AuthenticationService,
     public navCtrl: NavController,
-    public loadingCtrl: LoadingController) {
+    public loadingCtrl: LoadingController,
+    private languageService: LanguageService,
+    private translate: TranslateService, private popoverCtrl: PopoverController, private alertCtrl: AlertController) {
     this.initializeApp();
   }
 
@@ -48,6 +53,7 @@ export class AppComponent {
       });
     });
     firebase.initializeApp(config);
+    this.languageService.setInitialAppLanguage();
   }
 
   toggleEdit() {
@@ -103,5 +109,21 @@ export class AppComponent {
       res.present();
       authFunc(res);
     });
+  }
+  async showAlert() {
+    const alert = await this.alertCtrl.create({
+      header: this.translate.instant('ALERT.header'),
+      message: this.translate.instant('ALERT.msg'),
+      buttons: ['OK']
+    });
+    alert.present();
+  }
+
+  async openLanguagePopover(ev) {
+    const popover = await this.popoverCtrl.create({
+      component: LanguagePopoverPage,
+      event: ev
+    });
+    await popover.present();
   }
 }

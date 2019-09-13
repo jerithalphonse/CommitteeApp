@@ -3,8 +3,8 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="dashboard"></ion-back-button>
     </ion-buttons>
-    <ion-title class="back-button-icon-left" *ngIf="chat.chatrole !== 'readonly'">Send Message</ion-title>
-    <ion-title class="back-button-icon-left" *ngIf="chat.chatrole === 'readonly'">Check Messages</ion-title>
+    <ion-title class="back-button-icon-left" *ngIf="chat.chatrole !== 'readonly'" [translate]="'messages.send'"></ion-title>
+    <ion-title class="back-button-icon-left" *ngIf="chat.chatrole === 'readonly'" [translate]="'messages.check'"></ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>

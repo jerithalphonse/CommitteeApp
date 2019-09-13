@@ -5,18 +5,34 @@ import {IonicModule} from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 
+import { IonicStorageModule } from '@ionic/storage';
+import { HttpClient } from '@angular/common/http';
+import { TranslateModule} from '@ngx-translate/core';
+import { TranslateHttpLoader} from '@ngx-translate/http-loader';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
+}
+
 import { SelectGovernorateComponent } from './selectgovernorate';
 import {ChatService} from './chat/chat-service';
 import {ChatComponent, DateConvert} from './chat/chat.component';
+import {LanguagePopoverPage} from './language.popover.page';
+import {LanguageService} from '../_services/language.service';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule
+    IonicModule,
+    IonicStorageModule.forRoot(),
+    TranslateModule
   ],
-  declarations: [SelectGovernorateComponent, ChatComponent, DateConvert],
+  entryComponents: [LanguagePopoverPage],
+  declarations: [SelectGovernorateComponent, ChatComponent, DateConvert, LanguagePopoverPage],
   exports: [
-    SelectGovernorateComponent
-  ], providers: [PhotoViewer, ChatService]
+    SelectGovernorateComponent,
+    LanguagePopoverPage,
+    TranslateModule
+  ], providers: [PhotoViewer, ChatService, LanguageService]
 })
 export class SharedModule {}

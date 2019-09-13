@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="dashboard"></ion-back-button>
     </ion-buttons>
-    <ion-title class="back-button-icon-left"> Kiosk Status</ion-title>
+    <ion-title class="back-button-icon-left" [translate]="'kiosks.title'"></ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -12,7 +12,7 @@
     <ion-row *ngIf="!user.roles.directionsTab">
       <ion-col size="1"></ion-col>
       <ion-col size="11">
-        <h5 color="dark-shade" class="fontweight-medium">Please select the following fields to check the kiosks status</h5>
+        <h5 color="dark-shade" class="fontweight-medium" [translate]="'kiosks.status_check'"></h5>
       </ion-col>
     </ion-row>
     <ion-row>
@@ -27,7 +27,7 @@
                               [disabled]="!(kiosksmodel.governorate && kiosksmodel.governorate.name
                     && kiosksmodel.wilayat && kiosksmodel.wilayat.name)">
                     <ion-ripple-effect></ion-ripple-effect>
-                    View Status
+                    <span [translate]="'common.viewstatus'"></span>
                   </ion-button>
                 </ion-col>
               </ion-row>

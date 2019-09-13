@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="kiosk"></ion-back-button>
     </ion-buttons>
-    <ion-title class="back-button-icon-left">Assign Kiosk</ion-title>
+    <ion-title class="back-button-icon-left" [translate]="'kiosks_assign.title'"></ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -12,7 +12,7 @@
     <ion-row>
       <ion-col size="1"></ion-col>
       <ion-col size="11">
-        <span color="dark-shade" class="fontweight-medium">Polling Station*</span>
+        <span color="dark-shade" class="fontweight-medium" [translate]="'common.polling_station_star'"></span>
       </ion-col>
       <ion-col size="1"></ion-col>
       <ion-col size="11">
@@ -30,13 +30,13 @@
     <ion-row>
       <ion-col size="1"></ion-col>
       <ion-col size="11">
-        <h6>Please choose the user for the selected kiosk</h6>
+        <h6 [translate]="'kiosks_assign.subtext'"></h6>
       </ion-col>
       <ion-col size="12">
         <ion-list lines="none">
           <ion-radio-group>
             <ion-list-header>
-              Select User*
+              <span [translate]="'kiosks_assign.selectuser'"></span>
             </ion-list-header>
             <ion-item *ngFor="let data of kiosksmodel.users">
               <ion-label>{{data.nameEnglish}}</ion-label>
@@ -49,7 +49,7 @@
         <ion-button size="medium" expand="block" color="success" shape="round" (click)="submit()"
                     [disabled]="!(kiosksmodel.user && kiosksmodel.user.id)">
           <ion-ripple-effect></ion-ripple-effect>
-         Assign Kiosks
+         <span [translate]="'kiosks_assign.title_button'"></span>
         </ion-button>
       </ion-col>
     </ion-row>

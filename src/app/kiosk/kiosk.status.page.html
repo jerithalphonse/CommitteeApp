@@ -1,11 +1,11 @@
 <ion-tabs *ngIf="this.kiosksmodel.currentTab === 'voting'">
   <ion-tab-bar slot="bottom">
     <ion-tab-button tab="assigned" (click)="changeTab('assigned')">
-      <ion-label>Assigned</ion-label>
+      <ion-label ><span [translate]="'common.assigned'"></span></ion-label>
     </ion-tab-button>
 
     <ion-tab-button tab="unassigned" (click)="changeTab('unassigned')">
-      <ion-label>Un-Assigned</ion-label>
+      <ion-label><span [translate]="'common.unassigned'"></span></ion-label>
     </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>

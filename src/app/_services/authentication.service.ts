@@ -44,7 +44,7 @@ export class Witness {
 }
 
 export class WitnessStatusModel {
-  public pollingstations: Array<{ name: string, witness: Array<Witness> }> = [];
+  public pollingstations: Array<{ name: string, arabicName: string, witness: Array<Witness> }> = [];
 
   constructor(props) {
 
@@ -54,7 +54,7 @@ export class WitnessStatusModel {
     this.pollingstations = [];
     for (const i in pollingstations) {
       if (pollingstations[i]) {
-        this.pollingstations.push({name: pollingstations[i].name, witness: []});
+        this.pollingstations.push({name: pollingstations[i].name, arabicName: pollingstations[i].arabicName, witness: []});
       }
     }
   }
@@ -254,8 +254,8 @@ export class AssignPollingStationModel {
 
 export class AttendanceStatusModel {
   public users: Array<User> = [];
-  public pollingstationsAll: Array<{ name: string, users: Array<UserModel> }> = [];
-  public pollingstations: Array<{ name: string, users: Array<UserModel> }> = [];
+  public pollingstationsAll: Array<{ name: string, arabicName: string, users: Array<UserModel> }> = [];
+  public pollingstations: Array<{ name: string, arabicName: string, users: Array<UserModel> }> = [];
   public attendanceStatus: any = {total: 0, present: 0, absent: 0};
 
   public selectedUser: User;
@@ -271,8 +271,8 @@ export class AttendanceStatusModel {
     this.pollingstationsAll = [];
     for (const i in pollingstations) {
       if (pollingstations[i]) {
-        this.pollingstations.push({name: pollingstations[i].name, users: []});
-        this.pollingstationsAll.push({name: pollingstations[i].name, users: []});
+        this.pollingstations.push({name: pollingstations[i].name, arabicName: pollingstations[i].arabicName, users: []});
+        this.pollingstationsAll.push({name: pollingstations[i].name, arabicName: pollingstations[i].arabicName, users: []});
       }
     }
   }
@@ -914,8 +914,8 @@ export class KiosksStatusModel {
     this.pollingstationsAll = [];
     for (const i in pollingstations) {
       if (pollingstations[i] && pollingstations[i].id) {
-        this.pollingstations.push({name: pollingstations[i].name, kiosks: []});
-        this.pollingstationsAll.push({name: pollingstations[i].name, kiosks: []});
+        this.pollingstations.push({name: pollingstations[i].name, arabicName: pollingstations[i].arabicName, kiosks: []});
+        this.pollingstationsAll.push({name: pollingstations[i].name, arabicName: pollingstations[i].arabicName, kiosks: []});
       }
     }
   }

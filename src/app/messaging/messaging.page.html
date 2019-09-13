@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="dashboard"></ion-back-button>
     </ion-buttons>
-    <ion-title class="back-button-icon-left">Send Message</ion-title>
+    <ion-title class="back-button-icon-left" [translate]="'messages.send'"></ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -12,7 +12,7 @@
     <ion-row>
       <ion-col size="1"></ion-col>
       <ion-col size="11">
-        <h5 color="dark-shade" class="fontweight-medium">Please select the options to send messages</h5>
+        <h5 color="dark-shade" class="fontweight-medium" [translate]="'messages.choose'"></h5>
       </ion-col>
     </ion-row>
     <ion-row>
@@ -23,8 +23,8 @@
             <ion-grid>
               <ion-row class="ion-padding-bottom">
                 <ion-col size="12" class="ion-padding-left-16">
-                  <h4 class="line-height-point6">All Members</h4>
-                  <div class="ion-padding-right-24">Send messsage to all team members</div>
+                  <h4 class="line-height-point6" [translate]="'messages.all'"></h4>
+                  <div class="ion-padding-right-24" [translate]="'messages.allteam'"></div>
                   <ion-icon name="arrow-forward" item-right class="message-page-card-icon-right font-size-32"></ion-icon>
                 </ion-col>
               </ion-row>
@@ -35,8 +35,8 @@
             <ion-grid>
               <ion-row class="ion-padding-bottom">
                 <ion-col size="12" class="ion-padding-left-16">
-                  <h4 class="line-height-point6">Committee Head</h4>
-                  <div class="ion-padding-right-24">Send message to all committee heads</div>
+                  <h4 class="line-height-point6" [translate]="'messages.committee_head'"></h4>
+                  <div class="ion-padding-right-24" [translate]="'messages.committee_head'"></div>
                   <ion-icon name="arrow-forward" item-right class="message-page-card-icon-right font-size-32"></ion-icon>
                 </ion-col>
               </ion-row>
@@ -47,8 +47,8 @@
             <ion-grid>
               <ion-row class="ion-padding-bottom">
                 <ion-col size="12" class="ion-padding-left-16">
-                  <h4 class="line-height-point6">Head Committee</h4>
-                  <div class="ion-padding-right-24">Send message to head committee</div>
+                  <h4 class="line-height-point6" [translate]="'messages.head_committee'"></h4>
+                  <div class="ion-padding-right-24" [translate]="'messages.head_committee_message'"></div>
                   <ion-icon name="arrow-forward" item-right class="message-page-card-icon-right font-size-32"></ion-icon>
                 </ion-col>
               </ion-row>
@@ -59,8 +59,8 @@
             <ion-grid>
               <ion-row class="ion-padding-bottom">
                 <ion-col size="12" class="ion-padding-left-16">
-                  <h4 class="line-height-point6">Wali Officer</h4>
-                  <div class="ion-padding-right-24">Send message to all wali officer's</div>
+                  <h4 class="line-height-point6" [translate]="'messages.wali_officer'"></h4>
+                  <div class="ion-padding-right-24" [translate]="'messages.wali_officer_message'"></div>
                   <ion-icon name="arrow-forward" item-right class="message-page-card-icon-right font-size-32"></ion-icon>
                 </ion-col>
               </ion-row>
@@ -71,8 +71,8 @@
             <ion-grid>
               <ion-row class="ion-padding-bottom">
                 <ion-col size="12" class="ion-padding-left-16">
-                  <h4 class="line-height-point6">Restrict Message</h4>
-                  <div class="ion-padding-right-24">Restrict wali officer's to reply back <ion-toggle color="success" class="message-restrict-icon"></ion-toggle></div>
+                  <h4 class="line-height-point6" [translate]="'messages.restrict_message'"></h4>
+                  <div class="ion-padding-right-24" [translate]="'messages.restrict_message_text'"><ion-toggle color="success" class="message-restrict-icon"></ion-toggle></div>
                 </ion-col>
               </ion-row>
             </ion-grid>

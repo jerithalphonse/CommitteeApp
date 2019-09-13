@@ -8,7 +8,7 @@
         <span class="header-white-moilogo"></span>
       </ion-button>
     </ion-buttons>
-    <ion-title> Al-Shura Elections</ion-title>
+    <ion-title [translate]="'dashboard.greeting'"></ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="goto('messaging/chat/readonly')">
         <span class="header-white-message"></span>
@@ -22,7 +22,7 @@
     <ion-row *ngIf="!(user && user.roles && user.roles.directionsTab)">
       <ion-col size="1"></ion-col>
       <ion-col size="11">
-        <h1>{{user && user.roles && user.roles.sudoname ? user.roles.sudoname : "" }}</h1>
+        <h1 *ngIf="user && user.roles && user.roles.name" [translate]="'dashboard.'+user.roles.name"></h1>
       </ion-col>
     </ion-row>
     <ion-row>
@@ -30,16 +30,16 @@
         <ion-list lines="none">
           <ion-card *ngIf="(user && user.roles && user.roles.directionsTab)">
             <ion-card-header>
-              <h4>Hi!</h4>
-              <h6 *ngIf="user && user.roles && (user.roles.name === 'polling_station_supervisor_voting' || user.roles.name === 'polling_station_supervisor_couting_organizing')">You have been assigned as a supervisor for the following polling station</h6>
-              <h6 *ngIf="user && user.roles && (user.roles.name === 'committee_member_voting' || user.roles.name === 'committee_member_counting_organizing')">You have been assigned to the following polling station</h6>
-              <span>Polling station</span>
+              <h4 [translate]="'dashboard.greeting_sub'"></h4>
+              <h6 *ngIf="user && user.roles && (user.roles.name === 'polling_station_supervisor_voting' || user.roles.name === 'polling_station_supervisor_couting_organizing')" [translate]="'dashboard.supervisor_assignedtext'"></h6>
+              <h6 *ngIf="user && user.roles && (user.roles.name === 'committee_member_voting' || user.roles.name === 'committee_member_counting_organizing')" [translate]="'dashboard.supervisor_assignedtext_detail'"></h6>
+              <span [translate]="'common.polling_station'"></span>
               <h4 color="dark-shade">{{user.pollingStation.name}}</h4>
             </ion-card-header>
             <ion-card-content>
               <ion-button expand="block" color="success" shape="round" size="medium" (click)="openNavigation(user.pollingStation)">
                 <ion-ripple-effect></ion-ripple-effect>
-                Get Directions
+                <span [translate]="'common.get_directions'"></span>
               </ion-button>
             </ion-card-content>
           </ion-card>
@@ -51,8 +51,8 @@
                   <ion-img src="/assets/main_screen/kiosk.png" class="image-common-64"></ion-img>
                 </ion-col>
                 <ion-col size="9" class="ion-padding-left-5">
-                  <h4 class="line-height-point6">Kiosks status</h4>
-                  <div class="ion-padding-right-24">Check the status for all the deployed kiosks</div>
+                  <h4 class="line-height-point6" [translate]="'dashboard.kiosksstatus'"></h4>
+                  <div class="ion-padding-right-24" [translate]="'dashboard.kiosksstatus_deployedtext'"></div>
                   <ion-icon name="arrow-forward" item-right class="home-page-card-icon-right"></ion-icon>
                 </ion-col>
               </ion-row>
@@ -66,8 +66,8 @@
                   <ion-img src="/assets/main_screen/attendance.png" class="image-common-64"></ion-img>
                 </ion-col>
                 <ion-col size="9">
-                  <h4 class="line-height-point6">Attendance</h4>
-                  <div class="ion-padding-right-24">Check attendance for all the committee members</div>
+                  <h4 class="line-height-point6" [translate]="'dashboard.attendance'">Attendance</h4>
+                  <div class="ion-padding-right-24" [translate]="'dashboard.attendance_text'">Check attendance for all the committee members</div>
                   <ion-icon name="arrow-forward" item-right class="home-page-card-icon-right"></ion-icon>
                 </ion-col>
               </ion-row>
@@ -81,8 +81,8 @@
                   <ion-img src="/assets/main_screen/attendance.png" class="image-common-64"></ion-img>
                 </ion-col>
                 <ion-col size="9">
-                  <h4 class="line-height-point6">Assign Polling Station</h4>
-                  <div class="ion-padding-right-24">Assign members & supervisor for polling station</div>
+                  <h4 class="line-height-point6" [translate]="'dashboard.pollingstation'">Assign Polling Station</h4>
+                  <div class="ion-padding-right-24" [translate]="'dashboard.pollingstation_text'">Assign members & supervisor for polling station</div>
                   <ion-icon name="arrow-forward" item-right class="home-page-card-icon-right"></ion-icon>
                 </ion-col>
               </ion-row>
@@ -96,8 +96,8 @@
                   <ion-img src="/assets/main_screen/witness.png" class="image-common-64"></ion-img>
                 </ion-col>
                 <ion-col size="9">
-                  <h4 class="line-height-point6">Witness ID</h4>
-                  <div class="ion-padding-right-24">Add or Check Witness ID present at the opening</div>
+                  <h4 class="line-height-point6" [translate]="'dashboard.witnessid'"></h4>
+                  <div class="ion-padding-right-24" [translate]="'dashboard.witnessid_text'"></div>
                   <ion-icon name="arrow-forward" item-right class="home-page-card-icon-right"></ion-icon>
                 </ion-col>
               </ion-row>
@@ -111,10 +111,10 @@
                   <ion-img src="/assets/main_screen/message.png" class="image-common-64"></ion-img>
                 </ion-col>
                 <ion-col size="9">
-                  <h4 class="line-height-point6">Message</h4>
-                  <div class="ion-padding-right-24" *ngIf="user.roles.name === 'head_committee'">Send message to all members, wali officers</div>
-                  <div class="ion-padding-right-24" *ngIf="user.roles.name === 'wali_assistant' || user.roles.name === 'wali_officer'">Send message to all members, Head committee</div>
-                  <div class="ion-padding-right-24" *ngIf="user.roles.name !== 'head_committee' && user.roles.name !== 'wali_officer' && user.roles.name !== 'wali_assistant'">Send message to all team members</div>
+                  <h4 class="line-height-point6" [translate]="'dashboard.message'"></h4>
+                  <div class="ion-padding-right-24" *ngIf="user.roles.name === 'head_committee'" [translate]="'dashboard.sendmessagetoall'"></div>
+                  <div class="ion-padding-right-24" *ngIf="user.roles.name === 'wali_assistant' || user.roles.name === 'wali_officer'" [translate]="'dashboard.sendmessagetohead'"></div>
+                  <div class="ion-padding-right-24" *ngIf="user.roles.name !== 'head_committee' && user.roles.name !== 'wali_officer' && user.roles.name !== 'wali_assistant'" [translate]="'dashboard.sendmessagetoteam'"></div>
                   <ion-icon name="arrow-forward" item-right class="home-page-card-icon-right"></ion-icon>
                 </ion-col>
               </ion-row>
@@ -127,8 +127,8 @@
                   <ion-img src="/assets/main_screen/message.png" class="image-common-64"></ion-img>
                 </ion-col>
                 <ion-col size="9">
-                  <h4 class="line-height-point6">Check Message</h4>
-                  <div class="ion-padding-right-24">Check messages send by our committee head</div>
+                  <h4 class="line-height-point6" [translate]="'dashboard.checkmessage'"></h4>
+                  <div class="ion-padding-right-24" [translate]="'dashboard.checkmessage_committeehead'"></div>
                   <ion-icon name="arrow-forward" item-right class="home-page-card-icon-right"></ion-icon>
                 </ion-col>
               </ion-row>
@@ -142,9 +142,9 @@
                   <ion-img src="/assets/main_screen/scan_qr.png" class="image-common-64"></ion-img>
                 </ion-col>
                 <ion-col size="9">
-                  <h4 class="line-height-point6">Scan QR Code</h4>
-                  <div class="ion-padding-right-24" *ngIf="user.roles.scanQrTabSelfAssignKiosks">Scan to mark attendance or self assign kiosk</div>
-                  <div class="ion-padding-right-24" *ngIf="!user.roles.scanQrTabSelfAssignKiosks">Scan QR code to mark your attendance</div>
+                  <h4 class="line-height-point6" [translate]="'dashboard.scanqr'"></h4>
+                  <div class="ion-padding-right-24" *ngIf="user.roles.scanQrTabSelfAssignKiosks" [translate]="'dashboard.markattendance'"></div>
+                  <div class="ion-padding-right-24" *ngIf="!user.roles.scanQrTabSelfAssignKiosks" [translate]="'dashboard.scan_markattendance'"></div>
                   <ion-icon name="arrow-forward" item-right class="home-page-card-icon-right"></ion-icon>
                 </ion-col>
               </ion-row>
