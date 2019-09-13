@@ -6,17 +6,18 @@ import {IonicModule, IonicRouteStrategy, ModalController} from '@ionic/angular';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
 
-import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS, HttpClient} from '@angular/common/http';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {ErrorInterceptor, JwtInterceptor} from './_helpers';
 import {NetworkService} from './_services/network.service';
-import {SharedModule} from './shared/shared.module';
+import {createTranslateLoader, SharedModule} from './shared/shared.module';
 import {QRScanner} from '@ionic-native/qr-scanner/ngx';
 import {ImagePicker} from '@ionic-native/image-picker/ngx';
 // import { Camera } from '@ionic-native/camera/ngx';
 import { CameraPreview, CameraPreviewPictureOptions, CameraPreviewOptions,
   CameraPreviewDimensions } from '@ionic-native/camera-preview/ngx';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -25,7 +26,14 @@ import { CameraPreview, CameraPreviewPictureOptions, CameraPreviewOptions,
     HttpClientModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    SharedModule
+    SharedModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    }),
   ],
   providers: [
     StatusBar,

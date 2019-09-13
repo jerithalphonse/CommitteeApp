@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="dashboard"></ion-back-button>
     </ion-buttons>
-    <ion-title class="back-button-icon-left">Assign Polling Station</ion-title>
+    <ion-title class="back-button-icon-left" [translate]="'assignpollingstation.title'"></ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -12,16 +12,15 @@
     <ion-row *ngIf="!user.roles.directionsTab">
       <ion-col size="1"></ion-col>
       <ion-col size="11">
-        <h5 color="dark-shade" class="fontweight-medium">Please select the following polling station assign members and
-          supervisor</h5>
+        <h5 color="dark-shade" class="fontweight-medium" [translate]="'assignpollingstation.subtitle'"></h5>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col size="12">
         <ion-list lines="none">
           <ion-radio-group>
-            <ion-list-header>
-              Polling Station*
+            <ion-list-header [translate]="'common.polling_station_star'">
+
             </ion-list-header>
             <ion-item *ngFor="let data of kiosksmodel.pollingstations">
               <ion-label>{{data.arabicName}}</ion-label>
@@ -34,7 +33,7 @@
         <ion-button size="medium" expand="block" color="success" shape="round" (click)="changeView('supervisor')"
                     [disabled]="!(kiosksmodel.pollingstation.id)">
           <ion-ripple-effect></ion-ripple-effect>
-          Continue
+          <span [translate]="'assignpollingstation.continue'"></span>
         </ion-button>
       </ion-col>
     </ion-row>
@@ -46,7 +45,7 @@
     <ion-row *ngIf="!user.roles.directionsTab">
       <ion-col size="1"></ion-col>
       <ion-col size="11">
-        <span color="dark-shade" class="fontweight-medium">Polling Station*</span>
+        <span color="dark-shade" class="fontweight-medium" [translate]="'common.polling_station_star'"></span>
       </ion-col>
       <ion-col size="1"></ion-col>
       <ion-col size="11">
@@ -56,13 +55,12 @@
     <ion-row>
       <ion-col size="1"></ion-col>
       <ion-col size="11">
-        <h6>Please choose the supervisor for the selected polling station</h6>
+        <h6 [translate]="'assignpollingstation.chosesupervisor'"></h6>
       </ion-col>
       <ion-col size="12">
         <ion-list lines="none">
           <ion-radio-group>
-            <ion-list-header>
-              Select Supervisor*
+            <ion-list-header [translate]="'assignpollingstation.selectsupervisor'">
             </ion-list-header>
             <ion-item *ngFor="let data of assignpollingstation.users">
               <ion-label>{{data.nameArabic}}</ion-label>
@@ -75,7 +73,7 @@
         <ion-button size="medium" expand="block" color="success" shape="round" (click)="changeView('teammembers')"
                     [disabled]="!(kiosksmodel.pollingstation.arabicName)">
           <ion-ripple-effect></ion-ripple-effect>
-          Continue
+          <span [translate]="'assignpollingstation.continue'"></span>
         </ion-button>
       </ion-col>
     </ion-row>
@@ -105,11 +103,11 @@
     <ion-row>
       <ion-col size="1"></ion-col>
       <ion-col size="11">
-        <h6>Please add Committee members for the selected polling station</h6>
+        <h6 [translate]="'assignpollingstation.addmembers_topolling'"></h6>
       </ion-col>
       <ion-col size="12">
         <ion-list lines="none">
-          <ion-list-header>
+          <ion-list-header [translate]="'assignpollingstation.addmembers'">
             Add Members*
           </ion-list-header>
           <ion-item *ngFor="let data of assignpollingstation.nonsupervisorusers">

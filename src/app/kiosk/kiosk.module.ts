@@ -9,6 +9,7 @@ import { KioskStatusPage } from './kiosk.status.page';
 import {PollingStationListPage} from './pollingstationlist.page';
 import {SharedModule} from '../shared/shared.module';
 import {AttendancelistPage} from '../attendance/attendancelist.page';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import {AttendancelistPage} from '../attendance/attendancelist.page';
     FormsModule,
     IonicModule,
     SharedModule,
+    TranslateModule,
     RouterModule.forChild([
       {
         path: '',

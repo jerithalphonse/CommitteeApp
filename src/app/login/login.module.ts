@@ -4,6 +4,7 @@ import {IonicModule} from '@ionic/angular';
 import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {LoginPage} from './login.page';
+import {TranslateModule} from '@ngx-translate/core';
 
 // import {NetworkService} from '../_services/network.service';
 
@@ -13,6 +14,7 @@ import {LoginPage} from './login.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
+    TranslateModule,
     RouterModule.forChild([
       {
         path: '',

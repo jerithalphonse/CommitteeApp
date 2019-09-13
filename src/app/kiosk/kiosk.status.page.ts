@@ -18,7 +18,7 @@ export class KioskStatusPage implements OnInit {
               public alertController: AlertController,  public navCtrl: NavController, public kiosksStatusService: KiosksStatusService) {
     this.authenticationService.currentUser.subscribe(value => {
       this.user = value;
-      if (this.user && this.user.roles && this.user.roles.id !== 1) {
+      if (this.user && this.user.roles && this.user.roles.name !== 'head_committee') {
         this.redirector = 'assigned';
       }
     });

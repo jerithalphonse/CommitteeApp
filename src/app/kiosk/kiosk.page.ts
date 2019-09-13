@@ -19,7 +19,7 @@ export class KioskPage implements OnInit {
     this.kiosksmodel.currentTab = 'assigned';
     this.authenticationService.currentUser.subscribe(value => {
       this.user = value;
-      if (this.user && this.user.roles && this.user.roles.id !== 1) {
+      if (this.user && this.user.roles && this.user.roles.name !== 'head_committee') {
         let temp = this.getRoleType();
         this.redirector = temp === 'voting' ? 'assigned' : 'any';
       }

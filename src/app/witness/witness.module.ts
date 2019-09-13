@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import {WitnessPage} from './witness.page';
 import {SharedModule} from '../shared/shared.module';
 import {WitnessStatusPage} from './witness.status.page';
+import {TranslateModule} from '@ngx-translate/core';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import {WitnessStatusPage} from './witness.status.page';
     FormsModule,
     IonicModule,
     SharedModule,
+    TranslateModule,
     RouterModule.forChild([
       {
         path: '',
