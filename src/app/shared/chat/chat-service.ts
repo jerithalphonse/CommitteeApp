@@ -79,14 +79,18 @@ export class ChatList {
       const getMessage = (list, rolename) => {
         for (const i in list) {
           if (list && list[i] === message.To) {
-            if ((rolename === 'committee_head_voting' || rolename === 'polling_station_supervisor_voting' || rolename === 'committee_member_voting')) {
-              return message.CreatedBy.roles.name === 'committee_head_voting' ? message : false;
-            } else if ((rolename === 'committee_head_counting' || rolename === 'polling_station_supervisor_counting' || rolename === 'committee_member_counting')) {
-              return message.CreatedBy.roles.name === 'committee_head_counting' ? message : false;
-            } else if ((rolename === 'committee_head_organizing' || rolename === 'polling_station_supervisor_organizing' || rolename === 'committee_member_organizing')) {
-              return message.CreatedBy.roles.name === 'committee_head_organizing' ? message : false;
-            } else {
+            if (message.CreatedBy && message.CreatedBy.roles && message.CreatedBy.roles.id <= 3) {
               return message;
+            } else {
+              if ((rolename === 'committee_head_voting' || rolename === 'polling_station_supervisor_voting' || rolename === 'committee_member_voting')) {
+                return message.CreatedBy.roles.name === 'committee_head_voting' ? message : false;
+              } else if ((rolename === 'committee_head_counting' || rolename === 'polling_station_supervisor_counting' || rolename === 'committee_member_counting')) {
+                return message.CreatedBy.roles.name === 'committee_head_counting' ? message : false;
+              } else if ((rolename === 'committee_head_organizing' || rolename === 'polling_station_supervisor_organizing' || rolename === 'committee_member_organizing')) {
+                return message.CreatedBy.roles.name === 'committee_head_organizing' ? message : false;
+              } else {
+                return message;
+              }
             }
           }
         }
