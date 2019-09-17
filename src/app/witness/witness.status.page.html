@@ -1,7 +1,7 @@
 <ion-header *ngIf="!cameraopened && !previewmode">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="dashboard" (click)="goto('dashboard')"></ion-back-button>
+      <ion-back-button defaultHref="dashboard" (click)="goto('dashboard')" [text]="'عودة'"></ion-back-button>
     </ion-buttons>
     <ion-title class="back-button-icon-left" [translate]="'witness.status_title'"></ion-title>
   </ion-toolbar>
@@ -48,7 +48,7 @@
 <ion-header *ngIf="cameraopened || previewmode">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="witness" (click)="closeCamera()"></ion-back-button>
+      <ion-back-button defaultHref="witness" (click)="closeCamera()" [text]="'عودة'"></ion-back-button>
     </ion-buttons>
     <ion-title class="back-button-icon-left" [translate]="'witness.title'"> </ion-title>
   </ion-toolbar>

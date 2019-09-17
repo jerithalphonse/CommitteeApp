@@ -41,7 +41,15 @@
   "assignpollingstation": {
     "title": "Assign Polling Station",
     "subtitle": "Please select the following polling station assign members and supervisor",
-    "continue": "Continue"
+    "continue": "Continue",
+    "supervisor": "Supervisor*",
+    "addmembers": "Add Members*",
+    "chosesupervisor": "Please choose the supervisor for the selected polling station",
+    "selectsupervisor": "Select Supervisor*",
+    "addmembers_topolling": "Please add Committee members for the selected polling station",
+    "save_assign": "Save & Assign Polling Station",
+    "members_star": "Members*",
+    "done": "Done"
   },
   "scanqr": {
     "title": "Scan QR Code",
@@ -63,16 +71,14 @@
     "reassign": "Re-Assign",
     "assign": "Assign",
     "assignmember": "Assign Member",
-    "none": "NONE"
+    "none": "NONE",
+    "assignedto": "Assigned to"
   },
   "kiosks_assign": {
     "title": "Assign Kiosk",
     "subtext": "Please choose the user for the selected kiosk",
     "selectuser": "Select User*",
     "title_button": "Assign Kiosks",
-    "chosesupervisor": "Please choose the supervisor for the selected polling station",
-    "selectsupervisor": "Select Supervisor*",
-    "addmembers_topolling": "Please add Committee members for the selected polling station",
     "addmembers": "Add Members*"
   },
   "kioskstouser": {

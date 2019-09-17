@@ -28,7 +28,7 @@ export class SelectGovernorateComponent implements OnInit {
   };
 
   customPSOptions: any = {
-    header: 'Select a Polling Station',
+    header: 'اختر محطة الاقتراع',
     translucent: true
   };
 

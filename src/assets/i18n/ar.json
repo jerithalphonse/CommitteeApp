@@ -45,7 +45,11 @@
     "chosesupervisor": "اختيار من ينوب عن رئيس اللجنة للمركز الأنتخابي",
     "selectsupervisor": "اختر المشرف *",
     "addmembers_topolling": "اختيار أعضاء للمركز الانتخابي",
-    "addmembers": "إضافة أعضاء"
+    "addmembers": "إضافة أعضاء",
+    "supervisor": "مشرف*",
+    "save_assign": "حفظ وتعيين محطة الاقتراع",
+    "members_star": "أفراد*",
+    "done": "منجز"
   },
   "scanqr": {
     "title": "قراءة رمز الجهاز",
@@ -67,7 +71,8 @@
     "reassign": "إعادة تحديد",
     "assign": "يسند إلى",
     "assignmember": "تعيين عضو",
-    "none": "لا شيء"
+    "none": "لا شيء",
+    "assignedto": "مخصص ل"
   },
   "kiosks_assign": {
     "title": "تحديد مشرفي أجهزة التصويت الالكتروني",

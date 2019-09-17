@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="dashboard"></ion-back-button>
+      <ion-back-button defaultHref="dashboard" [text]="'عودة'"></ion-back-button>
     </ion-buttons>
     <ion-title class="back-button-icon-left" [translate]="'kiosks.title'"></ion-title>
   </ion-toolbar>
@@ -34,8 +34,8 @@
       </ion-row>
       <ion-row>
         <ion-col size="12">
-          <ion-select [interfaceOptions]="customPSOptions" [cancelText]="'Cancel'" [okText]="'Apply'"
-                      interface="alert" multiple="false" placeholder="Select One" class="committee-ion-select-dark"
+          <ion-select [interfaceOptions]="customPSOptions" [cancelText]="'إلغاء'" [okText]="'تطبيق'"
+                      interface="alert" multiple="false" placeholder="اختيار واحد" class="committee-ion-select-dark"
                       [(ngModel)]="kiosksmodel.pollingstation.name"
                       (ionChange)="onChangePollingStation($event)">
             <ion-select-option *ngFor="let data of kiosksmodel.pollingstations"
@@ -69,12 +69,12 @@
             <ion-card-header>
               <div class="font-size-18 fontweight-bold"> {{kiosk.serialNumber}}
                 <ion-chip class="committee-chip-background-{{kiosk.openTime == '' ? 'black': 'green'}}">
-                  <ion-label color="light">{{kiosk.openTime == "" ? "CLOSED": "OPEN"}}</ion-label>
+                  <ion-label color="light">{{kiosk.openTime == "" ? "مغلق": "افتح"}}</ion-label>
                 </ion-chip>
               </div>
             </ion-card-header>
             <ion-card-content *ngIf="kiosk && kiosk.kioskassigned && kiosk.kioskassigned.length">
-              <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast">Assigned to</div>
+              <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast"><span [translate]="'kiosks.assignedto'"></span></div>
               <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast" *ngFor="let member of kiosk.kioskassigned">
                <span *ngIf="member && member.member"><ion-icon slot="icon-only" class="committee-user-status-icon-green" name="radio-button-on"></ion-icon>
                 {{member.member.nameEnglish}}
@@ -86,7 +86,7 @@
               </div>
             </ion-card-content>
             <ion-card-content *ngIf="kiosk && kiosk.kioskassigned && kiosk.kioskassigned.length == 0">
-              <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast">NONE <span class="ion-float-end committee-button-text-color" *ngIf="user.roles.attendanceTabReassign" (click)="assignUser(kiosk)" [translate]="'kiosks.assignmember'"></span></div>
+              <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast"><span [translate]="'kiosks.none'"></span> <span class="ion-float-end committee-button-text-color" *ngIf="user.roles.attendanceTabReassign" (click)="assignUser(kiosk)" [translate]="'kiosks.assignmember'"></span></div>
             </ion-card-content>
           </ion-card>
         </ion-col>

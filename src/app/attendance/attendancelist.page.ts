@@ -20,7 +20,7 @@ export class AttendancelistPage implements OnInit {
   public kiosksmodel = new KiosksModel();
   public attendancestatus = new AttendanceStatusModel({});
   customPSOptions: any = {
-    header: 'Select a Polling Station',
+    header: 'اختر محطة الاقتراع',
     translucent: true
   };
 

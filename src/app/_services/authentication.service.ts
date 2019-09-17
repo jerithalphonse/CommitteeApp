@@ -337,7 +337,7 @@ export class AttendanceStatusModel {
       }
       return {name: pollingStationinfo.name, users};
     };
-    if (pollingStationName === 'All') {
+    if (pollingStationName === 'الكل') {
       for (const i in this.pollingstationsAll) {
         if (this.pollingstationsAll && this.pollingstationsAll[i].name) {
           let temp = filterData(this.pollingstationsAll[i], committeetype, assignedstatus);
@@ -383,7 +383,7 @@ export class AttendanceStatusModel {
         this.pollingstationsAll[i].users = pollingStations[this.pollingstationsAll[i].name];
       }
     }
-    this.applyFiltersPollingStation(pollingstation && pollingstation.name ? pollingstation.name : 'All', type, attended);
+    this.applyFiltersPollingStation(pollingstation && pollingstation.name ? pollingstation.name : 'الكل', type, attended);
     this.calculateAttendanceStatus(this.pollingstations);
   }
 
@@ -514,8 +514,8 @@ export class KiosksModel {
     } else {
       this.pollingstations = [new PollingStation({
         id: 0,
-        name: 'All',
-        arabicName: 'All'
+        name: 'الكل',
+        arabicName: 'الكل'
       })];
     }
     pollingstations.forEach((element) => {
@@ -961,7 +961,7 @@ export class KiosksStatusModel {
       }
       return {name: pollingStation.name, kiosks};
     };
-    if (pollingStationName === 'All') {
+    if (pollingStationName === 'الكل') {
       for (const i in this.pollingstationsAll) {
         if (this.pollingstationsAll && this.pollingstationsAll[i].name) {
           let temp = filterData(this.pollingstationsAll[i], committeetype, assignedstatus);
@@ -1022,7 +1022,7 @@ export class KiosksStatusModel {
       }
     }
     this.calculateKiosksStatus(this.pollingstationsAll);
-    this.applyFiltersPollingStation(pollingstation && pollingstation.name ? pollingstation.name : 'All', type, assigned);
+    this.applyFiltersPollingStation(pollingstation && pollingstation.name ? pollingstation.name : 'الكل', type, assigned);
   }
 
 }

@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="dashboard"></ion-back-button>
+      <ion-back-button defaultHref="dashboard" [text]="'عودة'"></ion-back-button>
     </ion-buttons>
     <ion-title class="back-button-icon-left" *ngIf="chat.chatrole !== 'readonly'" [translate]="'messages.send'"></ion-title>
     <ion-title class="back-button-icon-left" *ngIf="chat.chatrole === 'readonly'" [translate]="'messages.check'"></ion-title>

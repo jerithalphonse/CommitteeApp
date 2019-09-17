@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="dashboard"></ion-back-button>
+      <ion-back-button defaultHref="dashboard" [text]="'عودة'"></ion-back-button>
     </ion-buttons>
     <ion-title class="back-button-icon-left" [translate]="'assignpollingstation.title'"></ion-title>
   </ion-toolbar>
@@ -85,7 +85,7 @@
     <ion-row *ngIf="!user.roles.directionsTab">
       <ion-col size="1"></ion-col>
       <ion-col size="11">
-        <span color="dark-shade" class="fontweight-medium">Polling Station*</span>
+        <span color="dark-shade" class="fontweight-medium" [translate]="'common.polling_station_star'"></span>
       </ion-col>
       <ion-col size="1"></ion-col>
       <ion-col size="11">
@@ -93,7 +93,7 @@
       </ion-col>
       <ion-col size="1"></ion-col>
       <ion-col size="11">
-        <span color="dark-shade" class="fontweight-medium">SuperVisor*</span>
+        <span color="dark-shade" class="fontweight-medium" [translate]="'assignpollingstation.supervisor'"></span>
       </ion-col>
       <ion-col size="1"></ion-col>
       <ion-col size="11" *ngIf="assignpollingstation.supervisor">
@@ -108,7 +108,7 @@
       <ion-col size="12">
         <ion-list lines="none">
           <ion-list-header [translate]="'assignpollingstation.addmembers'">
-            Add Members*
+
           </ion-list-header>
           <ion-item *ngFor="let data of assignpollingstation.nonsupervisorusers">
             <ion-label>{{data.nameEnglish}}</ion-label>
@@ -120,7 +120,7 @@
         <ion-button size="medium" expand="block" color="success" shape="round" (click)="changeView('preview')"
                     [disabled]="!(assignpollingstation.users.length)">
           <ion-ripple-effect></ion-ripple-effect>
-          Save & Assign Polling Station
+          <span [translate]="'assignpollingstation.save_assign'"></span>
         </ion-button>
       </ion-col>
     </ion-row>
@@ -132,7 +132,7 @@
     <ion-row *ngIf="!user.roles.directionsTab">
       <ion-col size="1"></ion-col>
       <ion-col size="11">
-        <span color="dark-shade" class="fontweight-medium">Polling Station*</span>
+        <span color="dark-shade" class="fontweight-medium" [translate]="'common.polling_station_star'"></span>
       </ion-col>
       <ion-col size="1"></ion-col>
       <ion-col size="11">
@@ -140,7 +140,7 @@
       </ion-col>
       <ion-col size="1"></ion-col>
       <ion-col size="11">
-        <span color="dark-shade" class="fontweight-medium">SuperVisor*</span>
+        <span color="dark-shade" class="fontweight-medium" [translate]="'assignpollingstation.supervisor'"></span>
       </ion-col>
       <ion-col size="1"></ion-col>
       <ion-col size="11" *ngIf="assignpollingstation.supervisor">
@@ -148,7 +148,7 @@
       </ion-col>
       <ion-col size="1"></ion-col>
       <ion-col size="11">
-        <span color="dark-shade" class="fontweight-medium">Members*</span>
+        <span color="dark-shade" class="fontweight-medium" [translate]="'assignpollingstation.members_star'"></span>
       </ion-col>
       <ion-col size="1"></ion-col>
       <ion-col size="11">
@@ -159,7 +159,7 @@
       <ion-col size="12">
         <ion-button size="medium" expand="block" color="success" shape="round" (click)="submit()">
           <ion-ripple-effect></ion-ripple-effect>
-          Done
+          <span [translate]="'assignpollingstation.done'"></span>
         </ion-button>
       </ion-col>
     </ion-row>

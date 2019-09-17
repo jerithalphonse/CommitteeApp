@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="dashboard"></ion-back-button>
+      <ion-back-button defaultHref="dashboard" [text]="'عودة'"></ion-back-button>
     </ion-buttons>
     <ion-title class="back-button-icon-left" [translate]="'attendance.title'"></ion-title>
   </ion-toolbar>
@@ -32,8 +32,8 @@
       </ion-row>
       <ion-row>
         <ion-col size="12">
-          <ion-select [interfaceOptions]="customPSOptions" [cancelText]="'Cancel'" [okText]="'Apply'"
-                      interface="alert" multiple="false" placeholder="Select One" class="committee-ion-select-dark"
+          <ion-select [interfaceOptions]="customPSOptions" [cancelText]="'إلغاء'" [okText]="'تطبيق'"
+                      interface="alert" multiple="false" placeholder="اختيار واحد" class="committee-ion-select-dark"
                       [(ngModel)]="kiosksmodel.pollingstation.name"
                       (ionChange)="onChangePollingStation($event)">
             <ion-select-option *ngFor="let data of kiosksmodel.pollingstations"
@@ -54,12 +54,12 @@
             <ion-card-header>{{userassigned.nameEnglish}}
               <div class="font-size-18 fontweight-bold"> {{userassigned.attendedAt}}
                 <ion-chip class="committee-chip-background-{{userassigned.attendedAt == '' ? 'black': 'green'}}">
-                  <ion-label color="light">{{userassigned.attendedAt == "" ? "NOT PRESENT": "PRESENT"}}</ion-label>
+                  <ion-label color="light">{{userassigned.attendedAt == "" ? "غير موجود": "حاضر"}}</ion-label>
                 </ion-chip>
               </div>
             </ion-card-header>
             <ion-card-content *ngIf="userassigned.kiosksAssigned && userassigned.kiosksAssigned.Kiosks && userassigned.kiosksAssigned && userassigned.kiosksAssigned.kioskId">
-              <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast">Assigned to
+              <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast"><span [translate]="'kiosks.assignedto'"></span>
                 <span class="ion-float-end committee-button-text-color" *ngIf="user.roles.attendanceTabReassign" (click)="reAssignUser(userassigned, userassigned.kiosksAssigned.Kiosks)" [translate]="'kiosks.reassign'"></span></div>
               <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast">
                <span>
@@ -68,7 +68,7 @@
               </div>
             </ion-card-content>
             <ion-card-content *ngIf="!(userassigned.kiosksAssigned && userassigned.kiosksAssigned.Kiosks && userassigned.kiosksAssigned && userassigned.kiosksAssigned.kioskId)">
-              <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast">NONE <span class="ion-float-end committee-button-text-color" *ngIf="user.roles.attendanceTabReassign" (click)="AssignUser(userassigned)" [translate]="'kiosks.assignmember'"></span></div>
+              <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast"><span [translate]="'kiosks.none'"></span> <span class="ion-float-end committee-button-text-color" *ngIf="user.roles.attendanceTabReassign" (click)="AssignUser(userassigned)" [translate]="'kiosks.assignmember'"></span></div>
             </ion-card-content>
           </ion-card>
         </ion-col>

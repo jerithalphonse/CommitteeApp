@@ -14,7 +14,7 @@ export class PollingStationListPage implements OnInit {
   public kiosksmodel = new KiosksModel();
   public kioksstatus = new KiosksStatusModel();
   customPSOptions: any = {
-    header: 'Select a Polling Station',
+    header: 'اختر محطة الاقتراع',
     translucent: true
   };
   constructor(private authenticationService: AuthenticationService, public dataService: DataService,
