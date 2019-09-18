@@ -105,7 +105,7 @@ ion-slides {
   width: 44px;
   background-size: contain;
   background-repeat: no-repeat;
-  background-position: right;
+  background-position: left;
 }
 
 .header-white-moilogo {
@@ -116,7 +116,13 @@ ion-slides {
   background-repeat: no-repeat;
   background-position: right;
 }
-
+.header-white-shuraline{
+  background: url("../assets/icon/shura-logo/shura_line1.png");
+  height: 32px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right;
+}
 .header-white-message {
   background: url("../assets/main_screen/black-back-closed-envelope-shape-1@3x.png");
   height: 24px;
@@ -129,8 +135,8 @@ ion-slides {
 
 .header-appimage {
   background: url("../assets/icon/shura-logo/shura-logo-2019.png");
-  height: 138px;
-  width: 125px;
+  height: 200px;
+  width: 200px;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -144,8 +150,9 @@ ion-slides {
 }
 
 .image-common-64 {
-  height: 64px;
-  width: 64px;
+  height: 70px;
+  width: 70px;
+  margin-top: 10px;
 }
 
 app-dashboard {
@@ -337,3 +344,23 @@ app-dashboard {
   height: 35px;
 }
 
+.bold-600{
+  font-weight: 600;
+}
+
+.color_logo{
+  color: #ec2028;
+}
+
+.title-ios{
+  padding-left: unset;
+  padding-right: unset;
+  -webkit-padding-start: 90px;
+  padding-inline-start: 90px;
+  padding-inline-end: 25px;
+  text-align: center;
+}
+
+.padding-0{
+  padding: 0;
+}

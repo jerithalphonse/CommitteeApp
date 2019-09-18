@@ -18,17 +18,17 @@ export class SelectGovernorateComponent implements OnInit {
     pollingstation: false
   };
   customGovernorateOptions: any = {
-    header: 'Select a Governorate',
+    header: 'أختيار المحافظة',
     translucent: true
   };
 
   customWilayatOptions: any = {
-    header: 'Select a Wilayat',
+    header: 'أختيار الولاية',
     translucent: true
   };
 
   customPSOptions: any = {
-    header: 'اختر محطة الاقتراع',
+    header: 'أختيار المركز الانتخابي',
     translucent: true
   };
 

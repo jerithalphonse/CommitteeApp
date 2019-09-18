@@ -23,32 +23,9 @@
             <ion-grid>
               <ion-row class="ion-padding-bottom">
                 <ion-col size="12" class="ion-padding-left-16">
-                  <h4 class="line-height-point6" [translate]="'messages.all'"></h4>
-                  <div class="ion-padding-right-24" [translate]="'messages.allteam'"></div>
-                  <ion-icon name="arrow-forward" item-right class="message-page-card-icon-right font-size-32"></ion-icon>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-card>
-
-          <ion-card *ngIf="(user && user.roles && user.roles.messageTabHeadCommittees)" (click)="goto('messaging/chat/tocommitteehead')">
-            <ion-grid>
-              <ion-row class="ion-padding-bottom">
-                <ion-col size="12" class="ion-padding-left-16">
-                  <h4 class="line-height-point6" [translate]="'messages.committee_head'"></h4>
-                  <div class="ion-padding-right-24" [translate]="'messages.committee_head'"></div>
-                  <ion-icon name="arrow-forward" item-right class="message-page-card-icon-right font-size-32"></ion-icon>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-card>
-
-          <ion-card *ngIf="(user && user.roles && user.roles.messageTabToHeadCommittee)" (click)="goto('messaging/chat/toheadcommittee')">
-            <ion-grid>
-              <ion-row class="ion-padding-bottom">
-                <ion-col size="12" class="ion-padding-left-16">
-                  <h4 class="line-height-point6" [translate]="'messages.head_committee'"></h4>
-                  <div class="ion-padding-right-24" [translate]="'messages.head_committee_message'"></div>
+                  <h4 class="width-95 line-height-one" [translate]="'messages.all'" *ngIf="user.roles.name === 'head_committee'"></h4>
+                  <h4 class="width-95 line-height-one" [translate]="'messages.all_wali'" *ngIf="user.roles.name !== 'head_committee'"></h4>
+<!--                  <div class="ion-padding-right-5" [translate]="'messages.allteam'"></div>-->
                   <ion-icon name="arrow-forward" item-right class="message-page-card-icon-right font-size-32"></ion-icon>
                 </ion-col>
               </ion-row>
@@ -59,20 +36,45 @@
             <ion-grid>
               <ion-row class="ion-padding-bottom">
                 <ion-col size="12" class="ion-padding-left-16">
-                  <h4 class="line-height-point6" [translate]="'messages.wali_officer'"></h4>
-                  <div class="ion-padding-right-24" [translate]="'messages.wali_officer_message'"></div>
+                  <h4 class="width-95 line-height-one" [translate]="'messages.wali_officer'"></h4>
+                  <!--                  <div class="ion-padding-right-5" [translate]="'messages.wali_officer_message'"></div>-->
                   <ion-icon name="arrow-forward" item-right class="message-page-card-icon-right font-size-32"></ion-icon>
                 </ion-col>
               </ion-row>
             </ion-grid>
           </ion-card>
 
+          <ion-card *ngIf="(user && user.roles && user.roles.messageTabHeadCommittees)" (click)="goto('messaging/chat/tocommitteehead')">
+            <ion-grid>
+              <ion-row class="ion-padding-bottom">
+                <ion-col size="12" class="ion-padding-left-16">
+                  <h4 class="width-95 line-height-one" [translate]="'messages.committee_head'"></h4>
+<!--                  <div class="ion-padding-right-5" [translate]="'messages.commitee_head_message'"></div>-->
+                  <ion-icon name="arrow-forward" item-right class="message-page-card-icon-right font-size-32"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card>
+
+          <ion-card *ngIf="(user && user.roles && user.roles.messageTabToHeadCommittee)" (click)="goto('messaging/chat/toheadcommittee')">
+            <ion-grid>
+              <ion-row class="ion-padding-bottom">
+                <ion-col size="12" class="ion-padding-left-16">
+                  <h4 class="width-95 line-height-one" [translate]="'messages.head_committee'"></h4>
+<!--                  <div class="ion-padding-right-5" [translate]="'messages.head_committee_message'"></div>-->
+                  <ion-icon name="arrow-forward" item-right class="message-page-card-icon-right font-size-32"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card>
+
+
           <ion-card *ngIf="(user && user.roles && user.roles.messageTabRestrictMessage)">
             <ion-grid>
               <ion-row class="ion-padding-bottom">
                 <ion-col size="12" class="ion-padding-left-16">
-                  <h4 class="line-height-point6" [translate]="'messages.restrict_message'"></h4>
-                  <div class="ion-padding-right-24" [translate]="'messages.restrict_message_text'"><ion-toggle color="success" class="message-restrict-icon"></ion-toggle></div>
+                  <h4 class="width-95 line-height-one" [translate]="'messages.restrict_message'"></h4>
+                  <div class="ion-padding-right-5" [translate]="'messages.restrict_message_text'"><ion-toggle color="success" class="message-restrict-icon"></ion-toggle></div>
                 </ion-col>
               </ion-row>
             </ion-grid>

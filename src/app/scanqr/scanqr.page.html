@@ -50,7 +50,7 @@
           <span [translate]="'scanqr.tq'"></span> {{this.user.nameEnglish}}
         </ion-item>
         <ion-item lines="none" class="ion-text-center margin-custom-top-center" *ngIf="assignkiosksmodel.attendanceMarked && !assignkiosksmodel.canMarkAttendance">
-          <span [translate]="'scanqr.attendancemarked'"></span>
+          <span [translate]="'scanqr.enrolled'"></span>
         </ion-item>
         <ion-item lines="none" class="ion-text-center margin-custom-top-center" *ngIf="assignkiosksmodel.showAssigned">
           <span [translate]="'scanqr.assignedtoyou'"></span>
@@ -59,24 +59,24 @@
       <ion-col size="12" *ngIf="assignkiosksmodel.userPartOfOtherPollingStation">
         <ion-img src="/assets/main_screen/document.png" class="image-common-64 margin-auto"></ion-img>
         <ion-item  lines="none" class="ion-text-center margin-custom-top-center" >
-          <span [translate]="'scanqr.greeting'"></span> {{this.user.nameEnglish}}
+          {{this.user.nameEnglish}}
         </ion-item>
         <ion-item lines="none" class="ion-text-center margin-custom-top-center" *ngIf="assignkiosksmodel.userPartOfOtherPollingStation">
-          <span [translate]="'scanqr.wrongpollingstation'"></span>
+          <div [translate]="'scanqr.wrongpollingstation'"></div>
         </ion-item>
       </ion-col>
     </ion-row>
     <ion-grid style="position: absolute;
     bottom: 5vh;
     width: 100%;">
-      <ion-row *ngIf="assignkiosksmodel.canMarkAttendance && !assignkiosksmodel.userPartOfOtherPollingStation">
-        <ion-col size="12">
-          <ion-button size="medium" expand="block" color="success" shape="round" (click)="markAttendance()">
-            <ion-ripple-effect></ion-ripple-effect>
-            <span [translate]="'scanqr.mark'"></span>
-          </ion-button>
-        </ion-col>
-      </ion-row>
+<!--      <ion-row *ngIf="assignkiosksmodel.canMarkAttendance && !assignkiosksmodel.userPartOfOtherPollingStation">-->
+<!--        <ion-col size="12">-->
+<!--          <ion-button size="medium" expand="block" color="success" shape="round" (click)="markAttendance()">-->
+<!--            <ion-ripple-effect></ion-ripple-effect>-->
+<!--            <span [translate]="'scanqr.mark'"></span>-->
+<!--          </ion-button>-->
+<!--        </ion-col>-->
+<!--      </ion-row>-->
       <ion-row *ngIf="assignkiosksmodel.isSelfAssignable && !assignkiosksmodel.userPartOfOtherPollingStation">
         <ion-col size="12">
           <ion-button size="medium" expand="block" color="success" shape="round" (click)="selfAssignKiosks()">

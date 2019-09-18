@@ -32,7 +32,7 @@
 <ion-footer no-border *ngIf="chat.chatrole !== 'readonly'">
   <div class="input-wrap">
     <textarea #chat_input
-              placeholder="Type your message"
+              placeholder="كتابة الرسائل"
               [(ngModel)]="editorMsg"
               (keyup.enter)="sendMsg()"
               (focusin)="onFocus()">

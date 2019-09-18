@@ -10,19 +10,19 @@
   <ion-item class="committee-background-white">
     <ion-grid>
       <ion-row>
-        <ion-col size="3">
+        <ion-col size="3" class="padding-0 ion-margin-top-12">
           <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast" [translate]="'kiosks.totalkiosks'"></div>
           <div><strong>{{this.kioksstatus.kiosksStatus.total}}</strong></div>
         </ion-col>
-        <ion-col size="3">
+        <ion-col size="3" class="padding-0 ion-margin-top-12">
           <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast" [translate]="'kiosks.locked'"></div>
           <div><strong>{{this.kioksstatus.kiosksStatus.locked}}</strong></div>
         </ion-col>
-        <ion-col size="3">
+        <ion-col size="3" class="padding-0 ion-margin-top-12">
           <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast" [translate]="'kiosks.opened'"></div>
           <div><strong>{{this.kioksstatus.kiosksStatus.opened}}</strong></div>
         </ion-col>
-        <ion-col size="3">
+        <ion-col size="3" class="padding-0 ion-margin-top-12">
           <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast" [translate]="'kiosks.closed'"></div>
           <div><strong>{{this.kioksstatus.kiosksStatus.closed}}</strong></div>
         </ion-col>
@@ -35,7 +35,7 @@
       <ion-row>
         <ion-col size="12">
           <ion-select [interfaceOptions]="customPSOptions" [cancelText]="'إلغاء'" [okText]="'تطبيق'"
-                      interface="alert" multiple="false" placeholder="اختيار واحد" class="committee-ion-select-dark"
+                      interface="alert" multiple="false" placeholder="أختيار المركز الانتخابي" class="committee-ion-select-dark"
                       [(ngModel)]="kiosksmodel.pollingstation.name"
                       (ionChange)="onChangePollingStation($event)">
             <ion-select-option *ngFor="let data of kiosksmodel.pollingstations"
@@ -59,7 +59,7 @@
         <ion-col>
           <ion-card *ngIf="pollingstation.kiosks && pollingstation.kiosks.length === 0">
             <ion-card-header>
-              <div class="font-size-18 fontweight-bold" [translate]="'common.norecords'">
+              <div class="font-size-18 fontweight-bold" [translate]="'kiosks.no_records_founds'">
               </div>
             </ion-card-header>
           </ion-card>

@@ -60,8 +60,8 @@
       <ion-col size="12">
         <ion-list lines="none">
           <ion-radio-group>
-            <ion-list-header [translate]="'assignpollingstation.selectsupervisor'">
-            </ion-list-header>
+<!--            <ion-list-header [translate]="'assignpollingstation.selectsupervisor'">-->
+<!--            </ion-list-header>-->
             <ion-item *ngFor="let data of assignpollingstation.users">
               <ion-label>{{data.nameArabic}}</ion-label>
               <ion-radio value="{{data.id}}" [checked]="assignpollingstation.supervisor && data.id === assignpollingstation.supervisor.id" (ionSelect)="assignpollingstation.assignsupervisor(data)"></ion-radio>
@@ -107,9 +107,9 @@
       </ion-col>
       <ion-col size="12">
         <ion-list lines="none">
-          <ion-list-header [translate]="'assignpollingstation.addmembers'">
-
-          </ion-list-header>
+<!--          <ion-list-header [translate]="'assignpollingstation.addmembers'">-->
+<!---->
+<!--          </ion-list-header>-->
           <ion-item *ngFor="let data of assignpollingstation.nonsupervisorusers">
             <ion-label>{{data.nameEnglish}}</ion-label>
             <ion-checkbox slot="end" [(ngModel)]="data.selected" (ionChange)="assignpollingstation.assignMember($event, data)"></ion-checkbox>

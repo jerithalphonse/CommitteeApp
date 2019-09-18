@@ -21,13 +21,15 @@
     "email_label": "Email",
     "language": "Language",
     "add_more": "Add More",
-    "capture": "Capture"
+    "capture": "Capture",
+    "logout": "logout"
   },
   "messages": {
     "send": "Send Message",
     "check": "Check Messages",
     "choose": "Please select the options to send messages",
-    "all": "All Members",
+    "all": "All Members to Governates",
+    "all_wali": "All Members to wilayat",
     "allteam": "Send messsage to all team members",
     "committee_head": "Committee Head",
     "commitee_head_message": "Send message to all committee heads",
@@ -54,12 +56,11 @@
   "scanqr": {
     "title": "Scan QR Code",
     "tq": "Thank you",
-    "attendancemarked": "Your attendance have been marked",
+    "enrolled": "You have been registered in the electoral center",
     "assignedtoyou": "The Kiosk has been assigned to you",
     "greeting": "Hi",
     "wrongpollingstation": "You have been assigned to a different polling station please contact your head commmittee",
-    "mark": "Mark Attendance",
-    "selfassign": " Self Assign Kiosks"
+    "selfassign": "Self Assign Kiosks"
   },
   "kiosks": {
     "title": "Kiosk Status",
@@ -72,7 +73,8 @@
     "assign": "Assign",
     "assignmember": "Assign Member",
     "none": "NONE",
-    "assignedto": "Assigned to"
+    "assignedto": "Assigned to",
+    "no_records_founds": "No records founds"
   },
   "kiosks_assign": {
     "title": "Assign Kiosk",
@@ -82,16 +84,19 @@
     "addmembers": "Add Members*"
   },
   "kioskstouser": {
-    "title": "Please choose the kiosk for the selected member",
-    "selectkiosks": "Select Kiosk*"
+    "title": "Assign Kiosk",
+    "choose": "Please choose the kiosk for the selected member"
   },
   "attendance": {
     "title": "Attendance",
     "select": "Please select the following fields to check the attendance of committee members",
+    "select_ps_only": "Please select the following fields to check the attendance of committee members",
     "view": "View Attendance",
     "totalmember": "Total Member",
     "present": "Present",
-    "absent":  "Absent"
+    "absent":  "Absent",
+    "none": "NONE",
+    "assigned_to": "Asssigned To"
   },
   "dashboard": {
     "title": "Home",
@@ -142,6 +147,7 @@
     "status_title": "Witness ID",
     "subtext": "Witness Id's of the people present in the polling station",
     "polling_stations": "Polling stations",
-    "add_witness": "Add Witness ID's"
+    "add_witness": "Add Witness ID's",
+    "no_records": "No Records"
   }
 }

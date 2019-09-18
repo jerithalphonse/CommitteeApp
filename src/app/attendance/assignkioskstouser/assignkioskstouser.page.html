@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="attendance" [text]="'عودة'"></ion-back-button>
     </ion-buttons>
-    <ion-title class="back-button-icon-left" [translate]="'kiosks_assign.title'"></ion-title>
+    <ion-title class="back-button-icon-left" [translate]="'kioskstouser.title'"></ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -17,9 +17,9 @@
       <ion-col size="1"></ion-col>
       <ion-col size="11">
         <h5 color="dark-shade" class="fontweight-medium">{{attendanceStatusModel.selectedPollingStation ?
-          attendanceStatusModel.selectedPollingStation.name :
-          attendanceStatusModel.selectedUser.pollingStation && attendanceStatusModel.selectedUser.pollingStation.name ?
-            attendanceStatusModel.selectedUser.pollingStation.name : '' }}</h5>
+          attendanceStatusModel.selectedPollingStation.arabicName :
+          attendanceStatusModel.selectedUser.pollingStation && attendanceStatusModel.selectedUser.pollingStation.arabicName ?
+            attendanceStatusModel.selectedUser.pollingStation.arabicName : '' }}</h5>
       </ion-col>
 <!--      <ion-col size="1"></ion-col>-->
 <!--      <ion-col size="11">-->
@@ -33,14 +33,13 @@
     <ion-row>
       <ion-col size="1"></ion-col>
       <ion-col size="11">
-        <h6 [translate]="'kioskstouser.subtext'"></h6>
+        <h6 [translate]="'kioskstouser.choose'"></h6>
       </ion-col>
       <ion-col size="12">
         <ion-list lines="none">
           <ion-radio-group>
-            <ion-list-header [translate]="'kioskstouser.selectkiosks'">
-
-            </ion-list-header>
+<!--            <ion-list-header [translate]="'kioskstouser.selectkiosks'">-->
+<!--            </ion-list-header>-->
             <ion-item *ngFor="let data of kiosksmodel.kiosks">
               <ion-label>{{data.serialNumber}}</ion-label>
               <ion-radio value="{{data.id}}" [checked]="kiosksmodel.kiosk && data.id === kiosksmodel.kiosk.id" (ionSelect)="changeKiosks($event, data)"></ion-radio>

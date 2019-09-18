@@ -16,7 +16,7 @@
       </ion-col>
       <ion-col size="1"></ion-col>
       <ion-col size="11">
-        <h5 color="dark-shade" class="fontweight-medium">{{kiosksStatusModel.selectedPollingStation.name}}</h5>
+        <h5 color="dark-shade" class="fontweight-medium">{{kiosksStatusModel.selectedPollingStation.arabicName}}</h5>
       </ion-col>
 <!--      <ion-col size="1"></ion-col>-->
 <!--      <ion-col size="11">-->
@@ -35,9 +35,9 @@
       <ion-col size="12">
         <ion-list lines="none">
           <ion-radio-group>
-            <ion-list-header>
-              <span [translate]="'kiosks_assign.selectuser'"></span>
-            </ion-list-header>
+<!--            <ion-list-header>-->
+<!--              <span [translate]="'kiosks_assign.selectuser'"></span>-->
+<!--            </ion-list-header>-->
             <ion-item *ngFor="let data of kiosksmodel.users">
               <ion-label>{{data.nameEnglish}}</ion-label>
               <ion-radio value="{{data.id}}" [checked]="kiosksStatusModel.selectedUser && data.id === kiosksStatusModel.selectedUser.id" (ionSelect)="changeUser($event, data)"></ion-radio>
