@@ -1193,6 +1193,20 @@ export class AuthenticationService {
       }));
   }
 
+  changePassword(id, oldpassword, newpassword) {
+    const subscriberFunc = (observer) => {
+      return this.http.post<any>(`${config.apiUrl}/users/changepassword`, {id, oldpassword, newpassword})
+        .subscribe((data) => {
+          observer.next(data);
+        }, (errors) => {
+          observer.error(errors);
+        }, () => {
+          observer.complete();
+        });
+    };
+    return new Observable(subscriberFunc);
+  }
+
   updateUser(user: User) {
     const subscriberFunc = (observer) => {
       let tempuser = new UserModel(user);

@@ -1,0 +1,51 @@
+<ion-content style="background: none transparent;" *ngIf="cameraopened" class="camera">
+  <div class="scan-area">
+  </div>
+  <div class="button-capture-bottom">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="1"></ion-col>
+        <ion-col size="3">
+          <button (click)="toggleFlash()" ion-fab class="text-uppercase">
+            <ion-icon name="flash"></ion-icon>
+          </button>
+        </ion-col>
+        <ion-col size="4">
+          <ion-button color="success" size="default" class="committee-button-size-medium" shape="round" (click)="captureImage()">
+            <ion-ripple-effect></ion-ripple-effect>
+            <span [translate]="'common.capture'"></span>
+          </ion-button>
+        </ion-col>
+        <ion-col size="3">
+          <button (click)="toggleCamera()" ion-fab class="text-uppercase">
+            <ion-icon name="reverse-camera"></ion-icon>
+          </button>
+        </ion-col>
+        <ion-col size="1"></ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>
+<ion-content *ngIf="previewmode" fullscreen="true">
+  <div class="image-area" >
+    <ion-img src="{{blob.image}}" class="image-preview"></ion-img>
+    <div class="button-bottom">
+      <ion-grid class="transparent">
+        <ion-row class="transparent ion-text-center">
+          <ion-col size="6" class="transparent">
+            <ion-button color="success" size="default" class="committee-button-size-medium" shape="round" (click)="saveImage()">
+              <ion-ripple-effect></ion-ripple-effect>
+              <span [translate]="'common.save'"></span>
+            </ion-button>
+          </ion-col>
+          <ion-col size="6" class="transparent">
+            <ion-button color="success" size="default" class="committee-button-size-medium ion-color-danger" shape="round" (click)="closeCamera()">
+              <ion-ripple-effect></ion-ripple-effect>
+              <span [translate]="'common.delete'"></span>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </div>
+</ion-content>

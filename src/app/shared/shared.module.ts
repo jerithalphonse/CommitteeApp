@@ -19,6 +19,7 @@ import {ChatService} from './chat/chat-service';
 import {ChatComponent, DateConvert} from './chat/chat.component';
 import {LanguagePopoverPage} from './language.popover.page';
 import {LanguageService} from '../_services/language.service';
+import {CameraComponent} from './camera/camera.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -28,9 +29,10 @@ import {LanguageService} from '../_services/language.service';
     TranslateModule
   ],
   entryComponents: [LanguagePopoverPage],
-  declarations: [SelectGovernorateComponent, ChatComponent, DateConvert, LanguagePopoverPage],
+  declarations: [SelectGovernorateComponent, ChatComponent, DateConvert, LanguagePopoverPage, CameraComponent],
   exports: [
     SelectGovernorateComponent,
+    CameraComponent,
     LanguagePopoverPage,
     TranslateModule
   ], providers: [PhotoViewer, ChatService, LanguageService]

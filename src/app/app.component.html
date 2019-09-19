@@ -27,10 +27,10 @@
                     <ion-button size="small" class="uploadimage" *ngIf="toggleedit" (click)="uploadImage()" [translate]="'common.upload_image'"></ion-button>
                   </ion-avatar>
                 </div>
-                <div class="data-text-center" *ngIf="!toggleedit">
+                <div class="data-text-center" *ngIf="!toggleedit && user">
                   <h2 ion-text class="committee-color">{{ user && user.nameEnglish ? user.nameEnglish : "Seban Joseph"}}</h2>
                 </div>
-                <div class="data-text-center" *ngIf="toggleedit">
+                <div class="data-text-center" *ngIf="toggleedit && user">
                   <!-- Input with placeholder -->
                   <ion-input placeholder="Your name" value="{{user.nameEnglish}}" (ionChange)="user.onChange($event.detail.value, 'nameEnglish')" class="committee-color-dark"></ion-input>
                 </div>
@@ -54,8 +54,8 @@
               </ion-row>
               <ion-row>
                 <ion-col>
-                  <div class="font-size-20" *ngIf="!toggleeditmobile">{{ user && user.phone ? user.phone : "98389 22343"}}</div>
-                  <ion-input placeholder="Your Email" value="{{user.phone}}" (ionChange)="user.onChange($event.detail.value, 'phone')" class="committee-color-dark" *ngIf="toggleeditmobile"></ion-input>
+                  <div class="font-size-20" *ngIf="!toggleeditmobile && user">{{ user && user.phone ? user.phone : "98389 22343"}}</div>
+                  <ion-input placeholder="Your Email" value="{{user.phone}}" (ionChange)="user.onChange($event.detail.value, 'phone')" class="committee-color-dark" *ngIf="toggleeditmobile && user"></ion-input>
                 </ion-col>
               </ion-row>
             </ion-grid>
@@ -73,8 +73,8 @@
               </ion-row>
               <ion-row>
                 <ion-col>
-                  <div class="font-size-20" *ngIf="!toggleeditemail">{{ user && user.email ? user.email : "seban@abc.com"}}</div>
-                  <ion-input placeholder="Your Email" value="{{user.email}}" (ionChange)="user.onChange($event.detail.value, 'email')" class="committee-color-dark" *ngIf="toggleeditemail"></ion-input>
+                  <div class="font-size-20" *ngIf="!toggleeditemail && user">{{ user && user.email ? user.email : "seban@abc.com"}}</div>
+                  <ion-input placeholder="Your Email" value="{{user.email}}" (ionChange)="user.onChange($event.detail.value, 'email')" class="committee-color-dark" *ngIf="toggleeditemail && user"></ion-input>
                 </ion-col>
               </ion-row>
             </ion-grid>
@@ -83,6 +83,14 @@
       </ion-content>
       <ion-footer padding style="background: var(--ion-color-committee)">
         <ion-grid style="width:100%;">
+          <ion-row>
+            <ion-col>
+              <div class="font-size-16" [translate]="'common.changepassword'"></div>
+            </ion-col>
+            <ion-col class="ion-text-end">
+              <div class="font-size-16 committee-button-text-color" (click)="changePassword()" [translate]="'common.edit'"></div>
+            </ion-col>
+          </ion-row>
           <ion-row>
             <ion-col>
               <div class="font-size-16" [translate]="'common.language'"></div>

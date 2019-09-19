@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import {LoadingController, MenuController, NavController, Platform} from '@ionic/angular';
+import {ActionSheetController, LoadingController, MenuController, NavController, Platform} from '@ionic/angular';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {AuthenticationService} from './_services/authentication.service';
@@ -89,6 +89,10 @@ export class AppComponent {
         }
       });
     });
+  }
+
+  changePassword() {
+    this.navCtrl.navigateRoot('/password');
   }
 
   async logout() {

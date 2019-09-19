@@ -61,18 +61,6 @@ export class WitnessStatusPage implements OnInit {
   openCamera() {
     this.cameraopened = !this.cameraopened;
     this.authenticationService.openCameraPreview();
-    // this.authenticationService.openCamera((blob) => {
-    //   let formData = new FormData();
-    //   formData.append('files', blob, 'profile_picture' + Math.random() + '.png');
-    //   this.authenticationService.uploadImage(formData, (data) => {
-    //     if (data && data.filesUploaded && data.filesUploaded.length) {
-    //       // this.user.imageUrl = data.filesUploaded[0];
-    //       // TODO store it in the uploaded witness IDS;
-    //     } else {
-    //       // TODO sorry couldnt upload the file
-    //     }
-    //   });
-    // });
   }
   openImagePicker() {
     this.authenticationService.getImageFromPicker((blob, base64data) => {
@@ -92,7 +80,7 @@ export class WitnessStatusPage implements OnInit {
       cssClass: 'action-sheets-basic-page',
       buttons: [
         {
-          text: 'Take photo',
+          text: 'تصوير',
           role: 'destructive',
           icon: !this.platform.is('ios') ? 'ios-camera-outline' : null,
           handler: () => {
@@ -100,7 +88,7 @@ export class WitnessStatusPage implements OnInit {
           }
         },
         {
-          text: 'Choose photo from Gallery',
+          text: 'اختيار صورة من معرض',
           icon: !this.platform.is('ios') ? 'ios-images-outline' : null,
           handler: () => {
             this.openImagePicker();

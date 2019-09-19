@@ -43,6 +43,10 @@ const routes = [
   {
     path: 'messaging',
     loadChildren: './messaging/messaging.module#MessagingModule', canActivate: [AuthGuard]
+  },
+  {
+    path: 'password',
+    loadChildren: './password/password.module#PasswordModule', canActivate: [AuthGuard]
   }
 ];
 

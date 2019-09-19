@@ -11,7 +11,7 @@
     <ion-row *ngIf="kiosksmodel.show.governorate && !readonly_view.governorate">
       <ion-col size="12">
         <ion-select [interfaceOptions]="customGovernorateOptions" [cancelText]="'إلغاء'" [okText]="'تطبيق'"
-                    interface="alert" multiple="false" placeholder="أختيار المحافظة" class="committee-ion-select"
+                    interface="action-sheet" multiple="false" placeholder="أختيار المحافظة" class="committee-ion-select"
                     [(ngModel)]="kiosksmodel.governorate.name" (ionChange)="dataService.onChangeGovernorate($event)">
           <ion-select-option *ngFor="let data of kiosksmodel.governorates"
                              value="{{data.name}}">{{data.arabicName}}</ion-select-option>
@@ -29,7 +29,7 @@
     <ion-row *ngIf="kiosksmodel.show.wilayat && !readonly_view.wilayat">
       <ion-col size="12">
         <ion-select [interfaceOptions]="customWilayatOptions"  [cancelText]="'إلغاء'" [okText]="'تطبيق'"
-                    interface="alert" multiple="false" placeholder="أختيار الولاية" class="committee-ion-select"
+                    interface="action-sheet" multiple="false" placeholder="أختيار الولاية" class="committee-ion-select"
                     [(ngModel)]="kiosksmodel.wilayat.name" (ionChange)="dataService.onChangeWilayat($event)"
                     [disabled] ="!(kiosksmodel.governorate && kiosksmodel.governorate.name)"
         >
@@ -45,7 +45,7 @@
     <ion-row *ngIf="kiosksmodel.show.pollingstation">
       <ion-col size="12">
         <ion-select [interfaceOptions]="customPSOptions" [cancelText]="'إلغاء'" [okText]="'تطبيق'"
-                    interface="alert" multiple="false" placeholder="أختيار المركز الانتخابي" class="committee-ion-select"
+                    interface="action-sheet" multiple="false" placeholder="أختيار المركز الانتخابي" class="committee-ion-select"
                     [(ngModel)]="kiosksmodel.pollingstation.name" (ionChange)="dataService.onChangePollingStation($event)"
                     [disabled] ="!(kiosksmodel.wilayat && kiosksmodel.wilayat.name)">
           <ion-select-option *ngFor="let data of kiosksmodel.pollingstations" value="{{data.name}}">{{data.arabicName}}</ion-select-option>

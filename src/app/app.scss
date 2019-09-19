@@ -301,10 +301,10 @@ app-dashboard {
 }
 
 .alert-wrapper {
-  min-width: 100vw !important;
-  min-height: 90vh !important;;
-  display: flex !important;
-  bottom: 0;
+  //  min-width: 100vw !important;
+  //  min-height: 90vh !important;;
+  //  display: flex !important;
+  //  bottom: 0;
   position: absolute;
   background: #FAFAFA !important;
 }
@@ -363,4 +363,10 @@ app-dashboard {
 
 .padding-0{
   padding: 0;
+}
+.action-sheet-group{
+  background: #ffffff !important;
+}
+app-root ion-content.camera{
+  --ion-background-color: none transparent;
 }

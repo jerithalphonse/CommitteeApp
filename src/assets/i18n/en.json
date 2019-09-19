@@ -22,7 +22,8 @@
     "language": "Language",
     "add_more": "Add More",
     "capture": "Capture",
-    "logout": "logout"
+    "logout": "logout",
+    "changepassword": "Password"
   },
   "messages": {
     "send": "Send Message",
@@ -149,5 +150,15 @@
     "polling_stations": "Polling stations",
     "add_witness": "Add Witness ID's",
     "no_records": "No Records"
+  },
+  "changepassword": {
+    "greetingsub": "Change Password",
+    "oldpassword": "Old password",
+    "oldpasswordrequired": "Type your old password",
+    "newpassword":  "New password",
+    "newpasswordrequired": "Type your new password",
+    "confirmpassword":  "Confirm new password",
+    "confirmpasswordrequired": "Type your password again",
+    "buttontext":  "Change Password"
   }
 }

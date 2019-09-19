@@ -33,7 +33,7 @@
       <ion-row>
         <ion-col size="12">
           <ion-select [interfaceOptions]="customPSOptions" [cancelText]="'إلغاء'" [okText]="'تطبيق'"
-                      interface="alert" multiple="false" placeholder="أختيار المركز الانتخابي" class="committee-ion-select-dark"
+                      interface="action-sheet" multiple="false" placeholder="أختيار المركز الانتخابي" class="committee-ion-select-dark"
                       [(ngModel)]="kiosksmodel.pollingstation.name"
                       (ionChange)="onChangePollingStation($event)">
             <ion-select-option *ngFor="let data of kiosksmodel.pollingstations"

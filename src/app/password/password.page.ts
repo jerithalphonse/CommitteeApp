@@ -2,15 +2,17 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NavController, MenuController, LoadingController} from '@ionic/angular';
 import {AuthenticationService} from '../_services/authentication.service';
+import {User} from '../_models';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: 'login.page.html',
-  styleUrls: ['login.page.scss'],
+  selector: 'app-changepassword',
+  templateUrl: 'password.page.html',
+  styleUrls: ['password.page.scss'],
 })
-export class LoginPage implements OnInit {
-  public onLoginForm: FormGroup;
+export class PasswordPage implements OnInit {
+  public onPasswordForm: FormGroup;
   public error: any;
+  public user: User;
 
   constructor(
     public navCtrl: NavController,
@@ -19,6 +21,13 @@ export class LoginPage implements OnInit {
     private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
   ) {
+    this.authenticationService.currentUser.subscribe(value => {
+      if (!value) {
+        this.goto('login');
+      } else {
+        this.user = value;
+      }
+    });
   }
 
   ionViewDidEnter() {
@@ -32,21 +41,24 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
-    this.onLoginForm = this.formBuilder.group({
-      username: [null, Validators.compose([
+    this.onPasswordForm = this.formBuilder.group({
+      oldpassword: [null, Validators.compose([
         Validators.required
       ])],
-      password: [null, Validators.compose([
+      newpassword: [null, Validators.compose([
+        Validators.required
+      ])],
+      confirmpassword: [null, Validators.compose([
         Validators.required
       ])]
     });
   }
 
   get f() {
-    return this.onLoginForm.controls;
+    return this.onPasswordForm.controls;
   }
 
-  async login(onLoginForm: any) {
+  async changePassword(onPasswordForm: any) {
     this.error = '';
     const dismissLoader = (res) => {
       res.dismiss();
@@ -55,10 +67,14 @@ export class LoginPage implements OnInit {
       });
     };
     const authFunc = (res) => {
-      this.authenticationService.login(this.f.username.value, this.f.password.value)
+      this.authenticationService.changePassword(this.user.id, this.f.oldpassword.value, this.f.newpassword.value)
         .subscribe(
-          data => {
-            this.navCtrl.navigateRoot('/dashboard');
+          (data: any) => {
+            if (data && data.success) {
+              this.navCtrl.navigateRoot('/login');
+            } else {
+              this.error = 'فشل في تغيير كلمة المرور';
+            }
             dismissLoader(res);
           },
           error => {
@@ -69,10 +85,18 @@ export class LoginPage implements OnInit {
           });
     };
     const loader = await this.loadingCtrl.create({
-      message: 'سجل دخولك'
+      message: 'تغيير كلمة المرور'
     }).then((res) => {
       res.present();
-      authFunc(res);
+      if (this.f.newpassword.value === this.f.confirmpassword.value) {
+        authFunc(res);
+      } else {
+        this.error = 'عدم تطابق كلمة المرور';
+      }
+
     });
+  }
+  goto(pagename: string) {
+    this.navCtrl.navigateRoot(pagename);
   }
 }

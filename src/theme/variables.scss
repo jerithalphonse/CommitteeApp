@@ -95,10 +95,17 @@ ion-content{
 ion-toolbar {
   --min-height: 56px;
 }
-
+a
 page-scan-qr ion-content{
   --ion-background-color: none transparent;
 }
 app-witness-status-page ion-content.camera{
   --ion-background-color: none transparent;
+}
+input{
+  border: 1px #ccced2 solid !important;
+}
+
+.action-sheet-group.sc-ion-action-sheet-ios {
+  overflow: auto;
 }
