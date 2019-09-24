@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 
 import { DashboardScreenPage } from './dashboard.page';
 import {TranslateModule} from '@ngx-translate/core';
+import {SharedModule} from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import {TranslateModule} from '@ngx-translate/core';
         path: '',
         component: DashboardScreenPage
       }
-    ])
+    ]),
+    SharedModule
   ],
   declarations: [DashboardScreenPage]
 })

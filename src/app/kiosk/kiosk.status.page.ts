@@ -32,12 +32,31 @@ export class KioskStatusPage implements OnInit {
     this.kiosksmodel.show.resetView({});
   }
   getKiosksStatus(type: string) {
-    this.kiosksStatusService.getKiosksStatusByWilayatId(this.kiosksmodel.wilayat.code, this.kiosksmodel.pollingstation, type,
-      this.kiosksmodel.assigned).subscribe(() => {
-
-    }, (errors) => {
-      // TODO Handle errors for not finding any kiosks
-    });
+    if (this.kiosksmodel && this.kiosksmodel.governorate && this.kiosksmodel.governorate.name === 'All' &&
+      this.kiosksmodel.wilayat.name === 'All') {
+      this.kiosksStatusService.getKiosksStatusAll(this.kiosksmodel.pollingstation, type,
+        this.kiosksmodel.assigned).subscribe(() => {
+        console.log('completed');
+      }, (errors) => {
+        console.log('errors');
+      });
+    } else if (this.kiosksmodel && this.kiosksmodel.governorate && this.kiosksmodel.governorate.name !== 'All' &&
+      this.kiosksmodel.wilayat.name === 'All') {
+      this.kiosksStatusService.getKiosksStatusByGovernorateId(this.kiosksmodel.governorate.code, this.kiosksmodel.pollingstation, type,
+        this.kiosksmodel.assigned).subscribe(() => {
+        console.log('completed');
+      }, (errors) => {
+        console.log('errors');
+      });
+    } else if (this.kiosksmodel && this.kiosksmodel.governorate && this.kiosksmodel.governorate.name !== 'All'
+      && this.kiosksmodel.wilayat && this.kiosksmodel.wilayat.code !== 'All') {
+      this.kiosksStatusService.getKiosksStatusByWilayatId(this.kiosksmodel.wilayat.code, this.kiosksmodel.pollingstation, type,
+        this.kiosksmodel.assigned).subscribe(() => {
+        console.log('completed');
+      }, (errors) => {
+        console.log('errors');
+      });
+    }
   }
   getRoleType() {
     if (this.user.roles && (this.user.roles.name === 'committee_head_voting' || this.user.roles.name === 'head_committee' ||

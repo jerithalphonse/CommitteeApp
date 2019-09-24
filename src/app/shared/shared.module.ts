@@ -20,6 +20,7 @@ import {ChatComponent, DateConvert} from './chat/chat.component';
 import {LanguagePopoverPage} from './language.popover.page';
 import {LanguageService} from '../_services/language.service';
 import {CameraComponent} from './camera/camera.component';
+import { UserNameDirectiveComponent} from './username/user.directive';
 @NgModule({
   imports: [
     CommonModule,
@@ -29,9 +30,10 @@ import {CameraComponent} from './camera/camera.component';
     TranslateModule
   ],
   entryComponents: [LanguagePopoverPage],
-  declarations: [SelectGovernorateComponent, ChatComponent, DateConvert, LanguagePopoverPage, CameraComponent],
+  declarations: [SelectGovernorateComponent, ChatComponent, DateConvert, LanguagePopoverPage, CameraComponent, UserNameDirectiveComponent],
   exports: [
     SelectGovernorateComponent,
+    UserNameDirectiveComponent,
     CameraComponent,
     LanguagePopoverPage,
     TranslateModule

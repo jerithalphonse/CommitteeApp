@@ -42,12 +42,31 @@ export class AttendanceStatusPage implements OnInit {
       type = this.getRoleType();
     }
     this.kiosksmodel.changeTab(type, assigned);
-    this.attendanceStatusService.getAttendanceStatusByWilayatId(this.kiosksmodel.wilayat.code, this.kiosksmodel.pollingstation,
-      type, assigned).subscribe(() => {
-      console.log('completed');
-    }, () => {
-      console.log('errors');
-    });
+    if (this.kiosksmodel && this.kiosksmodel.governorate && this.kiosksmodel.governorate.name === 'All' &&
+      this.kiosksmodel.wilayat.name === 'All') {
+      this.attendanceStatusService.getAttendanceStatusAll(
+        this.kiosksmodel.pollingstation, type, assigned).subscribe(() => {
+        console.log('completed');
+      }, (errors) => {
+        console.log('errors');
+      });
+    } else if (this.kiosksmodel && this.kiosksmodel.governorate && this.kiosksmodel.governorate.name !== 'All' &&
+      this.kiosksmodel.wilayat.name === 'All') {
+      this.attendanceStatusService.getAttendanceStatusByGovernorateId(this.kiosksmodel.governorate.code,
+        this.kiosksmodel.pollingstation, type, assigned).subscribe(() => {
+        console.log('completed');
+      }, (errors) => {
+        console.log('errors');
+      });
+    } else if (this.kiosksmodel && this.kiosksmodel.governorate && this.kiosksmodel.governorate.name !== 'All'
+      && this.kiosksmodel.wilayat && this.kiosksmodel.wilayat.code !== 'All') {
+      this.attendanceStatusService.getAttendanceStatusByWilayatId(this.kiosksmodel.wilayat.code, this.kiosksmodel.pollingstation,
+        type, assigned).subscribe(() => {
+        console.log('completed');
+      }, () => {
+        console.log('errors');
+      });
+    }
   }
 
   goto() {

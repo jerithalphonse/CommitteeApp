@@ -108,14 +108,14 @@ ion-slides {
   background-position: left;
 }
 
-.header-white-moilogo {
-  background: url("../assets/icon/moi-logo/moi-logo_transperent.png");
-  height: 40px;
-  width: 35px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: right;
-}
+//.header-white-moilogo {
+//  background: url("../assets/icon/moi-logo/moi-logo_transperent.png");
+//  height: 40px;
+//  width: 35px;
+//  background-size: contain;
+//  background-repeat: no-repeat;
+//  background-position: right;
+//}
 .header-white-shuraline{
   background: url("../assets/icon/shura-logo/shura_line1.png");
   height: 32px;
@@ -280,7 +280,12 @@ app-dashboard {
 .ion-padding-top-24 {
   padding-top: 24px;
 }
-
+.ion-margin-0 {
+  margin: 0;
+}
+.ion-padding-0 {
+  padding:0;
+}
 .committee-ion-select {
   border: 1px solid #F1F1F1;
   max-width: 100vw;
@@ -370,3 +375,5 @@ app-dashboard {
 app-root ion-content.camera{
   --ion-background-color: none transparent;
 }
+
+

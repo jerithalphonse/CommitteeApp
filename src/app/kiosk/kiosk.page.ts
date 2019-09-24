@@ -33,14 +33,7 @@ export class KioskPage implements OnInit {
     this.kiosksmodel.show.resetView({});
   }
   getKiosksStatus(type: string) {
-    // this.attendanceStatusService.getKiosksLockedStats(this.kiosksmodel.wilayat.code);
-    // this.attendanceStatusService.getAttendanceStatusByWilayatId(this.kiosksmodel.wilayat.code, this.kiosksmodel.pollingstation, type, this.kiosksmodel.assigned);
-    // this.kiosksStatusService.getKiosksLockedStats(this.kiosksmodel.wilayat.code);
-    this.kiosksStatusService.getKiosksStatusByWilayatId(this.kiosksmodel.wilayat.code, this.kiosksmodel.pollingstation, type,
-      this.kiosksmodel.assigned).subscribe(() => {
-    }, (errors) => {
-      // TODO Handle errors for not finding any kiosks
-    });
+
   }
   getRoleType() {
     if (this.user.roles && (this.user.roles.name === 'committee_head_voting' || this.user.roles.name === 'head_committee' ||
@@ -52,10 +45,35 @@ export class KioskPage implements OnInit {
     }
   }
   goto(url: string) {
-    if (this.kiosksmodel && this.kiosksmodel.wilayat && this.kiosksmodel.wilayat.code) {
+    if (this.kiosksmodel && this.kiosksmodel.governorate && this.kiosksmodel.governorate.name === 'All') {
       this.kiosksmodel.changeTab(this.getRoleType(),
         this.redirector === 'assigned' ? 'assigned' : 'any');
-      this.getKiosksStatus(this.redirector);
+      this.kiosksStatusService.getKiosksStatusAll(this.kiosksmodel.pollingstation, this.redirector,
+        this.kiosksmodel.assigned).subscribe(() => {
+        console.log('completed');
+      }, (errors) => {
+        console.log('errors');
+      });
+    } else if (this.kiosksmodel && this.kiosksmodel.governorate && this.kiosksmodel.governorate.name !== 'All' &&
+      this.kiosksmodel.wilayat.name === 'All') {
+      this.kiosksmodel.changeTab(this.getRoleType(),
+        this.redirector === 'assigned' ? 'assigned' : 'any');
+      this.kiosksStatusService.getKiosksStatusByGovernorateId(this.kiosksmodel.governorate.code, this.kiosksmodel.pollingstation,
+        this.redirector, this.kiosksmodel.assigned).subscribe(() => {
+        console.log('completed');
+      }, (errors) => {
+        console.log('errors');
+      });
+    } else if (this.kiosksmodel && this.kiosksmodel.governorate && this.kiosksmodel.governorate.name !== 'All'
+      && this.kiosksmodel.wilayat && this.kiosksmodel.wilayat.code !== 'All') {
+      this.kiosksmodel.changeTab(this.getRoleType(),
+        this.redirector === 'assigned' ? 'assigned' : 'any');
+      this.kiosksStatusService.getKiosksStatusByWilayatId(this.kiosksmodel.wilayat.code, this.kiosksmodel.pollingstation, this.redirector,
+        this.kiosksmodel.assigned).subscribe(() => {
+          console.log('completed');
+      }, (errors) => {
+          console.log('errors');
+      });
     }
     this.navCtrl.navigateRoot(url);
   }

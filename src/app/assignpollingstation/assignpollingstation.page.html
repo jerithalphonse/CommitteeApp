@@ -8,6 +8,7 @@
 </ion-header>
 
 <ion-content *ngIf="view === 'pollingstation'">
+  <app-shared-userdirective></app-shared-userdirective>
   <ion-grid>
     <ion-row *ngIf="!user.roles.directionsTab">
       <ion-col size="1"></ion-col>
@@ -41,6 +42,7 @@
 </ion-content>
 
 <ion-content *ngIf="view === 'supervisor'">
+  <app-shared-userdirective></app-shared-userdirective>
   <ion-grid>
     <ion-row *ngIf="!user.roles.directionsTab">
       <ion-col size="1"></ion-col>
@@ -81,6 +83,7 @@
 </ion-content>
 
 <ion-content *ngIf="view === 'teammembers'">
+  <app-shared-userdirective></app-shared-userdirective>
   <ion-grid>
     <ion-row *ngIf="!user.roles.directionsTab">
       <ion-col size="1"></ion-col>
@@ -128,6 +131,7 @@
 </ion-content>
 
 <ion-content *ngIf="view === 'preview'">
+  <app-shared-userdirective></app-shared-userdirective>
   <ion-grid>
     <ion-row *ngIf="!user.roles.directionsTab">
       <ion-col size="1"></ion-col>

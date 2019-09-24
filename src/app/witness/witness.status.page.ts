@@ -35,22 +35,35 @@ export class WitnessStatusPage implements OnInit {
     this.authenticationService.currentUser.subscribe(value => {
       this.user = value;
       if (this.user && this.user.roles.witnessTabAddMore && this.kiosksmodel) {
-        this.dataService.getPollingStationForWilayatId(this.user.wilayat, {all: false});
-        this.witnessStatusService.getWitnessStatusByWilayatId(this.user.wilayatCode, 'voting');
+        this.dataService.getPollingStationForWilayatId(this.user.wilayat, {all: true});
+        this.getWitnessStatus();
       }
     });
     this.dataService.currentDataService.subscribe(value => {
       this.kiosksmodel = value;
       if (this.kiosksmodel && this.kiosksmodel.wilayat && this.kiosksmodel.wilayat.code && !this.initialized) {
         this.initialized = true;
-        this.dataService.getPollingStationForWilayatId(this.kiosksmodel.wilayat, {all: false});
-        this.witnessStatusService.getWitnessStatusByWilayatId(this.kiosksmodel.wilayat.code, 'voting');
+        this.dataService.getPollingStationForWilayatId(this.kiosksmodel.wilayat, {all: true});
+        this.getWitnessStatus();
       }
       this.witnessmodel.updatePollingStationKeys(this.kiosksmodel.pollingstations);
     });
     this.witnessStatusService.currentDataService.subscribe(value => {
       this.witnessmodel = value;
     });
+  }
+
+  getWitnessStatus() {
+    if (this.kiosksmodel && this.kiosksmodel.governorate && this.kiosksmodel.governorate.name === 'All' &&
+      this.kiosksmodel.wilayat.name === 'All') {
+      this.witnessStatusService.getWitnessStatusAll('voting');
+    } else if (this.kiosksmodel && this.kiosksmodel.governorate && this.kiosksmodel.governorate.name !== 'All' &&
+      this.kiosksmodel.wilayat.name === 'All') {
+      this.witnessStatusService.getWitnessStatusByGovernorateId(this.kiosksmodel.governorate.code, 'voting');
+    } else if (this.kiosksmodel && this.kiosksmodel.governorate && this.kiosksmodel.governorate.name !== 'All'
+      && this.kiosksmodel.wilayat && this.kiosksmodel.wilayat.code !== 'All') {
+      this.witnessStatusService.getWitnessStatusByWilayatId(this.kiosksmodel.wilayat.code, 'voting');
+    }
   }
 
   ngOnInit() {}

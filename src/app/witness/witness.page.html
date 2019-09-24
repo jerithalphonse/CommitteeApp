@@ -8,6 +8,7 @@
 </ion-header>
 
 <ion-content *ngIf="!user.roles.witnessTabAddMore">
+  <app-shared-userdirective></app-shared-userdirective>
   <ion-grid>
     <ion-row *ngIf="!user.roles.witnessTab">
       <ion-col size="1"></ion-col>

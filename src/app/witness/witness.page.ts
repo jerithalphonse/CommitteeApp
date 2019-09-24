@@ -34,7 +34,7 @@ export class WitnessPage implements OnInit {
     // this.witnessStatusService.getAttendanceStatusByWilayatId(this.kiosksmodel.wilayat.code, type);
   }
   goto(url: string) {
-    if (this.kiosksmodel && this.kiosksmodel.wilayat && this.kiosksmodel.wilayat.code) {
+    if (this.kiosksmodel && this.kiosksmodel.wilayat && this.kiosksmodel.wilayat.arabicName) {
       this.navCtrl.navigateRoot(url);
     }
   }
