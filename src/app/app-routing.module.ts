@@ -5,7 +5,7 @@ import {AuthGuard} from './_helpers';
 const routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
@@ -39,6 +39,14 @@ const routes = [
   {
     path: 'scanqr',
     loadChildren: './scanqr/scanqr.module#ScanqrModule', canActivate: [AuthGuard]
+  },
+  {
+    path: 'creds',
+    loadChildren: './creds/creds.module#CredsModule', canActivate: [AuthGuard]
+  },
+  {
+    path: 'contacts',
+    loadChildren: './contacts/contacts.module#ContactsModule', canActivate: [AuthGuard]
   },
   {
     path: 'messaging',

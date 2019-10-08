@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="committee-background-design">
   <app-shared-userdirective></app-shared-userdirective>
   <ion-grid>
     <ion-row>
@@ -24,8 +24,8 @@
             <ion-grid>
               <ion-row class="ion-padding-bottom">
                 <ion-col size="12" class="ion-padding-left-16">
-                  <h4 class="width-95 line-height-one" [translate]="'messages.all'" *ngIf="user.roles.name === 'head_committee'"></h4>
-                  <h4 class="width-95 line-height-one" [translate]="'messages.all_wali'" *ngIf="user.roles.name !== 'head_committee'"></h4>
+                  <h4 class="width-95 line-height-one" [translate]="'messages.all'" *ngIf="user.roles.name === 'high_committee' || user.roles.name === 'main_committee'"></h4>
+                  <h4 class="width-95 line-height-one" [translate]="'messages.all_wali'" *ngIf="user.roles.name !== 'high_committee' && user.roles.name !== 'main_committee'"></h4>
 <!--                  <div class="ion-padding-right-5" [translate]="'messages.allteam'"></div>-->
                   <ion-icon name="arrow-forward" item-right class="message-page-card-icon-right font-size-32"></ion-icon>
                 </ion-col>
@@ -61,8 +61,9 @@
             <ion-grid>
               <ion-row class="ion-padding-bottom">
                 <ion-col size="12" class="ion-padding-left-16">
-                  <h4 class="width-95 line-height-one" [translate]="'messages.head_committee'"></h4>
-<!--                  <div class="ion-padding-right-5" [translate]="'messages.head_committee_message'"></div>-->
+                  <h4 class="width-95 line-height-one" [translate]="'messages.high_committee'"></h4>
+<!--                  <h4 class="width-95 line-height-one" [translate]="'messages.main_committee'"></h4>-->
+<!--                  <div class="ion-padding-right-5" [translate]="'messages.high_committee_message'"></div>-->
                   <ion-icon name="arrow-forward" item-right class="message-page-card-icon-right font-size-32"></ion-icon>
                 </ion-col>
               </ion-row>

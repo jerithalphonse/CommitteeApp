@@ -31,7 +31,7 @@
         <form [formGroup]="onLoginForm" class="list-form">
           <div class="ion-margin">
             <ion-item lines="none">
-              <ion-label position="stacked"><span class="bold-600" [translate]="'login.usernametext'"></span></ion-label>
+              <ion-label position="stacked" class="ion-margin-bottom"><span class="bold-600" [translate]="'login.usernametext'"></span></ion-label>
               <ion-input type="text" formControlName="username"></ion-input>
             </ion-item>
             <ion-item lines="none" *ngIf="onLoginForm.get('username').touched && onLoginForm.get('username').hasError('required')">
@@ -42,7 +42,7 @@
               </p>
             </ion-item>
             <ion-item lines="none">
-              <ion-label position="stacked"><span class="bold-600" [translate]="'login.passwordtext'"></span></ion-label>
+              <ion-label position="stacked" class="ion-margin-bottom"><span class="bold-600" [translate]="'login.passwordtext'"></span></ion-label>
               <ion-input type="password" formControlName="password"></ion-input>
             </ion-item>
             <ion-item lines="none"  *ngIf="onLoginForm.get('password').touched && onLoginForm.get('password').hasError('required')">

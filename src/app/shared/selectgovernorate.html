@@ -11,7 +11,7 @@
     <ion-row *ngIf="kiosksmodel.show.governorate && !readonly_view.governorate">
       <ion-col size="12">
         <ion-select [interfaceOptions]="customGovernorateOptions" [cancelText]="'إلغاء'" [okText]="'تطبيق'"
-                    interface="action-sheet" multiple="false" placeholder="أختيار المحافظة" class="committee-ion-select"
+                    interface="action-sheet" multiple="false" placeholder="اختيار المحافظة" class="committee-ion-select"
                     [(ngModel)]="kiosksmodel.governorate.name" (ionChange)="dataService.onChangeGovernorate($event)">
           <ion-select-option *ngFor="let data of kiosksmodel.governorates"
                              value="{{data.name}}">{{data.arabicName}}</ion-select-option>

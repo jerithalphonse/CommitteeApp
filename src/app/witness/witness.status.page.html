@@ -6,10 +6,13 @@
     <ion-title class="back-button-icon-left" [translate]="'witness.status_title'"></ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content *ngIf="!cameraopened && !previewmode">
+<ion-content *ngIf="!cameraopened && !previewmode" class="committee-background-design">
   <app-shared-userdirective></app-shared-userdirective>
   <ion-item class="committee-background-white">
     <ion-grid>
+      <ion-row>
+        <h3>{{'المحافظة  :' + kiosksmodel.governorate.arabicName + ' · ' +  ' الولاية:' + kiosksmodel.wilayat.arabicName}}</h3>
+      </ion-row>
       <ion-row>
         <ion-col size="12" class="font-size-14">
           <ion-label><span [translate]="'witness.subtext'"></span></ion-label>
@@ -85,7 +88,7 @@
     </ion-grid>
   </div>
 </ion-content>
-<ion-content *ngIf="previewmode" fullscreen="true">
+<ion-content *ngIf="previewmode" fullscreen="true" class="committee-background-design">
   <div class="image-area" >
     <ion-img src="{{blob.image}}" class="image-preview"></ion-img>
     <div class="button-bottom">

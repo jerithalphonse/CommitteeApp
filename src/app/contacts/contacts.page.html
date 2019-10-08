@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="dashboard" [text]="'عودة'"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="back-button-icon-left" [translate]="'contacts.title'"></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="committee-background-design">
+  <app-shared-userdirective></app-shared-userdirective>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="1"></ion-col>
+      <ion-col size="11">
+        <h5 color="dark-shade" class="fontweight-medium"></h5>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-list lines="none">
+          <app-shared-selectgovernorate></app-shared-selectgovernorate>
+          <ion-item>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12">
+                  <ion-button size="medium" expand="block" color="success" shape="round" (click)="goto('/contacts/list')"
+                              [disabled]="!(kiosksmodel.governorate && kiosksmodel.governorate.name
+                    && kiosksmodel.wilayat && kiosksmodel.wilayat.name)">
+                    <ion-ripple-effect></ion-ripple-effect>
+                    <span [translate]="'witness.view'"></span>
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

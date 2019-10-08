@@ -18,6 +18,7 @@ import {ImagePicker} from '@ionic-native/image-picker/ngx';
 import { CameraPreview, CameraPreviewPictureOptions, CameraPreviewOptions,
   CameraPreviewDimensions } from '@ionic-native/camera-preview/ngx';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {Network} from '@ionic-native/network/ngx';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -43,6 +44,7 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
     ImagePicker,
     // Camera,
     CameraPreview,
+    Network,
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},

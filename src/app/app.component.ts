@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import {ActionSheetController, LoadingController, MenuController, NavController, Platform} from '@ionic/angular';
+import {ActionSheetController, LoadingController, MenuController, NavController, Platform, ToastController} from '@ionic/angular';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {AuthenticationService} from './_services/authentication.service';
@@ -10,6 +10,7 @@ import {LanguageService} from './_services/language.service';
 import { PopoverController, AlertController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import {LanguagePopoverPage} from './shared/language.popover.page';
+import {Network} from '@ionic-native/network/ngx';
 const config = {
   apiKey: 'AIzaSyDHhSWHdykCVNwmpJxGIpwZ-Dk4Crofo7I',
   authDomain: 'imtac-sample.firebaseapp.com',
@@ -38,8 +39,19 @@ export class AppComponent {
     public navCtrl: NavController,
     public loadingCtrl: LoadingController,
     private languageService: LanguageService,
-    private translate: TranslateService, private popoverCtrl: PopoverController, private alertCtrl: AlertController) {
+    private translate: TranslateService, private popoverCtrl: PopoverController, private alertCtrl: AlertController,
+    public toast: ToastController, private network: Network) {
     this.initializeApp();
+    this.network.onDisconnect().subscribe(() => {
+      this.toast.create({
+        message: 'أنت غير متصل ، اتصل بالشبكة'
+      }).then((res) => {
+        res.present();
+        this.network.onConnect().subscribe(() => {
+          res.dismiss();
+        });
+      });
+    });
   }
 
   initializeApp() {
@@ -130,4 +142,5 @@ export class AppComponent {
     });
     await popover.present();
   }
+
 }

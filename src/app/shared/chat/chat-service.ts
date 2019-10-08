@@ -9,6 +9,7 @@ import {APIService, WitnessStatusModel} from '../../_services/authentication.ser
 
 export class ChatMessage {
   public Id: string;
+  public ToId: string;
   public By: string;
   public CreatedAt: string;
   public Message: string;
@@ -16,6 +17,7 @@ export class ChatMessage {
   public WilayatCode: string;
   public Wilayat: Wilayat;
   public CreatedBy: User;
+  public CreatedToUser: User;
 
   constructor(props) {
     this.Id = props.id ? props.id : null;
@@ -23,15 +25,27 @@ export class ChatMessage {
     this.CreatedAt = props.createdAt ? props.createdAt : '';
     this.Message = props.message ? props.message : '';
     this.To = props.to ? props.to : '';
-    this.WilayatCode = props.wilayatCode ? props.wilayatCode : '';
+    this.ToId = props.toId ? props.toId : null;
+    this.WilayatCode = props.wilayatCode ? props.wilayatCode : null;
     this.Wilayat = props.wilayat ? new Wilayat(props.wilayat) : new Wilayat({});
     this.CreatedBy = props.createdBy ? new User(props.createdBy) : new User({});
+    this.CreatedToUser = props.createdToUser ? new User(props.createdToUser) : new User( {});
+  }
+}
+
+export class RestrictWaliTime {
+  public startDateTime: Date;
+  public endDateTime: Date;
+  constructor(props) {
+    this.startDateTime = props.startDateTime ? new Date(this.startDateTime) : null;
+    this.endDateTime = props.endDateTime ? new Date(this.endDateTime) : null;
   }
 }
 
 export class ChatList {
   public allmessages: Array<ChatMessage> = [];
   public chatrole: string;
+  public restrictwali: Array<RestrictWaliTime> = [];
 
   constructor(props) {
     this.initMessage(props, new User({}));
@@ -39,43 +53,49 @@ export class ChatList {
 
   public initMessage(data, user: User) {
     const viewtypes = {
-      head_committee: {
-        readonly: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'wilayat_officer_only', 'committee_head_only', 'head_committee_only'],
-        toallmembers: ['head_committee', 'wilayat_officer', 'wilayat_assistant'],
-        towaliofficers: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'wilayat_officer_only'],
-        tocommitteehead: ['head_committee', 'committee_head_only'],
+      high_committee: {
+        readonly: ['high_committee', 'main_committee', 'wilayat_officer', 'wilayat_assistant', 'wilayat_officer_only', 'committee_head_only', 'high_committee_only'],
+        toallmembers: ['high_committee', 'main_committee', 'wilayat_officer', 'wilayat_assistant'],
+        towaliofficers: ['high_committee', 'main_committee', 'wilayat_officer', 'wilayat_assistant', 'wilayat_officer_only', 'high_committee_only'],
+        tocommitteehead: ['high_committee', 'main_committee', 'committee_head_only', 'high_committee_only'],
+      }, main_committee: {
+        readonly: ['high_committee', 'main_committee', 'wilayat_officer', 'wilayat_assistant', 'wilayat_officer_only', 'committee_head_only', 'high_committee_only'],
+        toallmembers: ['high_committee', 'main_committee', 'wilayat_officer', 'wilayat_assistant'],
+        towaliofficers: ['high_committee', 'main_committee', 'wilayat_officer', 'wilayat_assistant', 'wilayat_officer_only', 'high_committee_only'],
+        tocommitteehead: ['high_committee', 'main_committee', 'committee_head_only', 'high_committee_only'],
       }, wali_officer: {
-        readonly: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'wilayat_officer_only'],
-        toallmembers: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head'],
-        toheadcommittee: ['head_committee', 'head_committee_only', 'wilayat_officer_only'],
+        readonly: ['high_committee', 'main_committee', 'wilayat_officer', 'wilayat_assistant', 'wilayat_officer_only'],
+        toallmembers: ['high_committee', 'main_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head'],
+        toheadcommittee: ['high_committee', 'main_committee', 'high_committee_only', 'wilayat_officer_only'],
       }, wali_assistant: {
-        readonly: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'wilayat_officer_only'],
-        toallmembers: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head'],
-        toheadcommittee: ['head_committee', 'wilayat_officer_only', 'head_committee_only'],
+        readonly: ['high_committee', 'main_committee', 'wilayat_officer', 'wilayat_assistant', 'wilayat_officer_only'],
+        toallmembers: ['high_committee', 'main_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head'],
+        toheadcommittee: ['high_committee', 'main_committee', 'wilayat_officer_only', 'high_committee_only'],
       }, committee_head_voting: {
-        readonly: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head', 'committee_head_only'],
+        readonly: ['high_committee', 'main_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head', 'committee_head_only'],
         toallmembers: ['committee_head']
       }, committee_head_counting: {
-        readonly: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head', 'committee_head_only'],
+        readonly: ['high_committee', 'main_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head', 'committee_head_only'],
         toallmembers: ['committee_head']
       }, polling_station_supervisor_voting: {
-        readonly: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head']
+        readonly: ['high_committee', 'main_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head']
       }, polling_station_supervisor_counting: {
-        readonly: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head']
+        readonly: ['high_committee', 'main_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head']
       }, committee_member_voting: {
-        readonly: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head']
+        readonly: ['high_committee', 'main_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head']
       }, committee_member_counting: {
-        readonly: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head']
+        readonly: ['high_committee', 'main_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head']
       }, committee_head_organizing: {
-        readonly: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head', 'committee_head_only'],
+        readonly: ['high_committee', 'main_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head', 'committee_head_only'],
         toallmembers: ['committee_head']
       }, polling_station_supervisor_organizing: {
-        readonly: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head']
+        readonly: ['high_committee', 'main_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head']
       }, committee_member_organizing: {
-        readonly: ['head_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head']
+        readonly: ['high_committee', 'main_committee', 'wilayat_officer', 'wilayat_assistant', 'committee_head']
       }
     };
-    const decider = (message) => {
+    const messageDecider = (message) => {
+      // first level filter to show the message or not;
       const getMessage = (list, rolename) => {
         for (const i in list) {
           if (list && list[i] === message.To) {
@@ -112,10 +132,25 @@ export class ChatList {
         return false;
       }
     };
+    const personalMessageDecider = (message) => {
+      // check if we have a message only to a specific person (say high committee sending it only to wali)
+      if (message && message.ToId && message.ToId) {
+        if (message.ToId === user.id) {
+          return message;
+        } else if (message.By === user.id) {
+          return message;
+        } else {
+          return false;
+        }
+      } else {
+        return message;
+      }
+    };
     this.allmessages = [];
     for (const i in data) {
       let temp = new ChatMessage(data[i]);
-      temp = decider(temp);
+      temp = messageDecider(temp);
+      temp = personalMessageDecider(temp);
       if (data[i] && temp) {
         this.allmessages.push(temp);
       }
@@ -133,6 +168,7 @@ export class ChatService {
   public currentDataService: Observable<ChatList>;
 
   constructor(private http: HttpClient, private apiService: APIService) {
+    const restrictwali = JSON.parse(localStorage.getItem('restrictwali'));
     this.currentDataServiceSubject = new BehaviorSubject<ChatList>(new ChatList({}));
     this.currentDataService = this.currentDataServiceSubject.asObservable();
   }
@@ -141,29 +177,55 @@ export class ChatService {
     return this.currentDataServiceSubject.value;
   }
 
-  sendMsg(msg: string, user: User, type: any) {
+  sendMsg(msg: string, user: User, type: any, toUser: User) {
     const mapperTo = (role, message_type) => {
       if (message_type) {
         return message_type;
       } else {
         if (role && role.id === 1) {
-          return 'head_committee';
+          return 'high_committee';
+        } else if (role && role.id === 2002) {
+          return 'main_committee';
         } else if (role && role.id === 2) {
           return 'wilayat_officer';
         } else if (role && role.id === 3) {
           return 'wilayat_officer';
         } else if (role && role.id === 4) {
-          return 'committee_head';
-        } else if (role && role.id === 5) {
-          return 'committee_head';
+          return 'committee_head_voting';
+        } else if (role && role.id === 1002) {
+          return 'committee_head_organizing';
         } else if (role && role.id === 6) {
           return 'team_members_voting';
-        } else if (role && role.id === 7) {
-          return 'team_members_organizing_counting';
+        } else if (role && role.id === 1003) {
+          return 'team_members_organizing';
         } else if (role && role.id === 8) {
           return 'team_members_voting';
         } else if (role && role.id === 9) {
-          return 'team_members_organizing_counting';
+          return 'team_members_organizing';
+        } else if (role && role.id === 5) {
+          return 'committee_head_counting';
+        } else if (role && role.id === 7) {
+          return 'team_members_counting';
+        } else if (role && role.id === 1004) {
+          return 'team_members_organizing';
+        }
+      }
+    };
+    const mapperToEveryWilayat = (role, userdata, message_type, toUser) => {
+      if (message_type === 'wilayat_officer_only'  || message_type === 'high_committee_only') {
+        // if (toUser && toUser.id) {
+        //   // if we specify the user it should go only to that specific user
+        //   return toUser.wilayatCode;
+        // } else {
+          // generic message to all wilayats
+          return null;
+        // }
+      } else {
+        if (role && (role.id === 1 || role.id === 2002)) {
+          // generic message to all wilayats by high committee and main_committee
+          return null;
+        } else {
+          return  userdata.wilayatCode;
         }
       }
     };
@@ -172,12 +234,14 @@ export class ChatService {
         by: user.id,
         createdAt: new Date(),
         message: msg,
-        wilayatCode: user.wilayatCode,
+        wilayatCode: mapperToEveryWilayat(user.roles, user, type, toUser) ,
+        toId: toUser.id,
         to: mapperTo(user.roles, type)
       });
       delete temp.Id;
       delete temp.CreatedBy;
       delete temp.Wilayat;
+      delete temp.CreatedToUser;
       this.http.post(`${config.apiUrl}/messaging/wilayat`, temp).subscribe(messages => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         observer.next(messages);

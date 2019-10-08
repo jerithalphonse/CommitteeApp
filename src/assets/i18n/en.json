@@ -23,7 +23,8 @@
     "add_more": "Add More",
     "capture": "Capture",
     "logout": "logout",
-    "changepassword": "Password"
+    "changepassword": "Password",
+    "something_went_wrong": "Something is wrong, please try later"
   },
   "messages": {
     "send": "Send Message",
@@ -34,12 +35,17 @@
     "allteam": "Send messsage to all team members",
     "committee_head": "Committee Head",
     "commitee_head_message": "Send message to all committee heads",
-    "head_committee": "Head Committee",
-    "head_committee_message": "Send message to head committee",
+    "high_committee": "High Committee",
+    "high_committee_message": "Send message to High committee",
+    "main_committee": "Main Committee",
+    "main_committee_message": "Send message to High committee",
     "wali_officer": "Wali Officer",
     "wali_officer_message": "Send message to all wali officer's",
     "restrict_message": "Restrict Message",
-    "restrict_message_text": "Restrict wali officer's to reply back "
+    "restrict_message_text": "Restrict wali officer's to reply back ",
+    "nowaliuser": "No user assigned to the wilayat",
+    "sendtoonly": "Sent only to",
+    "sendtoonlyby": "by"
   },
   "assignpollingstation": {
     "title": "Assign Polling Station",
@@ -104,7 +110,8 @@
     "greeting": "Al-Shura Elections",
     "withcode": "<br><br>You are <b>epic</b>!",
     "btn": "Show Alert",
-    "head_committee": "Head Commmittee",
+    "high_committee": "High Commmittee",
+    "main_committee": "Main Commmittee",
     "wali_officer": "Wali Officer",
     "wali_assistant": "Wali Assistant",
     "committee_head_voting": "Committee Head",
@@ -117,6 +124,9 @@
     "kiosksstatus_deployedtext": "Check the status for all the deployed kiosks",
     "attendance":  "Attendance",
     "attendance_text": "Check attendance for all the committee members",
+    "attendance_text_committee_head_voting": "Check attendance for voting committee members",
+    "attendance_text_committee_head_organizing": "Check attendance for organizing committee members",
+    "attendance_text_committee_head_counting": "Check attendance for counting committee members",
     "pollingstation":  "Assign Polling Station",
     "pollingstation_text": "Assign members & supervisor for polling station",
     "witnessid": "Witness ID",
@@ -129,7 +139,13 @@
     "checkmessage_committeehead" : "Check messages send by our committee head",
     "scanqr":  "Scan QR Code",
     "markattendance" : "Scan to mark attendance or self assign kiosk",
-    "scan_markattendance":  "Scan QR code to mark your attendance"
+    "countingSoftwareTab": "Credentials",
+    "countingSoftwareTabSubText": "Counting software username and password",
+    "contacts": "contacts",
+    "contacts_text": "directory of members",
+    "scan_markattendance":  "Scan QR code to mark your attendance",
+    "startin": "Voting will start in",
+    "endin": "Voting will end in"
   },
   "login": {
     "greeting": "Majlis Al-Shura",
@@ -160,5 +176,13 @@
     "confirmpassword":  "Confirm new password",
     "confirmpasswordrequired": "Type your password again",
     "buttontext":  "Change Password"
+  },
+  "contacts": {
+    "title": "Contacts"
+  },
+  "creds": {
+    "title": "Login details",
+    "usernametext": "Username",
+    "passwordtext": "Password"
   }
 }

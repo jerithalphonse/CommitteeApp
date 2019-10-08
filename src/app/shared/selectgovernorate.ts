@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {AuthenticationService, DataService, KiosksModel} from '../_services/authentication.service';
 import {NavController, MenuController, LoadingController} from '@ionic/angular';
 import {User} from '../_models';
@@ -10,6 +10,8 @@ import { AlertController } from '@ionic/angular';
   styleUrls: []
 })
 export class SelectGovernorateComponent implements OnInit {
+  @Input() readonly: any;
+  get childData(): any { return this.readonly; }
   public user = new User({});
   public kiosksmodel = new KiosksModel();
   public readonly_view = {
@@ -18,7 +20,7 @@ export class SelectGovernorateComponent implements OnInit {
     pollingstation: false
   };
   customGovernorateOptions: any = {
-    header: 'أختيار المحافظة',
+    header: 'اختيار المحافظة',
     translucent: true
   };
 
@@ -34,18 +36,28 @@ export class SelectGovernorateComponent implements OnInit {
 
   constructor(private authenticationService: AuthenticationService, public dataService: DataService,
               public alertController: AlertController,  public navCtrl: NavController) {
+  }
+
+  ngOnInit() {
     this.authenticationService.currentUser.subscribe(value => {
       this.user = value;
-      if (this.user && this.user.roles && (this.user.roles.name === 'wali_officer' || this.user.roles.name === 'wali_assistant' ||
-        this.user.roles.name === 'committee_head_voting' || this.user.roles.name === 'committee_head_counting')) {
+      if (this.user && this.user.roles && (this.user.roles.name !== 'high_committee' && this.user.roles.name !== 'main_committee')) {
         this.dataService.getGovernates();
         this.dataService.setGovernate(this.user.governorate);
-        this.dataService.getWilayatFromGovernorateId(this.user.governorate);
+        this.dataService.getWilayatFromGovernorateId(this.user.governorate).subscribe(() => {}, () => {});
         this.dataService.setWilayat(this.user.wilayat);
         this.dataService.getPollingStationForWilayatId(this.user.wilayat, {});
-        this.readonly_view.governorate = true;
-        this.readonly_view.wilayat = true;
-      } else if (this.user && this.user.roles && this.user.roles.name === 'head_committee') {
+        if (this.readonly && this.readonly.governorate !== undefined) {
+          this.readonly_view.governorate = this.readonly.governorate;
+        } else {
+          this.readonly_view.governorate = true;
+        }
+        if (this.readonly && this.readonly.wilayat !== undefined) {
+          this.readonly_view.wilayat = this.readonly.wilayat;
+        } else {
+          this.readonly_view.wilayat = true;
+        }
+      } else if (this.user && this.user.roles && (this.user.roles.name === 'high_committee' || this.user.roles.name === 'main_committee')) {
         this.dataService.getGovernates();
       }
     });
@@ -53,8 +65,6 @@ export class SelectGovernorateComponent implements OnInit {
       this.kiosksmodel = value;
     });
   }
-
-  ngOnInit() {}
 
   goto(url: string) {
     this.navCtrl.navigateRoot(url);

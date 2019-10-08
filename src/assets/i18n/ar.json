@@ -23,7 +23,8 @@
     "add_more": "إضافة ",
     "capture": "إالتقاط",
     "logout": "خروج",
-    "changepassword": "كلمه السر"
+    "changepassword": "كلمه السر",
+    "something_went_wrong": "هناك خطأ ما ، يرجى المحاولة لاحقًا"
   },
   "messages": {
     "send": "ارسال الرسائل",
@@ -34,20 +35,25 @@
     "allteam": "إرسال رسائل إلى جميع أعضاء الفريق",
     "committee_head": "رؤساء اللجان الانتخابية بالولايات",
     "commitee_head_message": "إرسال رسائل لكل روؤساء اللجان",
-    "head_committee": "رؤساء اللجان الفرعية بالولاية",
-    "head_committee_message": "إرسال رسالة إلى",
+    "high_committee": "رؤساء اللجان الفرعية بالولاية",
+    "high_committee_message": "إرسال رسالة إلى",
+    "main_committee": "رؤساء اللجان الفرعية بالولاية",
+    "main_committee_message": "إرسال رسالة إلى",
     "wali_officer": "رؤساء اللجان الفرعية بالولايات",
     "wali_officer_message": "إرسال رسائل الى جميع روؤساء اللجان الانتخابية بالولايات",
     "restrict_message": "خيار عدم تلقي اية ردود",
-    "restrict_message_text": "حضر أي رسائل من رؤساء اللجان"
+    "restrict_message_text": "حضر أي رسائل من رؤساء اللجان",
+    "nowaliuser": "لا يوجد مستخدم محدد للدولة",
+    "sendtoonly": "فقط أرسل إلى",
+    "sendtoonlyby": "بواسطة"
   },
   "assignpollingstation": {
     "title": "إدارة اللجان بالمراكز الانتخابية",
     "subtitle": "الرجاء اختيار المركز الانتخابي لتعيين مساعدي رؤساء اللجان/أعضاء اللجان",
     "continue": "استمر",
-    "chosesupervisor": "أختيار مساعد رئيس اللجنة للمركز الانتخابي",
+    "chosesupervisor": "اختيار مساعد رئيس اللجنة للمركز الانتخابي",
     "selectsupervisor": "اختر المشرف *",
-    "addmembers_topolling": "اختيار أعضاء للمركز الانتخابي",
+    "addmembers_topolling": "اختيار أعضاء المركز الانتخابي",
     "addmembers": "إضافة أعضاء",
     "supervisor": "مساعد رئيس اللجنة",
     "save_assign": "حفظ",
@@ -73,9 +79,9 @@
     "reassign": "إعادة تعيين",
     "assign": "يسند إلى",
     "assignmember": "تعيين",
-    "none": "لم يتم تعين عضو من لجنة التصويت لهذا الجهاز",
+    "none": "لم يتم تعيين أي عضو من لجنة التصويت لهذا الجهاز",
     "assignedto": "تم تعيين هذا الجهاز ل:",
-    "no_records_founds": "لم يتم تعين اية جهاز تصويت لأي عضو من لجنة التصويت"
+    "no_records_founds": "لم يتم تعيين أي جهاز تصويت لأي عضو من لجنة التصويت"
   },
   "kiosks_assign": {
     "title": "أختيار عضو لجنة التصويت",
@@ -96,28 +102,34 @@
     "present": "حاضر",
     "absent": "لم يثبت حضوره",
     "none": "لم يتم تعين جهاز تصويت ل:",
-    "assigned_to": "تم تعين هذا العضو للجهاز رقم"
+    "assigned_to": "تم تعيين هذا العضو للجهاز رقم"
   },
   "dashboard": {
     "title": "الصفحة الرئيسية",
     "greeting": "انتخابات الشورى",
-    "head_committee": " اللجنة الرئيسية",
-    "wali_officer": "رئيس اللجنة الانتخابية بالولاية",
-    "wali_assistant": "مقرر اللجنة الانتخابية بالولاية",
+    "high_committee": " اللجنة الرئيسية",
+    "main_committee": " اللجنة الرئيسية",
+    "wali_officer": "رئيس اللجنة الانتخابية بالولاية (الوالي)",
+    "wali_assistant": "مقرر اللجنة الانتخابية بالولاية (نائب الوالي)",
     "committee_head_voting": "رئيس لجنة التصويت",
     "committee_head_counting": "رئيس اللجنة المنظمة",
     "committee_head_organizing": "رئيس اللجنة",
-    "supervisor_assignedtext": "لقد تم تعيينك مساعد رئيس اللجنة للمركز الانتخابي",
+    "supervisor_assignedtext_voting": "لقد تم تعيينك مساعدا لرئيس لجنة التصويت للمركز الانتخابي",
+    "supervisor_assignedtext_organizing": "لقد تم تعيينك مساعدا لرئيس لجنة التنظيم للمركز الانتخابي",
+    "supervisor_assignedtext_counting": "لقد تم تعيينك مساعدا لرئيس لجنة الفرز للمركز الانتخابي",
     "greeting_sub": "مرحبا",
     "supervisor_assignedtext_detail": "لقد تم توزيعك على المركز الانتخابي",
-    "kiosksstatus": "أجهزة التصويت الالكتروني",
+    "kiosksstatus": "أجهزة التصويت الإلكتروني",
     "kiosksstatus_deployedtext": "متابعة أجهزة التصويت الإلكتروني",
     "attendance": "إدارة حضور أعضاء اللجان",
     "attendance_other_header": "",
     "attendance_text": "متابعة أعضاء اللجان",
+    "attendance_text_committee_head_voting": "متابعة أعضاء لجنة التصويت",
+    "attendance_text_committee_head_organizing": "متابعة أعضاء لجنة التنظيم",
+    "attendance_text_committee_head_counting": "متابعة أعضاء لجنة الفرز",
     "pollingstation": "إدارة اللجان بالمراكز الانتخابية",
     "pollingstation_text": "تعيين مساعدي رؤساء اللجان / أعضاء اللجان للمراكز الانتخابية",
-    "witnessid": "الحاضرين لفتح وإغلاق أجهزة /صناديق التصويت",
+    "witnessid": "الحاضرون لفتح وإغلاق أجهزة /صناديق التصويت",
     "witnessid_text": "صور من البطاقات الشخصية /الوكالة",
     "message": "الرسائل",
     "sendmessagetoall": "إرسال الرسائل لرؤساء وأعضاء اللجان الانتخابية",
@@ -126,8 +138,14 @@
     "checkmessage": "الرسائل",
     "checkmessage_committeehead": "تحقق من الرسائل التي يرسلها رئيس لجنتنا",
     "scanqr": "قراءة رمز الجهاز",
+    "countingSoftwareTab": "تفاصيل تسجيل الدخول",
+    "countingSoftwareTabSubText": "عد البرمجيات - اسم المستخدم و كلمة السر",
+    "contacts": "جهات الاتصال",
+    "contacts_text": "",
     "markattendance": "مسح رمز جهاز التصويت الإلكتروني ليتم تسجيل حضورك للمركز الانتخابي",
-    "scan_markattendance": "مسح رمز الاستجابة السريعة بمناسبة تعيين نفسك"
+    "scan_markattendance": "مسح رمز الاستجابة السريعة بمناسبة تعيين نفسك",
+    "startin": "الوقت المتبقي لبدء التصويت",
+    "endin": "الوقت المتبقي لإنتهاء وقت التصويت"
   },
   "login": {
     "greeting": "انتخابات أعضاء مجلس الشورى",
@@ -144,10 +162,10 @@
     "witnessbypollingstation": "عرض بطاقات الحاضرين في المركز الإنتخابي",
     "view": "الاطلاع",
     "status_title": "الحاضرين لفتح وإغلاق أجهزة /صناديق التصويت الإلكتروني",
-    "subtext": "أخذ صورة البطاقات الشخصية للمرشحين/الوكيل القانوني والناخبين",
+    "subtext": "أخذ صور البطاقات الشخصية للمرشحين/الوكيل القانوني والناخبين",
     "polling_stations": "المركز الانتخابي",
     "add_witness": "إضافة",
-    "no_records": "لم يتم اخذ اية بيانات للحاضرين لفتح وإغلاق أجهزة التصويت الإلكتروني"
+    "no_records": "لم يتم أخذ أية بيانات للحاضرين لفتح وإغلاق أجهزة التصويت الإلكتروني"
   },
   "changepassword": {
     "greetingsub": "تغيير كلمة المرور",
@@ -158,5 +176,13 @@
     "confirmpassword": "تأكيد كلمة المرور الجديدة",
     "confirmpasswordrequired": "اكتب كلمة المرور الخاصة بك مرة أخرى",
     "buttontext": "تغيير كلمة المرور"
+  },
+  "contacts": {
+    "title": "جهات الاتصال"
+  },
+  "creds": {
+    "title": "تفاصيل تسجيل الدخول",
+    "usernametext": "اسم المستخدم",
+    "passwordtext": "كلمة المرور"
   }
 }

@@ -2,8 +2,8 @@ import {Component, OnInit, ViewChild, ElementRef, Pipe, PipeTransform} from '@an
 import { ActivatedRoute } from '@angular/router';
 import {AlertController, Events, IonContent, NavController} from '@ionic/angular';
 import {ChatService, ChatMessage, ChatList} from './chat-service';
-import {AuthenticationService, WitnessStatusService} from '../../_services/authentication.service';
-import {User} from '../../_models';
+import {AuthenticationService, DataService, KiosksModel, WitnessStatusService} from '../../_services/authentication.service';
+import {Governorate, User} from '../../_models';
 import * as moment from 'moment';
 
 
@@ -12,7 +12,7 @@ import * as moment from 'moment';
 })
 export class DateConvert implements PipeTransform {
   transform(value): any {
-    return moment(value).fromNow();
+    return moment(value).locale('ar').fromNow();
   }
 }
 
@@ -25,23 +25,36 @@ export class ChatComponent implements OnInit {
   @ViewChild(IonContent) content: IonContent;
   @ViewChild('chat_input') messageInput: ElementRef;
   public chat: ChatList = new ChatList({});
+  public kiosksmodel = new KiosksModel();
   public user = new User({});
   public editorMsg = '';
+  public isUserAssigned = false;
+  public customWilayatOptions: any = {
+    header: 'أختيار الولاية',
+    translucent: true
+  };
 
-  constructor(private chatService: ChatService, private authenticationService: AuthenticationService,
+  constructor(private chatService: ChatService, private authenticationService: AuthenticationService, public dataService: DataService,
               public alertController: AlertController, private route: ActivatedRoute,
               public navCtrl: NavController, private witnessStatusService: WitnessStatusService) {
+    this.dataService.getWilayatFromGovernorateId(new Governorate({})).subscribe(() => {}, () => {});
     this.authenticationService.currentUser.subscribe(value => {
       this.user = value;
-      this.getMessagesByWilyatId(this.user.wilayat.code);
+      if (this.user.wilayat) {
+        this.getMessagesByWilyatId(this.user.wilayat.code);
+      }
     });
     this.chatService.currentDataService.subscribe(value => {
       this.chat = value;
     });
+    this.dataService.currentDataService.subscribe(value => {
+      this.kiosksmodel = value;
+    });
   }
 
   ngOnInit() {
-    this.chatService.setChatRole(this.route.snapshot.paramMap.get('name')).subscribe((success) => {
+    const routername = this.route.snapshot.paramMap.get('name');
+    this.chatService.setChatRole(routername).subscribe((success) => {
       console.log('chat role set', success);
     });
   }
@@ -59,6 +72,12 @@ export class ChatComponent implements OnInit {
       });
   }
 
+  changeWilayat(event) {
+    this.dataService.changeWilayat(event).subscribe(() => {
+      this.isUserAssigned = true;
+      this.dataService.getUsersOfWilayatWithRoleId(this.kiosksmodel.wilayat, 'wali_officer').subscribe(() => {}, () => {});
+    });
+  }
   /**
    * @name sendMsg
    */
@@ -70,12 +89,12 @@ export class ChatComponent implements OnInit {
     if (this.chat.chatrole === 'towaliofficers') {
       type = 'wilayat_officer_only';
     } else if (this.chat.chatrole === 'toheadcommittee') {
-      type = 'head_committee_only';
+      type = 'high_committee_only';
     } else if (this.chat.chatrole === 'tocommitteehead') {
       type = 'committee_head_only';
     }
 
-    this.chatService.sendMsg(this.editorMsg, this.user, type).subscribe(() => {
+    this.chatService.sendMsg(this.editorMsg, this.user, type, this.isUserAssigned ? this.kiosksmodel.user : new User({})).subscribe(() => {
       this.editorMsg = '';
       this.getMessagesByWilyatId(this.user.wilayatCode);
       this.scrollToBottom();

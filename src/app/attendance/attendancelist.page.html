@@ -6,10 +6,13 @@
     <ion-title class="back-button-icon-left" [translate]="'attendance.title'"></ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content>
+<ion-content  class="committee-background-design">
   <app-shared-userdirective></app-shared-userdirective>
   <ion-item class="committee-background-white">
     <ion-grid>
+      <ion-row>
+        <h3>{{'المحافظة  :' + kiosksmodel.governorate.arabicName + ' · ' +  ' الولاية:' + kiosksmodel.wilayat.arabicName}}</h3>
+      </ion-row>
       <ion-row>
         <ion-col size="4">
           <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast" [translate]="'attendance.totalmember'"></div>
@@ -71,7 +74,7 @@
               </div>
             </ion-card-content>
             <ion-card-content *ngIf="!(userassigned.kiosksAssigned && userassigned.kiosksAssigned.Kiosks && userassigned.kiosksAssigned && userassigned.kiosksAssigned.kioskId)">
-              <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast">{{userassigned.nameEnglish}} <span class="ion-float-end committee-button-text-color" *ngIf="user.roles.attendanceTabReassign" (click)="AssignUser(userassigned)" [translate]="'kiosks.assignmember'"></span></div>
+              <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast">{{userassigned.nameArabic}} <span class="ion-float-end committee-button-text-color" *ngIf="user.roles.attendanceTabReassign" (click)="AssignUser(userassigned)" [translate]="'kiosks.assignmember'"></span></div>
             </ion-card-content>
           </ion-card>
         </ion-col>

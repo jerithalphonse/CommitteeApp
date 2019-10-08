@@ -153,7 +153,7 @@ export class AssignKiosksModel {
     } else {
       // if user doesnt belong to any kiosk check if this kiosks is assigned to 2 people already and role of user
       // to be part of voting commite and check if supervisor have not assigned him any kiosks
-      if (!(this.kioskAssignedToCurrent && this.kioskAssignedToCurrent.length > 2) && (user.roleId === 4 || user.roleId === 6 ||
+      if (!(this.kioskAssignedToCurrent && this.kioskAssignedToCurrent.length >= 2) && (user.roleId === 4 || user.roleId === 6 ||
         user.roleId === 8) && !currentAssigned) {
         this.isSelfAssignable = true;
       }
@@ -291,7 +291,16 @@ export class AttendanceStatusModel {
       }
     }
   }
-
+  setPollingStationKeys(pollingStationname) {
+    this.pollingstations = [];
+    for (const i in this.pollingstationsAll) {
+      if (pollingStationname && pollingStationname === this.pollingstationsAll[i].name && pollingStationname !== 'All') {
+        this.pollingstations.push({name: this.pollingstationsAll[i].name, arabicName: this.pollingstationsAll[i].arabicName, users: []});
+      } else if (this.pollingstationsAll[i] && this.pollingstationsAll[i].name && pollingStationname === undefined) {
+        this.pollingstations.push({name: this.pollingstationsAll[i].name, arabicName: this.pollingstationsAll[i].arabicName, users: []});
+      }
+    }
+  }
   calculateAttendanceStatus(pollingstations) {
     this.attendanceStatus = {total: 0, present: 0, absent: 0};
     for (const i in pollingstations) {
@@ -337,7 +346,8 @@ export class AttendanceStatusModel {
       }
       return {name: pollingStationinfo.name, users};
     };
-    if (pollingStationName === 'الكل') {
+    if (pollingStationName === 'All') {
+      this.setPollingStationKeys(undefined);
       for (const i in this.pollingstationsAll) {
         if (this.pollingstationsAll && this.pollingstationsAll[i].name) {
           let temp = filterData(this.pollingstationsAll[i], committeetype, assignedstatus);
@@ -350,12 +360,13 @@ export class AttendanceStatusModel {
         }
       }
     } else {
+      this.setPollingStationKeys(pollingStationName);
       for (const i in this.pollingstationsAll) {
         if (this.pollingstationsAll && this.pollingstationsAll[i].name === pollingStationName) {
           let temp = filterData(this.pollingstationsAll[i], committeetype, assignedstatus);
           for (const j in this.pollingstations) {
-            if (this.pollingstations[i] && this.pollingstations[i].name === temp.name) {
-              this.pollingstations[i].users = temp.users;
+            if (this.pollingstations[j] && this.pollingstations[j].name === temp.name) {
+              this.pollingstations[j].users = temp.users;
               break;
             }
           }
@@ -383,7 +394,7 @@ export class AttendanceStatusModel {
         this.pollingstationsAll[i].users = pollingStations[this.pollingstationsAll[i].name];
       }
     }
-    this.applyFiltersPollingStation(pollingstation && pollingstation.name ? pollingstation.name : 'الكل', type, attended);
+    this.applyFiltersPollingStation(pollingstation && pollingstation.name ? pollingstation.name : 'All', type, attended);
     this.calculateAttendanceStatus(this.pollingstations);
   }
 
@@ -470,6 +481,7 @@ export class KiosksModel {
   public currentTab = 'assigned';
   public assigned = 'any';
   public users: Array<UserModel> = [];
+  public filteredusers: Array<UserModel> = [];
   public user: User;
 
   constructor() {
@@ -490,6 +502,7 @@ export class KiosksModel {
   setKiosksSelected(kiosk) {
     this.kiosk = kiosk;
   }
+
   setUserSelected(user) {
     this.user = user;
   }
@@ -603,6 +616,31 @@ export class KiosksModel {
       }
     }
   }
+
+  setUsers(users: any, pollingstation: PollingStation) {
+    const applyFiltersPollingStation = (pollingstationname: string) => {
+      const users = [];
+      for (const i in this.users) {
+        // tslint:disable-next-line:no-unused-expression
+        this.users[i].imageUrl ? true : this.users[i].gender === 'male' ? '/assets/contacts/male_' + Math.trunc((Math.random() * 100 % 6) + 1) + '.png' :
+          '/assets/contacts/female_' + Math.trunc((Math.random() * 100 % 3) + 1) + '.png'
+        if (pollingstationname !== 'الكل' && this.users && this.users[i] && this.users[i].pollingStation && this.users[i].pollingStation.name === pollingstationname) {
+          users.push(this.users[i]);
+        } else if (pollingstationname === 'الكل') {
+          users.push(this.users[i]);
+        }
+      }
+      return users;
+    };
+    this.users = [];
+    for (const i in users) {
+      if (users && users[i]) {
+        this.users.push(new UserModel(users[i]));
+      }
+    }
+    this.filteredusers = applyFiltersPollingStation(pollingstation && pollingstation.name ? pollingstation.name : 'الكل');
+    return this.filteredusers;
+  }
 }
 
 @Injectable({providedIn: 'root'})
@@ -630,6 +668,19 @@ export class APIService {
     return new Observable(subscriberFunc);
   }
 
+  getUsersOfWilayatWithRoleId(wilayatcode, rolecode) {
+    const subscriberFunc = (observer) => {
+      this.http.get(`${config.apiUrl}/users/wilayat/` + wilayatcode + `/` + rolecode)
+        .subscribe(users => {
+          // store user details and jwt token in local storage to keep user logged in between page refreshes
+          observer.next(users);
+          return observer.complete();
+        }, errors => {
+          observer.error(errors);
+        });
+    };
+    return new Observable(subscriberFunc);
+  }
   getPollingStations(wilayat) {
     const subscriberFunc = (observer) => {
       let url = ``;
@@ -677,6 +728,7 @@ export class APIService {
     };
     return new Observable(subscriberFunc);
   }
+
   getKiosksStatusByGovernorateId(id: string) {
     const subscriberFunc = (observer) => {
       this.http.get(`${config.apiUrl}/kiosks/governorate/assigned/` + id)
@@ -690,6 +742,7 @@ export class APIService {
     };
     return new Observable(subscriberFunc);
   }
+
   getKiosksStatusAll() {
     const subscriberFunc = (observer) => {
       this.http.get(`${config.apiUrl}/kiosks/assigned/`)
@@ -759,6 +812,7 @@ export class APIService {
     };
     return new Observable(subscriberFunc);
   }
+
   getAttendanceStatusByGovernorateId(id: string) {
     const subscriberFunc = (observer) => {
       this.http.get(`${config.apiUrl}/kiosksassignment/governorate/attendance/` + id)
@@ -904,6 +958,7 @@ export class APIService {
     };
     return new Observable(subscriberFunc);
   }
+
   getWitnessStatusAll() {
     const subscriberFunc = (observer) => {
       this.http.get(`${config.apiUrl}/Witnesses`)
@@ -917,6 +972,7 @@ export class APIService {
     };
     return new Observable(subscriberFunc);
   }
+
   getWitnessStatusByGovernorateId(code: any) {
     const subscriberFunc = (observer) => {
       this.http.get(`${config.apiUrl}/Witnesses/governorate/` + code)
@@ -931,6 +987,60 @@ export class APIService {
     return new Observable(subscriberFunc);
   }
 
+  getUsersStatusAll() {
+    const subscriberFunc = (observer) => {
+      this.http.get(`${config.apiUrl}/users`)
+        .subscribe(users => {
+          // store user details and jwt token in local storage to keep user logged in between page refreshes
+          observer.next(users);
+          return observer.complete();
+        }, errors => {
+          observer.error(errors);
+        });
+    };
+    return new Observable(subscriberFunc);
+  }
+
+  getUsersStatusByGovernorateId(code: any) {
+    const subscriberFunc = (observer) => {
+      this.http.get(`${config.apiUrl}/users/governorate/` + code)
+        .subscribe(users => {
+          // store user details and jwt token in local storage to keep user logged in between page refreshes
+          observer.next(users);
+          return observer.complete();
+        }, errors => {
+          observer.error(errors);
+        });
+    };
+    return new Observable(subscriberFunc);
+  }
+
+  getUsersStatusByWilayatId(code: any) {
+    const subscriberFunc = (observer) => {
+      this.http.get(`${config.apiUrl}/users/wilayat/` + code)
+        .subscribe(users => {
+          // store user details and jwt token in local storage to keep user logged in between page refreshes
+          observer.next(users);
+          return observer.complete();
+        }, errors => {
+          observer.error(errors);
+        });
+    };
+    return new Observable(subscriberFunc);
+  }
+  getCountingAppUserDetailsByWilayatIdRoleId(code, roleid) {
+    const subscriberFunc = (observer) => {
+      this.http.get(`${config.apiUrl}/countingsoftware/wilayat/` + code + `/` + roleid)
+        .subscribe(user => {
+          // store user details and jwt token in local storage to keep user logged in between page refreshes
+          observer.next(user);
+          return observer.complete();
+        }, errors => {
+          observer.error(errors);
+        });
+    };
+    return new Observable(subscriberFunc);
+  }
   postWitnessId(data) {
     const subscriberFunc = (observer) => {
       return this.http.post<any>(`${config.apiUrl}/Witnesses`, data)
@@ -1030,6 +1140,17 @@ export class KiosksStatusModel {
     }
   }
 
+  setPollingStationKeys(pollingStationname) {
+    this.pollingstations = [];
+    for (const i in this.pollingstationsAll) {
+      if (pollingStationname && pollingStationname === this.pollingstationsAll[i].name && pollingStationname !== 'All') {
+        this.pollingstations.push({name: this.pollingstationsAll[i].name, arabicName: this.pollingstationsAll[i].arabicName, kiosks: []});
+      } else if (this.pollingstationsAll[i] && this.pollingstationsAll[i].name && pollingStationname === undefined) {
+        this.pollingstations.push({name: this.pollingstationsAll[i].name, arabicName: this.pollingstationsAll[i].arabicName, kiosks: []});
+      }
+    }
+  }
+
   clearPollingStationsWitnessInfo() {
     for (const i in this.pollingstations) {
       if (this.pollingstations[i]) {
@@ -1071,7 +1192,8 @@ export class KiosksStatusModel {
       }
       return {name: pollingStation.name, kiosks};
     };
-    if (pollingStationName === 'الكل') {
+    if (pollingStationName === 'All') {
+      this.setPollingStationKeys(undefined);
       for (const i in this.pollingstationsAll) {
         if (this.pollingstationsAll && this.pollingstationsAll[i].name) {
           let temp = filterData(this.pollingstationsAll[i], committeetype, assignedstatus);
@@ -1084,12 +1206,13 @@ export class KiosksStatusModel {
         }
       }
     } else {
+      this.setPollingStationKeys(pollingStationName);
       for (const i in this.pollingstationsAll) {
         if (this.pollingstationsAll && this.pollingstationsAll[i].name === pollingStationName) {
           let temp = filterData(this.pollingstationsAll[i], committeetype, assignedstatus);
           for (const j in this.pollingstations) {
-            if (this.pollingstations[i] && this.pollingstations[i].name === temp.name) {
-              this.pollingstations[i].kiosks = temp.kiosks;
+            if (this.pollingstations[j] && this.pollingstations[j].name === temp.name) {
+              this.pollingstations[j].kiosks = temp.kiosks;
               break;
             }
           }
@@ -1132,7 +1255,7 @@ export class KiosksStatusModel {
       }
     }
     this.calculateKiosksStatus(this.pollingstationsAll);
-    this.applyFiltersPollingStation(pollingstation && pollingstation.name ? pollingstation.name : 'الكل', type, assigned);
+    this.applyFiltersPollingStation(pollingstation && pollingstation.name ? pollingstation.name : 'All', type, assigned);
   }
 
 }
@@ -1164,18 +1287,23 @@ export class DataService {
 
   onChangeGovernorate(event) {
     this.currentDataServiceSubject.value.changeGovernorate(event.detail.value);
-    this.getWilayatFromGovernorateId(this.currentDataServiceSubject.value.governorate);
+    this.getWilayatFromGovernorateId(this.currentDataServiceSubject.value.governorate).subscribe(() => {}, () => {});
   }
 
   getWilayatFromGovernorateId(governorate: Governorate) {
-    this.apiService.getWilayats(governorate).subscribe((success) => {
-      this.currentDataServiceSubject.value.addWilayats(success, {all: true});
-      this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
-    }, (errors) => {
-      console.log(errors);
-    }, () => {
-      console.log('completed');
-    });
+    const subscriberFunc = (observer) => {
+      this.apiService.getWilayats(governorate).subscribe((success) => {
+        this.currentDataServiceSubject.value.addWilayats(success, {all: true});
+        this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
+        observer.next(success);
+      }, (errors) => {
+        console.log(errors);
+        observer.error(errors);
+      }, () => {
+        return observer.complete();
+      });
+    };
+    return new Observable(subscriberFunc);
   }
 
   onFocusGovernorates(event) {
@@ -1195,6 +1323,15 @@ export class DataService {
     });
   }
 
+  changeWilayat(event) {
+    const subscriberFunc = (observer) => {
+      this.currentDataServiceSubject.value.changeWilayat(event.detail.value);
+      this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
+      observer.next();
+      return observer.complete();
+    };
+    return new Observable(subscriberFunc);
+  }
   getPollingStationForWilayatId(wilayat: Wilayat, options: any) {
     this.apiService.getPollingStations(wilayat).subscribe((success) => {
       this.currentDataServiceSubject.value.addPollingStations(success, options);
@@ -1267,6 +1404,102 @@ export class DataService {
     return new Observable(subscriberFunc);
   }
 
+  getUserStatusByAll(pollingstation) {
+    const subscriberFunc = (observer) => {
+      this.apiService.getUsersStatusAll().subscribe((success) => {
+        this.currentDataServiceSubject.value.setUsers(success, pollingstation);
+        this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
+        observer.next(success);
+      }, (errors) => {
+        observer.error(errors);
+      }, () => {
+        return observer.complete();
+      });
+    };
+    return new Observable(subscriberFunc);
+  }
+
+  getUserStatusByGovernorateId(governoratecode, pollingstation) {
+    const subscriberFunc = (observer) => {
+      this.apiService.getUsersStatusByGovernorateId(governoratecode).subscribe((success) => {
+        this.currentDataServiceSubject.value.setUsers(success, pollingstation);
+        this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
+        observer.next(success);
+      }, (errors) => {
+        observer.error(errors);
+      }, () => {
+        return observer.complete();
+      });
+    };
+    return new Observable(subscriberFunc);
+  }
+
+  getUserstatusByWilayatId(wilayatid, pollingstation) {
+    const subscriberFunc = (observer) => {
+      this.apiService.getUsersStatusByWilayatId(wilayatid).subscribe((success) => {
+        this.currentDataServiceSubject.value.setUsers(success, pollingstation);
+        this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
+        observer.next(success);
+      }, (errors) => {
+        observer.error(errors);
+      }, () => {
+        return observer.complete();
+      });
+    };
+    return new Observable(subscriberFunc);
+  }
+  getUsersOfWilayatWithRoleId(wilayat: Wilayat, roleid: string) {
+    const mapobject = {
+      high_committee: 1,
+      wali_officer: 2,
+      wali_assistant: 3,
+      committee_head_voting: 4,
+      committee_head_counting: 5,
+      polling_station_supervisor_voting: 6,
+      polling_station_supervisor_counting: 7,
+      committee_member_voting: 8,
+      committee_member_counting: 9,
+      committee_head_organizing: 1002,
+      polling_station_supervisor_organizing: 1003,
+      committee_member_organizing: 1004,
+      main_committee: 2002
+    };
+    const subscriberFunc = (observer) => {
+      if (wilayat.code) {
+        this.apiService.getUsersOfWilayatWithRoleId(wilayat.code, mapobject[roleid]).subscribe((success: any) => {
+          if (success && success.length) {
+            this.currentDataServiceSubject.value.setUserSelected(new User(success[0]));
+          } else {
+            this.currentDataServiceSubject.value.setUserSelected(success);
+          }
+          this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
+          observer.next(success);
+        }, (errors) => {
+          observer.error(errors);
+        }, () => {
+          return observer.complete();
+        });
+      } else {
+        this.currentDataServiceSubject.value.setUserSelected(null);
+        this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
+        observer.next();
+        return observer.complete();
+      }
+    };
+    return new Observable(subscriberFunc);
+  }
+  getCountingAppUserDetailsByWilayatIdRoleId(code, id) {
+    const subscriberFunc = (observer) => {
+      this.apiService.getCountingAppUserDetailsByWilayatIdRoleId(code, id).subscribe((success) => {
+        observer.next(success);
+      }, (errors) => {
+        observer.error(errors);
+      }, () => {
+        return observer.complete();
+      });
+    };
+    return new Observable(subscriberFunc);
+  }
   setSelectedKiosks(kiosks) {
     this.currentDataServiceSubject.value.setKiosksSelected(kiosks);
     this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
@@ -1303,6 +1536,7 @@ export class AuthenticationService {
         return user;
       }));
   }
+
 
   changePassword(id, oldpassword, newpassword) {
     const subscriberFunc = (observer) => {
@@ -1440,7 +1674,7 @@ export class AuthenticationService {
   // }
 
   openCameraPreview() {
-    var picture: any;
+    let picture: any;
     // camera options (Size and location). In the following example, the preview uses the rear camera and display the preview in the back of the webview
     const cameraPreviewOpts: CameraPreviewOptions = {
       x: 0,
@@ -1562,6 +1796,7 @@ export class KiosksStatusService {
     };
     return new Observable(subscriberFunc);
   }
+
   getKiosksStatusAll(pollingstation, type: string, assigned: string) {
     const subscriberFunc = (observer) => {
       this.apiService.getKiosksStatusAll().subscribe((success) => {
@@ -1576,6 +1811,7 @@ export class KiosksStatusService {
     };
     return new Observable(subscriberFunc);
   }
+
   getKiosksStatusByGovernorateId(id: string, pollingstation, type: string, assigned: string) {
     const subscriberFunc = (observer) => {
       this.apiService.getKiosksStatusByGovernorateId(id).subscribe((success) => {
@@ -1590,6 +1826,7 @@ export class KiosksStatusService {
     };
     return new Observable(subscriberFunc);
   }
+
   updatePollingStationKeys(pollingstations: Array<PollingStation>) {
     this.currentDataServiceSubject.value.updatePollingStationKeys(pollingstations);
     this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
@@ -1599,6 +1836,7 @@ export class KiosksStatusService {
     this.currentDataServiceSubject.value.setDataToRedirect(pollingStation, kiosksAssigned, user);
     this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
   }
+
   updateKiosksToUser(id, assignedById, assignedToId, kiosksId, PollingStationID) {
     const subscriberFunc = (observer) => {
       if (id) {
@@ -1687,6 +1925,7 @@ export class AttendanceStatusService {
     };
     return new Observable(subscriberFunc);
   }
+
   getAttendanceStatusByGovernorateId(id: string, pollingstation, type: string, assigned: string) {
     const subscriberFunc = (observer) => {
       this.apiService.getAttendanceStatusByGovernorateId(id).subscribe((success) => {
@@ -1745,6 +1984,7 @@ export class WitnessStatusService {
       });
     }
   }
+
   getWitnessStatusAll(type: string) {
     if (type === 'voting' || type === 'counting' || type === 'organizing') {
       this.apiService.getWitnessStatusAll().subscribe((success) => {
@@ -1757,6 +1997,7 @@ export class WitnessStatusService {
       });
     }
   }
+
   getWitnessStatusByGovernorateId(id: string, type: string) {
     if (type === 'voting' || type === 'counting' || type === 'organizing') {
       this.apiService.getWitnessStatusByGovernorateId(id).subscribe((success) => {

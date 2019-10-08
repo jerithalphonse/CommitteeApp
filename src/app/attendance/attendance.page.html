@@ -7,14 +7,14 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="committee-background-design">
   <app-shared-userdirective></app-shared-userdirective>
   <ion-grid>
     <ion-row *ngIf="!user.roles.directionsTab">
       <ion-col size="1"></ion-col>
       <ion-col size="11">
-        <h5 color="dark-shade" class="fontweight-medium" [translate]="'attendance.select'" *ngIf="user.roles.name === 'head_committee'"></h5>
-        <h5 color="dark-shade" class="fontweight-medium" [translate]="'attendance.select_ps_only'" *ngIf="user.roles.name !== 'head_committee'"></h5>
+        <h5 color="dark-shade" class="fontweight-medium" [translate]="'attendance.select'" *ngIf="user.roles.name === 'high_committee' || user.roles.name === 'main_committee'"></h5>
+        <h5 color="dark-shade" class="fontweight-medium" [translate]="'attendance.select_ps_only'" *ngIf="user.roles.name !== 'high_committee' && user.roles.name !== 'main_committee'"></h5>
       </ion-col>
     </ion-row>
     <ion-row>
@@ -25,7 +25,7 @@
             <ion-grid>
               <ion-row>
                 <ion-col size="12">
-                  <ion-button size="medium" expand="block" color="success" shape="round" (click)="goto('/attendance/attendancestatus/'+redirector)"
+                  <ion-button size="medium" expand="block" color="success" shape="round" (click)="goto('/attendance/attendancestatus/')"
                               [disabled]="!(kiosksmodel.governorate && kiosksmodel.governorate.name
                     && kiosksmodel.wilayat && kiosksmodel.wilayat.name)">
                     <ion-ripple-effect></ion-ripple-effect>

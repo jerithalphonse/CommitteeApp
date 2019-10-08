@@ -19,6 +19,12 @@ export class LoginPage implements OnInit {
     private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
   ) {
+    this.authenticationService.currentUser.subscribe(value => {
+      if (value && value.nameArabic) {
+        // this.goto('login');
+        this.navCtrl.navigateRoot('/dashboard');
+      }
+    });
   }
 
   ionViewDidEnter() {
@@ -45,9 +51,30 @@ export class LoginPage implements OnInit {
   get f() {
     return this.onLoginForm.controls;
   }
-
   async login(onLoginForm: any) {
     this.error = '';
+    const processAttendance = (res, data) => {
+      console.log(data);
+      if (data && !data.attendedAt && data.roles && (data.roles.name === 'high_committee' || data.roles.name === 'main_committee' || data.roles.name === 'wali_officer' ||
+        data.roles.name === 'wali_assistant' || data.roles.name === 'committee_head_voting' ||
+        data.roles.name === 'committee_head_organizing' || data.roles.name === 'minister' || data.roles.name === 'high_committee' || data.roles.name === 'main_committee')) {
+        data.attendedAt = new Date().toISOString();
+        this.authenticationService.updateUser(data).subscribe(
+          updateattendance => {
+            this.navCtrl.navigateRoot('/dashboard');
+            dismissLoader(res);
+          },
+          error => {
+            if (error) {
+              this.error = error;
+            }
+            dismissLoader(res);
+          });
+      } else {
+        this.navCtrl.navigateRoot('/dashboard');
+        dismissLoader(res);
+      }
+    };
     const dismissLoader = (res) => {
       res.dismiss();
       res.onDidDismiss().then((dis) => {
@@ -58,8 +85,7 @@ export class LoginPage implements OnInit {
       this.authenticationService.login(this.f.username.value, this.f.password.value)
         .subscribe(
           data => {
-            this.navCtrl.navigateRoot('/dashboard');
-            dismissLoader(res);
+            processAttendance(res, data);
           },
           error => {
             if (error) {

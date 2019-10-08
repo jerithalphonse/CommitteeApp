@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="committee-background-design">
   <app-shared-userdirective></app-shared-userdirective>
   <ion-grid>
     <ion-row>
@@ -40,7 +40,7 @@
 <!--              <span [translate]="'kiosks_assign.selectuser'"></span>-->
 <!--            </ion-list-header>-->
             <ion-item *ngFor="let data of kiosksmodel.users">
-              <ion-label>{{data.nameEnglish}}</ion-label>
+              <ion-label>{{data.nameArabic}}</ion-label>
               <ion-radio value="{{data.id}}" [checked]="kiosksStatusModel.selectedUser && data.id === kiosksStatusModel.selectedUser.id" (ionSelect)="changeUser($event, data)"></ion-radio>
             </ion-item>
           </ion-radio-group>

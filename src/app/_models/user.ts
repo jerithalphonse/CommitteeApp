@@ -21,6 +21,7 @@
   public messageTabCheckMessage: boolean;
   public messageTabRestrictMessage: boolean;
   public notificationTab: boolean;
+  public countingSoftwareTab: boolean;
 
   constructor(props) {
     this.id = props.id ? props.id : '';
@@ -44,11 +45,13 @@
     this.messageTabCheckMessage = props.messageTabCheckMessage ? props.messageTabCheckMessage : false;
     this.messageTabRestrictMessage = props.messageTabRestrictMessage ? props.messageTabRestrictMessage : false;
     this.notificationTab = props.notificationTab ? props.notificationTab : false;
+    this.countingSoftwareTab = props.countingSoftwareTab ? props.countingSoftwareTab : false;
   }
 
   processSudoRoleName(name: string) {
     const mapper = {
-      head_committee: 'Head Commmittee',
+      high_committee: 'High Commmittee',
+      main_committee: 'Main Committee',
       wali_officer: 'Wali Officer',
       wali_assistant: 'Wali Assistant',
       committee_head_voting: 'Committee Head'
@@ -64,6 +67,7 @@ export class User {
   username: string;
   nameEnglish: string;
   nameArabic: string;
+  gender: string;
   imageUrl: string;
   phone: string;
   pollingStationId: number;
@@ -88,6 +92,7 @@ export class User {
     this.imageUrl = props.imageUrl ? props.imageUrl : '';
     this.phone = props.phone ? props.phone : '';
     this.email = props.email ? props.email : '';
+    this.gender = props.gender ? props.gender : '';
     this.pollingStationId = props.pollingStationId ? props.pollingStationId : '';
     this.roleId = props.roleId ? props.roleId : '';
     this.wilayatCode = props.wilayatCode ? props.wilayatCode : '';

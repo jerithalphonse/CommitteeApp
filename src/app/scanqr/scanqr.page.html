@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding style="background: none transparent;" *ngIf="view === 'scan'">
+<ion-content padding style="--ion-background-color: none transparent !important;" *ngIf="view === 'scan'">
   <div class="scan-area">
   </div>
   <div class="button-bottom">
@@ -21,7 +21,7 @@
 </ion-content>
 
 
-<ion-content *ngIf="view === 'assign'">
+<ion-content *ngIf="view === 'assign'" class="committee-background-design">
   <app-shared-userdirective></app-shared-userdirective>
   <ion-grid>
     <ion-row>
@@ -47,9 +47,14 @@
     <ion-row style="margin:12% 0px 25% 0px">
       <ion-col size="12" *ngIf="!assignkiosksmodel.userPartOfOtherPollingStation">
         <ion-img src="/assets/main_screen/document.png" class="image-common-64 margin-auto"></ion-img>
-        <ion-item  lines="none" class="ion-text-center margin-custom-top-center" >
-          <span [translate]="'scanqr.tq'"></span> {{this.user.nameEnglish}}
-        </ion-item>
+        <ion-list  lines="none" >
+          <ion-item class="ion-text-center margin-custom-top-center">
+            <span [translate]="'scanqr.tq'" class="margin-auto"></span>
+          </ion-item>
+          <ion-item class="ion-text-center margin-custom-top-center">
+            <div>{{this.user.nameArabic}}</div>
+          </ion-item>
+        </ion-list>
         <ion-item lines="none" class="ion-text-center margin-custom-top-center" *ngIf="assignkiosksmodel.attendanceMarked && !assignkiosksmodel.canMarkAttendance">
           <span [translate]="'scanqr.enrolled'"></span>
         </ion-item>
@@ -60,7 +65,7 @@
       <ion-col size="12" *ngIf="assignkiosksmodel.userPartOfOtherPollingStation">
         <ion-img src="/assets/main_screen/document.png" class="image-common-64 margin-auto"></ion-img>
         <ion-item  lines="none" class="ion-text-center margin-custom-top-center" >
-          {{this.user.nameEnglish}}
+          {{this.user.nameArabic}}
         </ion-item>
         <ion-item lines="none" class="ion-text-center margin-custom-top-center" *ngIf="assignkiosksmodel.userPartOfOtherPollingStation">
           <div [translate]="'scanqr.wrongpollingstation'"></div>

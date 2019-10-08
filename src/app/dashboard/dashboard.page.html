@@ -18,13 +18,13 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="committee-background-design">
   <app-shared-userdirective></app-shared-userdirective>
   <ion-grid>
     <ion-row *ngIf="!(user && user.roles && user.roles.directionsTab)">
       <ion-col size="1"></ion-col>
       <ion-col size="11">
-        <h1 *ngIf="user && user.roles && user.roles.name" [translate]="'dashboard.'+user.roles.name"></h1>
+        <h1 *ngIf="user && user.roles && user.roles.name" [translate]="'dashboard.'+user.roles.name" style="text-align: center;"></h1>
       </ion-col>
     </ion-row>
     <ion-row>
@@ -33,8 +33,10 @@
           <ion-card *ngIf="(user && user.roles && user.roles.directionsTab)">
             <ion-card-header>
               <h5 [translate]="'dashboard.greeting_sub'"></h5>
-              <h6 *ngIf="user && user.roles && (user.roles.name === 'polling_station_supervisor_voting' || user.roles.name === 'polling_station_supervisor_couting_organizing')" [translate]="'dashboard.supervisor_assignedtext'"></h6>
-              <h6 *ngIf="user && user.roles && (user.roles.name === 'committee_member_voting' || user.roles.name === 'committee_member_counting_organizing')" [translate]="'dashboard.supervisor_assignedtext_detail'"></h6>
+              <h6 *ngIf="user && user.roles && (user.roles.name === 'polling_station_supervisor_voting')" [translate]="'dashboard.supervisor_assignedtext_voting'"></h6>
+              <h6 *ngIf="user && user.roles && (user.roles.name === 'polling_station_supervisor_counting')" [translate]="'dashboard.supervisor_assignedtext_counting'"></h6>
+              <h6 *ngIf="user && user.roles && (user.roles.name === 'polling_station_supervisor_organizing')" [translate]="'dashboard.supervisor_assignedtext_organizing'"></h6>
+              <h6 *ngIf="user && user.roles && (user.roles.name === 'committee_member_voting' || user.roles.name === 'committee_member_organizing' || user.roles.name === 'committee_member_counting')" [translate]="'dashboard.supervisor_assignedtext_detail'"></h6>
               <h4 color="dark-shade">{{user.pollingStation.arabicName}}</h4>
             </ion-card-header>
             <ion-card-content>
@@ -49,7 +51,7 @@
             <ion-grid>
               <ion-row class="ion-padding-bottom">
                 <ion-col size="3">
-                  <ion-img src="/assets/main_screen/kiosk.png" class="image-common-64"></ion-img>
+                  <ion-img src="/assets/main_screen/kiosk_new.png" class="image-common-64"></ion-img>
                 </ion-col>
                 <ion-col size="9" class="ion-padding-left-5">
                   <h5 class="width-95 line-height-one" [translate]="'dashboard.kiosksstatus'"></h5>
@@ -68,9 +70,10 @@
                 </ion-col>
                 <ion-col size="9">
                   <h5 class="width-95 line-height-one" [translate]="'dashboard.attendance'"></h5>
-<!--                  <h5 class="width-95 line-height-one" *ngIf="user.roles.name === 'head_committee'" [translate]="'dashboard.attendance'"></h5>-->
-<!--                  <h5 class="width-95 line-height-one" *ngIf="user.roles.name !== 'head_committee'" [translate]="'dashboard.attendance_other'"></h5>-->
-                  <div class="ion-margin-top-12" [translate]="'dashboard.attendance_text'"></div>
+                  <div class="ion-margin-top-12" [translate]="'dashboard.attendance_text'" *ngIf="user.roles.name !== 'committee_head_voting' && user.roles.name !== 'committee_head_organizing' && user.roles.name !== 'committee_head_counting'"></div>
+                  <div class="ion-margin-top-12" [translate]="'dashboard.attendance_text_committee_head_voting'" *ngIf="user.roles.name === 'committee_head_voting'"></div>
+                  <div class="ion-margin-top-12" [translate]="'dashboard.attendance_text_committee_head_organizing'" *ngIf="user.roles.name === 'committee_head_organizing'"></div>
+                  <div class="ion-margin-top-12" [translate]="'dashboard.attendance_text_committee_head_counting'" *ngIf="user.roles.name === 'committee_head_counting'"></div>
                   <ion-icon name="arrow-forward" item-right class="home-page-card-icon-right"></ion-icon>
                 </ion-col>
               </ion-row>
@@ -115,9 +118,10 @@
                 </ion-col>
                 <ion-col size="9">
                   <h5 class="width-95 line-height-one" [translate]="'dashboard.message'"></h5>
-                  <div class="ion-margin-top-12 width-95" *ngIf="user.roles.name === 'head_committee'" [translate]="'dashboard.sendmessagetoall'"></div>
+                  <div class="ion-margin-top-12 width-95" *ngIf="user.roles.name === 'high_committee'" [translate]="'dashboard.sendmessagetoall'"></div>
+                  <div class="ion-margin-top-12 width-95" *ngIf="user.roles.name === 'main_committee'" [translate]="'dashboard.sendmessagetoall'"></div>
                   <div class="ion-margin-top-12 width-95" *ngIf="user.roles.name === 'wali_assistant' || user.roles.name === 'wali_officer'" [translate]="'dashboard.sendmessagetohead'"></div>
-                  <div class="ion-margin-top-12 width-95" *ngIf="user.roles.name !== 'head_committee' && user.roles.name !== 'wali_officer' && user.roles.name !== 'wali_assistant'" [translate]="'dashboard.sendmessagetoteam'"></div>
+                  <div class="ion-margin-top-12 width-95" *ngIf="user.roles.name !== 'high_committee' && user.roles.name !== 'main_committee' && user.roles.name !== 'wali_officer' && user.roles.name !== 'wali_assistant'" [translate]="'dashboard.sendmessagetoteam'"></div>
                   <ion-icon name="arrow-forward" item-right class="home-page-card-icon-right"></ion-icon>
                 </ion-col>
               </ion-row>
@@ -153,8 +157,60 @@
               </ion-row>
             </ion-grid>
           </ion-card>
+          <ion-card *ngIf="(user && user.roles && user.roles.countingSoftwareTab)" (click)="goto('creds')">
+            <ion-grid>
+              <ion-row class="ion-padding-bottom">
+                <ion-col size="3">
+                  <ion-img src="/assets/main_screen/cred-icon.svg" class="image-common-64"></ion-img>
+                </ion-col>
+                <ion-col size="9">
+                  <h5 class="width-95 line-height-one" [translate]="'dashboard.countingSoftwareTab'"></h5>
+                  <div class="width-95 ion-margin-top-12"  [translate]="'dashboard.countingSoftwareTabSubText'"></div>
+                  <ion-icon name="arrow-forward" item-right class="home-page-card-icon-right"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card>
+
+          <ion-card (click)="goto('contacts')">
+            <ion-grid>
+              <ion-row class="ion-padding-bottom">
+                <ion-col size="3">
+                  <ion-img src="/assets/main_screen/contacts_icon.png" class="image-common-64"></ion-img>
+                </ion-col>
+                <ion-col size="9">
+                  <h5 class="width-95 line-height-one" [translate]="'dashboard.contacts'"></h5>
+                  <div class="width-95 ion-margin-top-12" [translate]="'dashboard.contacts_text'"></div>
+                  <ion-icon name="arrow-forward" item-right class="home-page-card-icon-right"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card>
         </ion-list>
       </ion-col>
     </ion-row>
   </ion-grid>
+  <ion-card style="margin: 0;
+    background: transparent;
+    background-image: url(../../assets/bg_login/oman-bg.png) !important;
+    background-repeat: repeat;
+    background-size: cover;
+    border-radius: 0;
+    min-height: 260px;
+    background-position-x: 0px;">
+    <ion-grid>
+      <ion-row class="ion-padding-bottom">
+        <!--                <ion-col size="3">-->
+        <!--                  <ion-img src="/assets/main_screen/kiosk.png" class="image-common-64"></ion-img>-->
+        <!--                </ion-col>-->
+        <ion-col size="12" class="ion-padding-left-5">
+          <h5 class="width-95 line-height-one ion-padding-right-16 ion-margin-bottom" [translate]="'dashboard.startin'" *ngIf="!started"></h5>
+          <h5 class="width-95 line-height-one ion-padding-right-16 ion-margin-bottom" [translate]="'dashboard.endin'" *ngIf="started"></h5>
+          <div class="ion-margin-top-12">
+            <div class="clock" style="margin: 0% -13% 0% 0%;"></div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
 </ion-content>

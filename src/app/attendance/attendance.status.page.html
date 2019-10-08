@@ -1,4 +1,4 @@
-<ion-tabs *ngIf="!user.roles.attendanceTabReassign">
+<ion-tabs *ngIf="this.user.roles.name === 'high_committee' || this.user.roles.name === 'main_committee' || this.user.roles.name === 'wali_officer' || this.user.roles.name === 'wali_assistant'">
   <ion-tab-bar slot="bottom">
     <ion-tab-button tab="voting" (click)="changeTab('voting', 'any')">
       <ion-label><span [translate]="'common.voting'"></span> </ion-label>
@@ -12,7 +12,7 @@
     </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>
-<ion-tabs *ngIf="user.roles.attendanceTabReassign">
+<ion-tabs *ngIf="this.user.roles.name !== 'high_committee' && this.user.roles.name !== 'main_committee' && this.user.roles.name !== 'wali_officer' && this.user.roles.name !== 'wali_assistant'">
   <ion-tab-bar slot="bottom">
     <ion-tab-button tab="assigned" (click)="changeTab(undefined, 'assigned')">
       <ion-label><span [translate]="'common.assigned'"></span></ion-label>

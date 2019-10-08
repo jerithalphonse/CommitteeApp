@@ -6,12 +6,12 @@
     <ion-title class="back-button-icon-left" [translate]="'kiosks.title'"></ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content>
+<ion-content class="committee-background-design">
   <app-shared-userdirective></app-shared-userdirective>
   <ion-item class="committee-background-white">
     <ion-grid>
       <ion-row>
-        <h3>{{' الولاية ' + kiosksmodel.wilayat.arabicName + ' · ' +  ' المحافظة  ' + kiosksmodel.governorate.arabicName}}</h3>
+        <h3>{{'المحافظة  :' + kiosksmodel.governorate.arabicName + ' · ' +  ' الولاية:' + kiosksmodel.wilayat.arabicName}}</h3>
       </ion-row>
       <ion-row>
         <ion-col size="3" class="padding-0 ion-margin-top-12">
@@ -57,7 +57,8 @@
         </ion-col>
       </ion-row>
       <ion-row *ngFor="let pollingstation of kioksstatus.pollingstations">
-        <ion-col size="12" *ngIf="pollingstation">
+<!--        <span *ngIf="kiosksmodel && kiosksmodel.pollingstation && (kiosksmodel.pollingstation.name === 'All' || !kiosksmodel.pollingstation.name)">-->
+        <ion-col size="12" *ngIf="pollingstation ">
           <h4 color="dark-shade" class="font-size-18 ion-margin-top-8">{{pollingstation.arabicName}}</h4>
         </ion-col>
         <ion-col>
@@ -81,19 +82,20 @@
               <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast"><span [translate]="'kiosks.assignedto'"></span></div>
               <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast" *ngFor="let member of kiosk.kioskassigned">
                <span *ngIf="member && member.member"><ion-icon slot="icon-only" class="committee-user-status-icon-green" name="radio-button-on"></ion-icon>
-                {{member.member.nameEnglish}}
+                {{member.member.nameArabic}}
                  <span class="ion-float-end committee-button-text-color" *ngIf="user.roles.attendanceTabReassign" (click)="reAssignUser(member, kiosk)" [translate]="'kiosks.reassign'"></span></span>
               </div>
-              <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast" *ngIf="kiosk.kioskassigned && kiosk.kioskassigned.length == 1">
-                <span class="ion-padding-left-20 font-size-12" [translate]="'kiosks.none'"></span>
-                <span class="ion-float-end committee-button-text-color" *ngIf="user.roles.attendanceTabReassign" (click)="reAssignUser(null, kiosk)" [translate]="'kiosks.assign'"></span>
-              </div>
+<!--              <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast" *ngIf="kiosk.kioskassigned && kiosk.kioskassigned.length == 1">-->
+<!--                <span class="ion-padding-left-20 font-size-12" [translate]="'kiosks.none'"></span>-->
+<!--                <span class="ion-float-end committee-button-text-color" *ngIf="user.roles.attendanceTabReassign" (click)="reAssignUser(null, kiosk)" [translate]="'kiosks.assign'"></span>-->
+<!--              </div>-->
             </ion-card-content>
             <ion-card-content *ngIf="kiosk && kiosk.kioskassigned && kiosk.kioskassigned.length == 0">
               <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast"><span [translate]="'kiosks.none'"></span> <span class="ion-float-end committee-button-text-color" *ngIf="user.roles.attendanceTabReassign" (click)="assignUser(kiosk)" [translate]="'kiosks.assignmember'"></span></div>
             </ion-card-content>
           </ion-card>
         </ion-col>
+<!--        </span>-->
       </ion-row>
     </ion-grid>
   </ion-item>

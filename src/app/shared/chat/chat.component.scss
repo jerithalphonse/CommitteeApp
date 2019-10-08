@@ -105,9 +105,9 @@ ion-footer {
   width: 0px;
   height: 0px;
   position: absolute;
-  border-left: 10px solid #f1f1f1;
+  border-left: 10px solid #bababa;
   border-right: 10px solid transparent;
-  border-top: 10px solid #f1f1f1;
+  border-top: 10px solid #00000000;
   border-bottom: 10px solid transparent;
   margin-right: 0;
   right: -19px;
@@ -120,9 +120,13 @@ ion-footer {
   height: 0px;
   position: absolute;
   border-left: 10px solid transparent;
-  border-right: 10px solid #f1f1f1;
-  border-top: 10px solid #f1f1f1;
+  border-right: 10px solid #bababa;
+  border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
   left: -19px;
   top: 6px;
+}
+
+.message-wrap .left ion-card{
+  background: #b9f0f7 !important;
 }

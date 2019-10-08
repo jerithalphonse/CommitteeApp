@@ -1,5 +1,5 @@
 ion-item.committee-background-white{
-  --ion-background-color: white;
+  --ion-background-color: rgba(255, 255, 255, 0.6);
   --inner-border-width: 0px;
 }
 ion-item.committee-background-transparent{
@@ -14,7 +14,7 @@ ion-card ion-card-header {
   background: white;
 }
 ion-card ion-card-content {
-  background: var(--ion-background-color);
+  background: rgba(255, 255, 255, 0.7);
 }
 
 .tab-selected ion-label{

@@ -19,7 +19,7 @@ export class KioskPage implements OnInit {
     this.kiosksmodel.currentTab = 'assigned';
     this.authenticationService.currentUser.subscribe(value => {
       this.user = value;
-      if (this.user && this.user.roles && this.user.roles.name !== 'head_committee') {
+      if (this.user && this.user.roles && this.user.roles.name !== 'high_committee' && this.user.roles.name !== 'main_committee') {
         let temp = this.getRoleType();
         this.redirector = temp === 'voting' ? 'assigned' : 'any';
       }
@@ -36,7 +36,8 @@ export class KioskPage implements OnInit {
 
   }
   getRoleType() {
-    if (this.user.roles && (this.user.roles.name === 'committee_head_voting' || this.user.roles.name === 'head_committee' ||
+    if (this.user.roles && (this.user.roles.name === 'committee_head_voting' || this.user.roles.name === 'high_committee' ||
+      this.user.roles.name === 'main_committee' ||
       this.user.roles.name === 'polling_station_supervisor_voting')) {
       return 'voting';
     } else if (this.user.roles && this.user.roles.name === 'committee_head_counting_organizing' ||

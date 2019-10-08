@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="view === 'pollingstation'">
+<ion-content *ngIf="view === 'pollingstation'" class="committee-background-design">
   <app-shared-userdirective></app-shared-userdirective>
   <ion-grid>
     <ion-row *ngIf="!user.roles.directionsTab">
@@ -41,7 +41,7 @@
   </ion-grid>
 </ion-content>
 
-<ion-content *ngIf="view === 'supervisor'">
+<ion-content *ngIf="view === 'supervisor'" class="committee-background-design">
   <app-shared-userdirective></app-shared-userdirective>
   <ion-grid>
     <ion-row *ngIf="!user.roles.directionsTab">
@@ -82,7 +82,7 @@
   </ion-grid>
 </ion-content>
 
-<ion-content *ngIf="view === 'teammembers'">
+<ion-content *ngIf="view === 'teammembers'" class="committee-background-design">
   <app-shared-userdirective></app-shared-userdirective>
   <ion-grid>
     <ion-row *ngIf="!user.roles.directionsTab">
@@ -114,7 +114,7 @@
 <!---->
 <!--          </ion-list-header>-->
           <ion-item *ngFor="let data of assignpollingstation.nonsupervisorusers">
-            <ion-label>{{data.nameEnglish}}</ion-label>
+            <ion-label>{{data.nameArabic}}</ion-label>
             <ion-checkbox slot="end" [(ngModel)]="data.selected" (ionChange)="assignpollingstation.assignMember($event, data)"></ion-checkbox>
           </ion-item>
         </ion-list>
@@ -130,7 +130,7 @@
   </ion-grid>
 </ion-content>
 
-<ion-content *ngIf="view === 'preview'">
+<ion-content *ngIf="view === 'preview'" class="committee-background-design">
   <app-shared-userdirective></app-shared-userdirective>
   <ion-grid>
     <ion-row *ngIf="!user.roles.directionsTab">

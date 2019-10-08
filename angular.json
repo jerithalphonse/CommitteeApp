@@ -40,9 +40,18 @@
               },
               {
                 "input": "src/app/app.scss"
+              },
+              {
+                "input": "src/assets/flipclock/flipclock.css"
               }
             ],
-            "scripts": [],
+            "scripts": [
+              {
+                "input": "src/assets/flipclock/jquery.min.js"
+              },{
+                "input": "src/assets/flipclock/flipclock.min.js"
+              }
+            ],
             "es5BrowserSupport": true
           },
           "configurations": {
@@ -127,8 +136,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["src/tsconfig.app.json", "src/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**"]
+            "tsConfig": [
+              "src/tsconfig.app.json",
+              "src/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         },
         "ionic-cordova-build": {
@@ -180,7 +194,9 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }

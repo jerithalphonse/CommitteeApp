@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="dashboard" [text]="'عودة'"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="back-button-icon-left" [translate]="'creds.title'"></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="committee-background-design-creds">
+  <app-shared-userdirective></app-shared-userdirective>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="1"></ion-col>
+      <ion-col size="11">
+        <h5 color="dark-shade" class="fontweight-medium"></h5>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <div class="data-text-center">
+          <ion-avatar style="width: 335px;height: 282px;">
+            <img src="../../assets/main_screen/undraw_inbox_cleanup_w2ur.svg" style="border-radius: 0;"/>
+          </ion-avatar>
+        </div>
+        <div *ngIf="errors">
+          <div class="data-text-center">
+            <h4 ion-text class="committee-color-contrast" [translate]="'common.something_went_wrong'"></h4>
+          </div>
+        </div>
+        <div *ngIf="!errors">
+          <div class="data-text-center">
+            <h4 ion-text class="committee-color-contrast" [translate]="'creds.usernametext'"></h4>
+          </div>
+          <div class="data-text-center">
+            <h2 ion-text class="committee-color-contrast">{{user.username}}</h2>
+          </div>
+          <div class="data-text-center">
+            <h4 ion-text class="committee-color-contrast" [translate]="'creds.passwordtext'">Password</h4>
+          </div>
+          <div class="data-text-center">
+            <h2 ion-text class="committee-color-contrast">{{user.nameEnglish}}</h2>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

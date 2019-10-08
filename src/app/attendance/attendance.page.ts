@@ -19,7 +19,7 @@ export class AttendancePage implements OnInit {
     this.kiosksmodel.currentTab = 'voting';
     this.authenticationService.currentUser.subscribe(value => {
       this.user = value;
-      if (this.user && this.user.roles && this.user.roles.name !== 'head_committee') {
+      if (this.user && this.user.roles && this.user.roles.name !== 'high_committee' && this.user.roles.name !== 'main_committee' && this.user.roles.name !== 'wali_officer' && this.user.roles.name !== 'wali_assistant') {
         this.redirector = 'assigned';
       }
     });
@@ -56,12 +56,18 @@ export class AttendancePage implements OnInit {
     });
   }
   getRoleType() {
-    if (this.user.roles && (this.user.roles.name === 'committee_head_voting' || this.user.roles.name === 'head_committee' ||
+    if (this.user.roles && (this.user.roles.name === 'committee_head_voting' || this.user.roles.name === 'high_committee' ||
+      this.user.roles.name === 'main_committee' ||
+      this.user.roles.name === 'wali_officer' ||
+      this.user.roles.name === 'wali_assistant' ||
       this.user.roles.name === 'polling_station_supervisor_voting')) {
       return 'voting';
-    } else if (this.user.roles && this.user.roles.name === 'committee_head_counting_organizing' ||
-      this.user.roles.name === 'polling_station_supervisor_couting_organizing') {
+    } else if (this.user.roles && this.user.roles.name === 'committee_head_counting' ||
+      this.user.roles.name === 'polling_station_supervisor_counting') {
       return 'counting';
+    } else if (this.user.roles && this.user.roles.name === 'committee_head_counting_organizing' ||
+      this.user.roles.name === 'polling_station_supervisor_organizing') {
+      return 'organizing';
     }
   }
   goto(url: string) {
@@ -80,6 +86,6 @@ export class AttendancePage implements OnInit {
         this.redirector === 'assigned' ? 'assigned' : 'any');
       this.getAttendanceStatusByWilayatId(this.kiosksmodel.currentTab);
     }
-    this.navCtrl.navigateRoot(url);
+    this.navCtrl.navigateRoot(url + this.redirector);
   }
 }

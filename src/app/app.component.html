@@ -28,11 +28,11 @@
                   </ion-avatar>
                 </div>
                 <div class="data-text-center" *ngIf="!toggleedit && user">
-                  <h2 ion-text class="committee-color">{{ user && user.nameEnglish ? user.nameEnglish : "Seban Joseph"}}</h2>
+                  <h2 ion-text class="committee-color">{{ user && user.nameArabic ? user.nameArabic : "Seban Joseph"}}</h2>
                 </div>
                 <div class="data-text-center" *ngIf="toggleedit && user">
                   <!-- Input with placeholder -->
-                  <ion-input placeholder="Your name" value="{{user.nameEnglish}}" (ionChange)="user.onChange($event.detail.value, 'nameEnglish')" class="committee-color-dark"></ion-input>
+                  <ion-input placeholder="Your name" value="{{user.nameArabic}}" (ionChange)="user.onChange($event.detail.value, 'nameArabic')" class="committee-color-dark"></ion-input>
                 </div>
               </ion-col>
             </ion-row>

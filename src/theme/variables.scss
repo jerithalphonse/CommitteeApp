@@ -109,3 +109,23 @@ input{
 .action-sheet-group.sc-ion-action-sheet-ios {
   overflow: auto;
 }
+
+ion-content.committee-background-design{
+  background-image: url('../assets/bg_login/bg.png');
+  --ion-background-color: transparent;
+  background-repeat: inherit;
+  background-position: inherit;
+  background-size: cover;
+}
+
+ion-content.committee-background-design-creds {
+  background-image: url('../assets/bg_login/bg.png');
+  --ion-background-color: #ffffff6b;
+  background-repeat: inherit;
+  background-position: inherit;
+  background-size: cover;
+}
+
+ion-toast{
+  color: white;
+}
