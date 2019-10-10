@@ -8,7 +8,6 @@
     "viewstatus": "View Status",
     "assigned": "Assigned",
     "unassigned": "Un-Assigned",
-    "norecords": "No Records Founds",
     "voting": "Voting",
     "counting": "Counting",
     "organizing": "Organizing",
@@ -32,7 +31,6 @@
     "choose": "Please select the options to send messages",
     "all": "All Members to Governates",
     "all_wali": "All Members to wilayat",
-    "allteam": "Send messsage to all team members",
     "committee_head": "Committee Head",
     "commitee_head_message": "Send message to all committee heads",
     "high_committee": "High Committee",
@@ -54,7 +52,6 @@
     "supervisor": "Supervisor*",
     "addmembers": "Add Members*",
     "chosesupervisor": "Please choose the supervisor for the selected polling station",
-    "selectsupervisor": "Select Supervisor*",
     "addmembers_topolling": "Please add Committee members for the selected polling station",
     "save_assign": "Save & Assign Polling Station",
     "members_star": "Members*",
@@ -86,7 +83,6 @@
   "kiosks_assign": {
     "title": "Assign Kiosk",
     "subtext": "Please choose the user for the selected kiosk",
-    "selectuser": "Select User*",
     "title_button": "Assign Kiosks",
     "addmembers": "Add Members*"
   },
@@ -107,7 +103,6 @@
   },
   "dashboard": {
     "title": "Home",
-    "greeting": "Al-Shura Elections",
     "withcode": "<br><br>You are <b>epic</b>!",
     "btn": "Show Alert",
     "high_committee": "High Commmittee",
@@ -143,13 +138,13 @@
     "countingSoftwareTabSubText": "Counting software username and password",
     "contacts": "contacts",
     "contacts_text": "directory of members",
-    "scan_markattendance":  "Scan QR code to mark your attendance",
     "startin": "Voting will start in",
-    "endin": "Voting will end in"
+    "endin": "Voting will end in",
+    "voting": "Votes status",
+    "voting_text": "Status of the votes registered in wilayat, kiosks"
+
   },
   "login": {
-    "greeting": "Majlis Al-Shura",
-    "greeting2": "Elections 2019",
     "greetingsub": "Comittee Application",
     "usernametext": "UserName",
     "passwordtext": "Password",
@@ -184,5 +179,9 @@
     "title": "Login details",
     "usernametext": "Username",
     "passwordtext": "Password"
+  },
+  "votes": {
+    "title": "Votes Dashboard",
+    "votes": "Votes Registered"
   }
 }

@@ -5,21 +5,20 @@ import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {AuthenticationService} from './_services/authentication.service';
 import {User} from './_models';
-import * as firebase from 'firebase';
 import {LanguageService} from './_services/language.service';
 import { PopoverController, AlertController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import {LanguagePopoverPage} from './shared/language.popover.page';
 import {Network} from '@ionic-native/network/ngx';
-const config = {
-  apiKey: 'AIzaSyDHhSWHdykCVNwmpJxGIpwZ-Dk4Crofo7I',
-  authDomain: 'imtac-sample.firebaseapp.com',
-  databaseURL: 'https://imtac-sample.firebaseio.com',
-  projectId: 'imtac-sample',
-  storageBucket: 'imtac-sample.appspot.com',
-  messagingSenderId: '641927161072',
-  appId: '1:641927161072:web:922d50f2fbf0d128'
-};
+// const config = {
+//   apiKey: 'AIzaSyDHhSWHdykCVNwmpJxGIpwZ-Dk4Crofo7I',
+//   authDomain: 'imtac-sample.firebaseapp.com',
+//   databaseURL: 'https://imtac-sample.firebaseio.com',
+//   projectId: 'imtac-sample',
+//   storageBucket: 'imtac-sample.appspot.com',
+//   messagingSenderId: '641927161072',
+//   appId: '1:641927161072:web:922d50f2fbf0d128'
+// };
 
 @Component({
   selector: 'app-root',
@@ -64,7 +63,7 @@ export class AppComponent {
         console.log(this.user);
       });
     });
-    firebase.initializeApp(config);
+    // firebase.initializeApp(config);
     this.languageService.setInitialAppLanguage();
   }
 

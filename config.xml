@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.committeeapp.moi" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="io.committeeapp.moi" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>تطبيق اللجان - سلطنة عمان | Committee App - Oman</name>
     <description>Majlis Al-Shura Elections 2019 - Minitry of interior</description>
     <author email="eswervarma@uipep.com" href="https://uipep.com/">UIPEP Team</author>
@@ -85,7 +85,6 @@
     <allow-navigation href="http://localhost:8100" sessionid="6c5174db" />
     <allow-navigation href="*://5.37.60.164:5026/*" />
     <engine name="android" spec="8.0.0" />
-    <engine name="ios" spec="^5.0.1" />
     <engine name="browser" spec="^6.0.0" />
     <plugin name="cordova-plugin-splashscreen" spec="^5.0.3" />
     <plugin name="cordova-plugin-whitelist" spec="1.3.3" />

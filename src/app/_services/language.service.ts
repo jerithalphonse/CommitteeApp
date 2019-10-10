@@ -1,17 +1,17 @@
-import { Platform } from '@ionic/angular';
+import {Platform, PopoverController} from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
+import {DataService} from './authentication.service';
 
 const LNG_KEY = 'SELECTED_LANGUAGE';
-
 @Injectable({
   providedIn: 'root'
 })
 export class LanguageService {
   selected = '';
 
-  constructor(private translate: TranslateService, private storage: Storage, private plt: Platform) { }
+  constructor(private translate: TranslateService, private storage: Storage, private plt: Platform, public dataService: DataService) { }
 
   setInitialAppLanguage() {
     let language = this.translate.getBrowserLang();
@@ -36,5 +36,6 @@ export class LanguageService {
     this.translate.use(lng);
     this.selected = lng;
     this.storage.set(LNG_KEY, lng);
+    this.dataService.setLanguage(lng);
   }
 }

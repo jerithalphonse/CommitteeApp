@@ -54,7 +54,7 @@ export class ChatList {
   public initMessage(data, user: User) {
     const viewtypes = {
       high_committee: {
-        readonly: ['high_committee', 'main_committee', 'wilayat_officer', 'wilayat_assistant', 'wilayat_officer_only', 'committee_head_only', 'high_committee_only'],
+        readonly: ['high_committee', 'main_committee', 'wilayat_officer', 'wilayat_officer_only' ],
         toallmembers: ['high_committee', 'main_committee', 'wilayat_officer', 'wilayat_assistant'],
         towaliofficers: ['high_committee', 'main_committee', 'wilayat_officer', 'wilayat_assistant', 'wilayat_officer_only', 'high_committee_only'],
         tocommitteehead: ['high_committee', 'main_committee', 'committee_head_only', 'high_committee_only'],

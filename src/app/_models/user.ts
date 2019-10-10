@@ -22,6 +22,7 @@
   public messageTabRestrictMessage: boolean;
   public notificationTab: boolean;
   public countingSoftwareTab: boolean;
+  public votingTab: boolean;
 
   constructor(props) {
     this.id = props.id ? props.id : '';
@@ -46,6 +47,7 @@
     this.messageTabRestrictMessage = props.messageTabRestrictMessage ? props.messageTabRestrictMessage : false;
     this.notificationTab = props.notificationTab ? props.notificationTab : false;
     this.countingSoftwareTab = props.countingSoftwareTab ? props.countingSoftwareTab : false;
+    this.votingTab = props.votingTab ? props.votingTab : false;
   }
 
   processSudoRoleName(name: string) {
@@ -136,6 +138,8 @@ export class Wilayat {
   sortOrder: number;
   isActive: boolean;
   governorate: Governorate;
+  RegisteredFemaleVoters: number;
+  RegisteredMaleVoters: number;
   constructor(props) {
     this.code = props.code ? props.code : '';
     this.name = props.name ? props.name : '';
@@ -143,6 +147,8 @@ export class Wilayat {
     this.governorateCode = props.governorateCode ? props.governorateCode : '';
     this.sortOrder = props.sortOrder ? props.sortOrder : '';
     this.isActive = props.isActive ? props.isActive : '';
+    this.RegisteredFemaleVoters = props.registeredFemaleVoters ? props.registeredFemaleVoters : 0;
+    this.RegisteredMaleVoters = props.registeredMaleVoters ? props.registeredMaleVoters : 0;
     this.governorate = new Governorate(props.governorate ? props.governorate : {});
   }
 }
@@ -184,6 +190,8 @@ export class Kiosks {
   public isUnifiedKiosk: boolean;
   public areVotersPresentAsWitnesses: boolean;
   public isNoFingerprintKiosk: boolean;
+  public noOfVotes: number;
+  public LastRegisteredVoteAt: Date;
   public wilayat: Wilayat;
   public pollingStation: PollingStation;
   constructor(props) {
@@ -200,6 +208,8 @@ export class Kiosks {
     this.isUnifiedKiosk = props.isUnifiedKiosk ? props.isUnifiedKiosk : '';
     this.areVotersPresentAsWitnesses = props.areVotersPresentAsWitnesses ? props.areVotersPresentAsWitnesses : '';
     this.isNoFingerprintKiosk = props.isNoFingerprintKiosk ? props.isNoFingerprintKiosk : '';
+    this.noOfVotes = props.noOfVotes ? props.noOfVotes : 0;
+    this.LastRegisteredVoteAt = props.LastRegisteredVoteAt ? new Date(props.LastRegisteredVoteAt) : null;
     this.wilayat = new Wilayat(props.wilayat ? props.wilayat : {});
     this.pollingStation = new PollingStation(props.pollingStation ? props.pollingStation : {});
   }

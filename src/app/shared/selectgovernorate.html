@@ -11,10 +11,12 @@
     <ion-row *ngIf="kiosksmodel.show.governorate && !readonly_view.governorate">
       <ion-col size="12">
         <ion-select [interfaceOptions]="customGovernorateOptions" [cancelText]="'إلغاء'" [okText]="'تطبيق'"
-                    interface="action-sheet" multiple="false" placeholder="اختيار المحافظة" class="committee-ion-select"
+                    interface="action-sheet" multiple="false" placeholder="{{placeholders.governorate}}" class="committee-ion-select"
                     [(ngModel)]="kiosksmodel.governorate.name" (ionChange)="dataService.onChangeGovernorate($event)">
           <ion-select-option *ngFor="let data of kiosksmodel.governorates"
-                             value="{{data.name}}">{{data.arabicName}}</ion-select-option>
+                             value="{{data.name}}">
+            {{ placeholders.language === 'ar'? data.arabicName: data.name}}
+          </ion-select-option>
         </ion-select>
       </ion-col>
     </ion-row>
@@ -47,7 +49,7 @@
         <ion-select [interfaceOptions]="customPSOptions" [cancelText]="'إلغاء'" [okText]="'تطبيق'"
                     interface="action-sheet" multiple="false" placeholder="أختيار المركز الانتخابي" class="committee-ion-select"
                     [(ngModel)]="kiosksmodel.pollingstation.name" (ionChange)="dataService.onChangePollingStation($event)"
-                    [disabled] ="!(kiosksmodel.wilayat && kiosksmodel.wilayat.name)">
+                    [disabled] ="!(kiosksmodel.wilayat && kiosksmodel.wilayat.arabicName)">
           <ion-select-option *ngFor="let data of kiosksmodel.pollingstations" value="{{data.name}}">{{data.arabicName}}</ion-select-option>
         </ion-select>
       </ion-col>

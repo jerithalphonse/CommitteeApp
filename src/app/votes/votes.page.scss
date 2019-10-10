@@ -1,3 +1,24 @@
+.vote-header-1{
+  font-size: 12px;
+  text-align: center;
+  line-height: 1;
+  margin: 5px 0 0 0;
+}
+.vote-subheader-1{
+  text-align: center;
+  line-height: 1;
+  margin: 5px 0 0 0;
+}
+.vote-padding-stats{
+  padding-top: 2.4em;
+  padding-right: 0.8em;
+  margin: auto;
+  bottom: 0;
+}
+.vote-padding-stats-2{
+  margin: auto;
+  margin-right: -1em;
+}
 
 ion-item.committee-background-white{
   --ion-background-color: rgba(255, 255, 255, 0.6);
@@ -28,4 +49,22 @@ ion-card ion-card-content {
 .card-content-ios{
   padding-top: 5px;
   padding-bottom: 5px;
+}
+.committee-chip-background-green{
+  left: 10px;
+  right: inherit;
+}
+
+.card-voting{
+  padding-right: 8px;
+  color: white;
+}
+.color-yellow{
+  background-color: #FFBF3A;
+}
+.color-green{
+  background-color: #42CC40;
+}
+.color-white{
+  color:white;
 }

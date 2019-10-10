@@ -59,7 +59,7 @@
         <ion-grid>
           <ion-row>
             <ion-col size="12" class="ion-padding-left-16">
-              <div class="ion-padding-right-24"><span *ngIf="message.CreatedToUser && message.CreatedToUser.username && message.CreatedToUser.username"><span [translate]="'messages.sendtoonly'"></span> {{message.CreatedToUser.nameArabic}}  <span [translate]="'messages.sendtoonlyby'"></span></span>{{message.CreatedBy.nameArabic}}</div>
+              <div class="ion-padding-right-24"><span *ngIf="message.CreatedToUser && message.CreatedToUser.username && message.CreatedToUser.username"><span [translate]="'messages.sendtoonly'"></span> {{message.CreatedToUser.wilayat.arabicName }}:{{ message.CreatedToUser.nameArabic}}  <span [translate]="'messages.sendtoonlyby'"></span></span>&nbsp;{{message.CreatedBy.nameArabic}}</div>
               <h6> {{message.Message}}</h6>
               <div class="ion-padding-right-24">{{message.CreatedAt | dateconvert}}</div>
             </ion-col>

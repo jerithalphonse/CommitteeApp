@@ -45,6 +45,10 @@ const routes = [
     loadChildren: './creds/creds.module#CredsModule', canActivate: [AuthGuard]
   },
   {
+    path: 'votes',
+    loadChildren: './votes/votes.module#VotesModule', canActivate: [AuthGuard]
+  },
+  {
     path: 'contacts',
     loadChildren: './contacts/contacts.module#ContactsModule', canActivate: [AuthGuard]
   },

@@ -29,7 +29,7 @@ export class CredsPage implements OnInit {
   }
 
   ngOnInit() {
-    this.dataService.getCountingAppUserDetailsByWilayatIdRoleId(this.user.wilayatCode, this.user.roles.id).subscribe((user: any) => {
+    const handler = (user) => {
       if (user && user.length) {
         this.errors = '';
         this.user = new User({
@@ -41,8 +41,20 @@ export class CredsPage implements OnInit {
       } else {
         this.errors = 'Please contact administator';
       }
-    }, () => {
-      console.log('errors');
-    });
+    }
+    if (this.user && this.user.roles && this.user.roles.name === 'main_committee' || this.user.roles.name === 'high_committee') {
+      this.dataService.getCountingAppUserDetailsByRoleId(this.user.roles.id).subscribe((user: any) => {
+        handler(user);
+      }, () => {
+        console.log('errors');
+      });
+    } else {
+      this.dataService.getCountingAppUserDetailsByWilayatIdRoleId(this.user.wilayatCode, this.user.roles.id).subscribe((user: any) => {
+        handler(user);
+      }, () => {
+        console.log('errors');
+      });
+    }
+
   }
 }

@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="dashboard" [text]="'عودة'"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="back-button-icon-left" [translate]="'votes.title'"></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="committee-background-design-creds">
+  <app-shared-userdirective></app-shared-userdirective>
+  <ion-grid>
+    <ion-row *ngIf="user && user.roles && (user.roles.name === 'high_committee' || user.roles.name === 'main_committee')">
+      <ion-col size="12">
+        <div class="font-size-14 fontweight-light" [translate]="'common.wilayat'"></div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12" *ngIf="!readonly_view.wilayat">
+        <ion-select [interfaceOptions]="customWilayatOptions"  [cancelText]="'إلغاء'" [okText]="'تطبيق'"
+                    interface="action-sheet" multiple="false" placeholder="أختيار الولاية" class="committee-ion-select"
+                    [(ngModel)]="kiosksmodel.wilayat.name" (ionChange)="onChangeWilayat($event)"
+        >
+          <ion-select-option *ngFor="let data of kiosksmodel.wilayats" value="{{data.name}}">{{data.arabicName}}</ion-select-option>
+        </ion-select>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="6" class="vote-padding-stats">
+        <ion-card class="card-voting color-yellow">
+          <h1 class="ion-margin-bottom-0 color-white">
+            <ion-icon slot="icon-only" class="committee-user-status-icon-common-small" name="radio-button-on"></ion-icon>
+            {{votingstatus.registeredVoters}}
+          </h1>
+          <h6 class="ion-margin-top-0 color-white" [translate]="'votes.voter_registered_wilayat'"> </h6>
+        </ion-card>
+        <ion-card class="card-voting color-green">
+          <h1 class="ion-margin-bottom-0 color-white">
+            <ion-icon slot="icon-only" class="committee-user-status-icon-green-small" name="radio-button-on"></ion-icon>
+            {{votingstatus.totalvotescasted}}
+          </h1>
+          <h6 class="ion-margin-top-0 color-white" [translate]="'votes.total_votes_recieved'"></h6>
+        </ion-card>
+      </ion-col>
+      <ion-col size="6">
+        <div class="vote-padding-stats-2" >
+          <h6 class="vote-header-1" [translate]="'common.wilayat'"></h6>
+          <h3 class="vote-subheader-1" *ngIf="votingstatus.wilayat">{{votingstatus.wilayat.arabicName}}</h3>
+          <div id="chart" style="text-align: center;"></div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-row *ngFor="let pollingstation of votingstatus.pollingstations">
+          <!--        <span *ngIf="kiosksmodel && kiosksmodel.pollingstation && (kiosksmodel.pollingstation.name === 'All' || !kiosksmodel.pollingstation.name)">-->
+          <ion-col size="12" *ngIf="pollingstation ">
+            <h4 color="dark-shade" class="font-size-18 ion-margin-top-8">{{pollingstation.arabicName}}</h4>
+          </ion-col>
+          <ion-col size="12" class="font-size-14" *ngFor="let kiosk of pollingstation.kiosks">
+            <ion-card *ngIf="kiosk">
+              <ion-card-header>
+                <div class="font-size-18 fontweight-bold"> {{kiosk.serialNumber}}
+                  <ion-chip class="committee-chip-background-{{kiosk.openTime === '' ? 'black': 'green'}}">
+                    <ion-label color="light">{{kiosk.openTime === "" ? "مغلق" : "افتح"}}</ion-label>
+                  </ion-chip>
+                </div>
+              </ion-card-header>
+              <ion-card-content>
+                <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast" [translate]="'votes.votes'">
+                </div>
+                <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast">
+                  {{kiosk.noOfVotes}}
+                </div>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

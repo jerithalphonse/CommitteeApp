@@ -19,11 +19,13 @@ import { CameraPreview, CameraPreviewPictureOptions, CameraPreviewOptions,
   CameraPreviewDimensions } from '@ionic-native/camera-preview/ngx';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {Network} from '@ionic-native/network/ngx';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     IonicModule.forRoot(),
     AppRoutingModule,

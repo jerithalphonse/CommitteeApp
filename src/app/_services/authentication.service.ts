@@ -291,6 +291,7 @@ export class AttendanceStatusModel {
       }
     }
   }
+
   setPollingStationKeys(pollingStationname) {
     this.pollingstations = [];
     for (const i in this.pollingstationsAll) {
@@ -301,6 +302,7 @@ export class AttendanceStatusModel {
       }
     }
   }
+
   calculateAttendanceStatus(pollingstations) {
     this.attendanceStatus = {total: 0, present: 0, absent: 0};
     for (const i in pollingstations) {
@@ -483,6 +485,7 @@ export class KiosksModel {
   public users: Array<UserModel> = [];
   public filteredusers: Array<UserModel> = [];
   public user: User;
+  public languageselected: string = 'ar';
 
   constructor() {
   }
@@ -520,6 +523,10 @@ export class KiosksModel {
     governorates.forEach((element) => {
       this.governorates.push(new Governorate(element));
     });
+  }
+
+  selectLanguage(lng: string) {
+    this.languageselected = lng;
   }
 
   addWilayats(wilayats, options) {
@@ -623,7 +630,7 @@ export class KiosksModel {
       for (const i in this.users) {
         // tslint:disable-next-line:no-unused-expression
         this.users[i].imageUrl ? true : this.users[i].gender === 'male' ? '/assets/contacts/male_' + Math.trunc((Math.random() * 100 % 6) + 1) + '.png' :
-          '/assets/contacts/female_' + Math.trunc((Math.random() * 100 % 3) + 1) + '.png'
+          '/assets/contacts/female_' + Math.trunc((Math.random() * 100 % 3) + 1) + '.png';
         if (pollingstationname !== 'الكل' && this.users && this.users[i] && this.users[i].pollingStation && this.users[i].pollingStation.name === pollingstationname) {
           users.push(this.users[i]);
         } else if (pollingstationname === 'الكل') {
@@ -667,6 +674,21 @@ export class APIService {
     };
     return new Observable(subscriberFunc);
   }
+  getWilayatsById(wilayatCode: string) {
+    const subscriberFunc = (observer) => {
+      let url = ``;
+      url = `${config.apiUrl}/wilayats/` + wilayatCode;
+      return this.http.get<any>(url)
+        .subscribe(wilayats => {
+          // store user details and jwt token in local storage to keep user logged in between page refreshes
+          observer.next(wilayats);
+          return observer.complete();
+        }, errors => {
+          observer.error(errors);
+        });
+    };
+    return new Observable(subscriberFunc);
+  }
 
   getUsersOfWilayatWithRoleId(wilayatcode, rolecode) {
     const subscriberFunc = (observer) => {
@@ -681,6 +703,7 @@ export class APIService {
     };
     return new Observable(subscriberFunc);
   }
+
   getPollingStations(wilayat) {
     const subscriberFunc = (observer) => {
       let url = ``;
@@ -721,6 +744,21 @@ export class APIService {
         .subscribe(kiosksAssigned => {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
           observer.next(kiosksAssigned);
+          return observer.complete();
+        }, errors => {
+          observer.error(errors);
+        });
+    };
+    return new Observable(subscriberFunc);
+  }
+
+  getVotingStatusByWilayatId(id: string) {
+    const subscriberFunc = (observer) => {
+      let temp = `${config.apiUrl}/kiosks/voting/wilayat/` + id;
+      this.http.get(temp)
+        .subscribe(kiosks => {
+          // store user details and jwt token in local storage to keep user logged in between page refreshes
+          observer.next(kiosks);
           return observer.complete();
         }, errors => {
           observer.error(errors);
@@ -1028,6 +1066,7 @@ export class APIService {
     };
     return new Observable(subscriberFunc);
   }
+
   getCountingAppUserDetailsByWilayatIdRoleId(code, roleid) {
     const subscriberFunc = (observer) => {
       this.http.get(`${config.apiUrl}/countingsoftware/wilayat/` + code + `/` + roleid)
@@ -1041,6 +1080,21 @@ export class APIService {
     };
     return new Observable(subscriberFunc);
   }
+
+  getCountingAppUserDetailsByRoleId(roleid) {
+    const subscriberFunc = (observer) => {
+      this.http.get(`${config.apiUrl}/countingsoftware/wilayat/role/` + roleid)
+        .subscribe(user => {
+          // store user details and jwt token in local storage to keep user logged in between page refreshes
+          observer.next(user);
+          return observer.complete();
+        }, errors => {
+          observer.error(errors);
+        });
+    };
+    return new Observable(subscriberFunc);
+  }
+
   postWitnessId(data) {
     const subscriberFunc = (observer) => {
       return this.http.post<any>(`${config.apiUrl}/Witnesses`, data)
@@ -1103,6 +1157,100 @@ export class APIService {
         }, errors => {
           observer.error(errors);
         });
+    };
+    return new Observable(subscriberFunc);
+  }
+}
+
+@Injectable({providedIn: 'root'})
+export class VotingStatusModel {
+  public pollingstations: any = [];
+  public wilayat: Wilayat;
+  public votingpercentage = 0.0;
+  public registeredVoters = 0;
+  public totalvotescasted = 0;
+  constructor(props) {
+  }
+
+  addWilayat(wilayat) {
+    this.wilayat = new Wilayat(wilayat);
+  }
+  addVotingKiosks(kiosklist, pollingstation, type) {
+    const pollingStations = {};
+    this.votingpercentage = 0.0;
+    this.registeredVoters = 0;
+    this.totalvotescasted = 0;
+    for (const i in kiosklist) {
+      if (kiosklist[i] && kiosklist[i].id) {
+        if (kiosklist[i].noOfVotes) {
+          this.totalvotescasted += kiosklist[i].noOfVotes;
+        }
+        if (pollingStations[kiosklist[i].pollingStation.name]) {
+          pollingStations[kiosklist[i].pollingStation.name].kiosks.push(new Kiosks(kiosklist[i]));
+        } else {
+          pollingStations[kiosklist[i].pollingStation.name] = {
+            name: kiosklist[i].pollingStation.name,
+            arabicName: kiosklist[i].pollingStation.arabicName,
+            kiosks: []
+          };
+          pollingStations[kiosklist[i].pollingStation.name].kiosks.push(new Kiosks(kiosklist[i]));
+        }
+      }
+    }
+    for (const j in pollingStations) {
+      if (pollingStations && pollingStations[j]) {
+        this.pollingstations.push({name: pollingStations[j].name, arabicName: pollingStations[j].arabicName,
+          kiosks: pollingStations[j].kiosks});
+      }
+    }
+    this.registeredVoters = this.wilayat.RegisteredFemaleVoters + this.wilayat.RegisteredMaleVoters;
+    this.votingpercentage = this.registeredVoters ? (this.totalvotescasted / this.registeredVoters) * 100 : 0;
+  }
+
+}
+
+@Injectable({providedIn: 'root'})
+export class VotingStatusService {
+  public currentDataServiceSubject: BehaviorSubject<VotingStatusModel>;
+  public currentDataService: Observable<VotingStatusModel>;
+
+  constructor(private http: HttpClient, private apiService: APIService) {
+    this.currentDataServiceSubject = new BehaviorSubject<VotingStatusModel>(new VotingStatusModel({}));
+    this.currentDataService = this.currentDataServiceSubject.asObservable();
+  }
+
+  public get currentDataServiceSubjectValue(): VotingStatusModel {
+    return this.currentDataServiceSubject.value;
+  }
+
+  getWilayatByCode(code: string) {
+    const subscriberFunc = (observer) => {
+      this.apiService.getWilayatsById(code).subscribe((success: any) => {
+        if (success && success.length) {
+          this.currentDataServiceSubject.value.addWilayat(success[0]);
+          this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
+        }
+        observer.next(success);
+      }, (errors) => {
+        observer.error(errors);
+      }, () => {
+        return observer.complete();
+      });
+    };
+    return new Observable(subscriberFunc);
+  }
+
+  getKiosksStatusByWilayatId(id: string, pollingstation, type: string) {
+    const subscriberFunc = (observer) => {
+      this.apiService.getVotingStatusByWilayatId(id).subscribe((success) => {
+        this.currentDataServiceSubject.value.addVotingKiosks(success, pollingstation, type);
+        this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
+        observer.next(this.currentDataServiceSubject.value);
+      }, (errors) => {
+        observer.error(errors);
+      }, () => {
+        return observer.complete();
+      });
     };
     return new Observable(subscriberFunc);
   }
@@ -1285,15 +1433,22 @@ export class DataService {
     });
   }
 
+  setLanguage(lng: string) {
+    this.currentDataServiceSubject.value.selectLanguage(lng);
+    this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
+  }
+
   onChangeGovernorate(event) {
     this.currentDataServiceSubject.value.changeGovernorate(event.detail.value);
-    this.getWilayatFromGovernorateId(this.currentDataServiceSubject.value.governorate).subscribe(() => {}, () => {});
+    this.getWilayatFromGovernorateId(this.currentDataServiceSubject.value.governorate).subscribe(() => {
+    }, () => {
+    });
   }
 
   getWilayatFromGovernorateId(governorate: Governorate) {
     const subscriberFunc = (observer) => {
       this.apiService.getWilayats(governorate).subscribe((success) => {
-        this.currentDataServiceSubject.value.addWilayats(success, {all: true});
+        this.currentDataServiceSubject.value.addWilayats(success, {all: false});
         this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
         observer.next(success);
       }, (errors) => {
@@ -1332,6 +1487,7 @@ export class DataService {
     };
     return new Observable(subscriberFunc);
   }
+
   getPollingStationForWilayatId(wilayat: Wilayat, options: any) {
     this.apiService.getPollingStations(wilayat).subscribe((success) => {
       this.currentDataServiceSubject.value.addPollingStations(success, options);
@@ -1448,6 +1604,7 @@ export class DataService {
     };
     return new Observable(subscriberFunc);
   }
+
   getUsersOfWilayatWithRoleId(wilayat: Wilayat, roleid: string) {
     const mapobject = {
       high_committee: 1,
@@ -1488,6 +1645,7 @@ export class DataService {
     };
     return new Observable(subscriberFunc);
   }
+
   getCountingAppUserDetailsByWilayatIdRoleId(code, id) {
     const subscriberFunc = (observer) => {
       this.apiService.getCountingAppUserDetailsByWilayatIdRoleId(code, id).subscribe((success) => {
@@ -1500,6 +1658,20 @@ export class DataService {
     };
     return new Observable(subscriberFunc);
   }
+
+  getCountingAppUserDetailsByRoleId(id) {
+    const subscriberFunc = (observer) => {
+      this.apiService.getCountingAppUserDetailsByRoleId(id).subscribe((success) => {
+        observer.next(success);
+      }, (errors) => {
+        observer.error(errors);
+      }, () => {
+        return observer.complete();
+      });
+    };
+    return new Observable(subscriberFunc);
+  }
+
   setSelectedKiosks(kiosks) {
     this.currentDataServiceSubject.value.setKiosksSelected(kiosks);
     this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);

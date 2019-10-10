@@ -22,8 +22,8 @@ export class DateConvert implements PipeTransform {
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit {
-  @ViewChild(IonContent) content: IonContent;
-  @ViewChild('chat_input') messageInput: ElementRef;
+  @ViewChild(IonContent, {static: false}) content: IonContent;
+  @ViewChild('chat_input', {static: false}) messageInput: ElementRef;
   public chat: ChatList = new ChatList({});
   public kiosksmodel = new KiosksModel();
   public user = new User({});
@@ -40,7 +40,7 @@ export class ChatComponent implements OnInit {
     this.dataService.getWilayatFromGovernorateId(new Governorate({})).subscribe(() => {}, () => {});
     this.authenticationService.currentUser.subscribe(value => {
       this.user = value;
-      if (this.user.wilayat) {
+      if (this.user && this.user.wilayat) {
         this.getMessagesByWilyatId(this.user.wilayat.code);
       }
     });

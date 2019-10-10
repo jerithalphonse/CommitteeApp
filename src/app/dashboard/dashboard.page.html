@@ -10,7 +10,7 @@
 <!--        <span class="header-white-moilogo"></span>-->
 <!--      </ion-button>-->
 <!--    </ion-buttons>-->
-    <ion-buttons slot="end">
+    <ion-buttons slot="end" >
       <ion-button (click)="goto('messaging/chat/readonly')">
         <span class="header-white-message"></span>
       </ion-button>
@@ -56,6 +56,21 @@
                 <ion-col size="9" class="ion-padding-left-5">
                   <h5 class="width-95 line-height-one" [translate]="'dashboard.kiosksstatus'"></h5>
                   <div class="ion-margin-top-12" [translate]="'dashboard.kiosksstatus_deployedtext'"></div>
+                  <ion-icon name="arrow-forward" item-right class="home-page-card-icon-right"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card>
+
+          <ion-card *ngIf="(user && user.roles && user.roles.votingTab)" (click)="goto('votes')">
+            <ion-grid>
+              <ion-row class="ion-padding-bottom">
+                <ion-col size="3">
+                  <ion-img src="/assets/main_screen/pie-chart-icon.png" class="image-common-64"></ion-img>
+                </ion-col>
+                <ion-col size="9" class="ion-padding-left-5">
+                  <h5 class="width-95 line-height-one" [translate]="'dashboard.voting'"></h5>
+                  <div class="ion-margin-top-12" [translate]="'dashboard.voting_text'"></div>
                   <ion-icon name="arrow-forward" item-right class="home-page-card-icon-right"></ion-icon>
                 </ion-col>
               </ion-row>
@@ -151,7 +166,7 @@
                 <ion-col size="9">
                   <h5 class="width-95 line-height-one" [translate]="'dashboard.scanqr'"></h5>
                   <div class="width-95 ion-margin-top-12" *ngIf="user.roles.scanQrTabSelfAssignKiosks" [translate]="'dashboard.markattendance'"></div>
-                  <div class="width-95 ion-margin-top-12" *ngIf="!user.roles.scanQrTabSelfAssignKiosks" [translate]="'dashboard.scan_markattendance'"></div>
+<!--                  <div class="width-95 ion-margin-top-12" *ngIf="!user.roles.scanQrTabSelfAssignKiosks" [translate]="'dashboard.scan_markattendance'"></div>-->
                   <ion-icon name="arrow-forward" item-right class="home-page-card-icon-right"></ion-icon>
                 </ion-col>
               </ion-row>
@@ -165,7 +180,7 @@
                 </ion-col>
                 <ion-col size="9">
                   <h5 class="width-95 line-height-one" [translate]="'dashboard.countingSoftwareTab'"></h5>
-                  <div class="width-95 ion-margin-top-12"  [translate]="'dashboard.countingSoftwareTabSubText'"></div>
+<!--                  <div class="width-95 ion-margin-top-12"  [translate]="'dashboard.countingSoftwareTabSubText'"></div>-->
                   <ion-icon name="arrow-forward" item-right class="home-page-card-icon-right"></ion-icon>
                 </ion-col>
               </ion-row>

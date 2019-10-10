@@ -73,7 +73,7 @@ export class PasswordPage implements OnInit {
             if (data && data.success) {
               this.navCtrl.navigateRoot('/login');
             } else {
-              this.error = 'فشل في تغيير كلمة المرور';
+              this.error = 'يرجى إعادة تغيير كلمة المرور';
             }
             dismissLoader(res);
           },

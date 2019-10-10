@@ -129,3 +129,15 @@ ion-content.committee-background-design-creds {
 ion-toast{
   color: white;
 }
+
+.advanced-pie-legend .legend-items-container .legend-items {
+  overflow: initial !important;
+}
+.advanced-pie-legend .legend-items-container .legend-items .legend-item {
+  display: inherit !important;
+}
+//Add if you seem the result area is too big. You can control it at this.
+
+.advanced-pie-legend {
+  width: 15rem !important;
+}
