@@ -95,7 +95,7 @@ export class VotesPage implements AfterViewInit {
 
     const width = 150;
     const height = 150;
-    const thickness = 14;
+    const thickness = 10;
     const duration = 1750;
 
     const radius = Math.min(width, height) / 2;
@@ -151,7 +151,7 @@ export class VotesPage implements AfterViewInit {
       .attr('d', arc)
       .attr('fill', (d, i) => {
         if (i === 1) {
-          return '#EEF0F4';
+          return '#ffbf3a';
         } else if (i === 0) {
           return '#42CC40';
         }
