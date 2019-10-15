@@ -30,7 +30,9 @@ export class AssignpollingstationPage implements OnInit {
               private witnessStatusService: WitnessStatusService, public apiService: APIService) {
     this.authenticationService.currentUser.subscribe(value => {
       this.user = value;
-      this.dataService.getPollingStationForWilayatId(this.user.wilayat, {all: true});
+      if (this.user && this.user.wilayat) {
+        this.dataService.getPollingStationForWilayatId(this.user.wilayat, {all: true});
+      }
     });
     this.dataService.currentDataService.subscribe(value => {
       this.kiosksmodel = value;

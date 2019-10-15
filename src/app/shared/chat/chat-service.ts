@@ -160,6 +160,19 @@ export class ChatList {
   setChatRole(chatrole: string) {
     this.chatrole = chatrole;
   }
+  restrictWali(toggle: boolean) {
+    let lastEntry = this.restrictwali.length ? this.restrictwali[this.restrictwali.length - 1] : new RestrictWaliTime({
+      startDateTime: new Date()
+    });
+    // if () {
+    //
+    // }
+    // if (toggle) {
+    //
+    // } else {
+    //
+    // }
+  }
 }
 
 @Injectable({providedIn: 'root'})
@@ -277,6 +290,10 @@ export class ChatService {
       return observer.complete();
     };
     return new Observable(subscriberFunc);
+  }
+  restrictWali(toggle: boolean) {
+    this.currentDataServiceSubjectValue.restrictWali(toggle);
+    // const restrictwali = JSON.parse(localStorage.getItem('restrictwali'));
   }
 }
 
