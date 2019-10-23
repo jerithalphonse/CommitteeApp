@@ -126,7 +126,7 @@ h1, h2, h3, h4, h5, h6 {
   background: #25B745 !important;
   padding: 0px 16px 0px 16px;
   margin: 0px 0px;
-  right: 10px;
+  left: 10px;
   font-size: 12px;
   position: absolute;
   top: 14px;
@@ -169,6 +169,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .committee-user-status-icon-black {
   color: #000000 !important;
+  padding-right: 5px;
+}
+.committee-user-status-icon-red {
+  color: #dc261c !important;
   padding-right: 5px;
 }
 

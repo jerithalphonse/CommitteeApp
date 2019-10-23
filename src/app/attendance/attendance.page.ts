@@ -20,7 +20,11 @@ export class AttendancePage implements OnInit {
     this.authenticationService.currentUser.subscribe(value => {
       this.user = value;
       if (this.user && this.user.roles && this.user.roles.name !== 'high_committee' && this.user.roles.name !== 'main_committee' && this.user.roles.name !== 'wali_officer' && this.user.roles.name !== 'wali_assistant') {
-        this.redirector = 'assigned';
+        if (this.user.roles.name === 'committee_head_voting') {
+          this.redirector = 'assigned';
+        } else {
+          this.redirector = 'any';
+        }
       }
     });
     this.dataService.currentDataService.subscribe(value => {
@@ -65,7 +69,7 @@ export class AttendancePage implements OnInit {
     } else if (this.user.roles && this.user.roles.name === 'committee_head_counting' ||
       this.user.roles.name === 'polling_station_supervisor_counting') {
       return 'counting';
-    } else if (this.user.roles && this.user.roles.name === 'committee_head_counting_organizing' ||
+    } else if (this.user.roles && this.user.roles.name === 'committee_head_organizing' ||
       this.user.roles.name === 'polling_station_supervisor_organizing') {
       return 'organizing';
     }

@@ -33,6 +33,7 @@ import { UserNameDirectiveComponent} from './username/user.directive';
   declarations: [SelectGovernorateComponent, ChatComponent, DateConvert, LanguagePopoverPage, CameraComponent, UserNameDirectiveComponent],
   exports: [
     SelectGovernorateComponent,
+    DateConvert,
     UserNameDirectiveComponent,
     CameraComponent,
     LanguagePopoverPage,

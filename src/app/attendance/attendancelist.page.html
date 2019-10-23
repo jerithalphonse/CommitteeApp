@@ -58,7 +58,7 @@
             <ion-card-header>
               <span [translate]="'attendance.none'" *ngIf="!(userassigned.kiosksAssigned && userassigned.kiosksAssigned.Kiosks && userassigned.kiosksAssigned && userassigned.kiosksAssigned.kioskId)"></span>
               <span *ngIf="(userassigned.kiosksAssigned && userassigned.kiosksAssigned.Kiosks && userassigned.kiosksAssigned && userassigned.kiosksAssigned.kioskId)">{{userassigned.nameEnglish}}</span>
-              <div class="font-size-18 fontweight-bold"> {{userassigned.attendedAt}}
+              <div class="font-size-18 fontweight-bold"> <span *ngIf="userassigned.attendedAt"> {{userassigned.attendedAt | dateconvert}}</span>
                 <ion-chip class="committee-chip-background-{{userassigned.attendedAt == '' ? 'black': 'green'}}">
                   <ion-label color="light">{{userassigned.attendedAt == "" ? "لم يثبت حضوره": "حاضر"}}</ion-label>
                 </ion-chip>

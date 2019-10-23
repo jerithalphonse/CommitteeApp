@@ -31,7 +31,7 @@ export class AssignpollingstationPage implements OnInit {
     this.authenticationService.currentUser.subscribe(value => {
       this.user = value;
       if (this.user && this.user.wilayat) {
-        this.dataService.getPollingStationForWilayatId(this.user.wilayat, {all: true});
+        this.dataService.getPollingStationForWilayatId(this.user.wilayat, {all: false});
       }
     });
     this.dataService.currentDataService.subscribe(value => {

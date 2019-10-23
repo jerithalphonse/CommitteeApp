@@ -73,15 +73,17 @@
           <ion-card *ngIf="kiosk">
             <ion-card-header>
               <div class="font-size-18 fontweight-bold"> {{kiosk.serialNumber}}
-                <ion-chip class="committee-chip-background-{{kiosk.openTime == '' ? 'black': 'green'}}">
-                  <ion-label color="light">{{kiosk.openTime == "" ? "مغلق": "افتح"}}</ion-label>
+                <ion-chip class="committee-chip-background-{{ ((kiosk.openTime === '' && kiosk.closeTime ===  '') || (kiosk.openTime !== '' && kiosk.closeTime !==  '')) ? 'black': 'green'}}">
+                  <ion-label color="light">{{kiosk.openTime === "" && kiosk.closeTime === "" ? "لم يبدأ التصويت" : (kiosk.openTime !== "" && kiosk.closeTime !== "") ? "تم إنهاء التصويت": "تم بدء التصويت"}}</ion-label>
                 </ion-chip>
               </div>
             </ion-card-header>
             <ion-card-content *ngIf="kiosk && kiosk.kioskassigned && kiosk.kioskassigned.length">
               <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast"><span [translate]="'kiosks.assignedto'"></span></div>
               <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast" *ngFor="let member of kiosk.kioskassigned">
-               <span *ngIf="member && member.member"><ion-icon slot="icon-only" class="committee-user-status-icon-green" name="radio-button-on"></ion-icon>
+               <span *ngIf="member && member.member">
+                 <ion-icon slot="icon-only" class="committee-user-status-icon-green" name="radio-button-on" *ngIf="member.member && member.member.attendedAt"></ion-icon>
+                 <ion-icon slot="icon-only" class="committee-user-status-icon-red" name="radio-button-on" *ngIf="!(member.member && member.member.attendedAt)"></ion-icon>
                 {{member.member.nameArabic}}
                  <span class="ion-float-end committee-button-text-color" *ngIf="user.roles.attendanceTabReassign" (click)="reAssignUser(member, kiosk)" [translate]="'kiosks.reassign'"></span></span>
               </div>

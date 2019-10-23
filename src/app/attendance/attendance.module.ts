@@ -31,7 +31,8 @@ import {TranslateModule} from '@ngx-translate/core';
           { path: 'counting', component: AttendancelistPage },
           { path: 'organizing', component: AttendancelistPage },
           { path: 'assigned', component: AttendancelistPage },
-          { path: 'unassigned', component: AttendancelistPage }
+          { path: 'unassigned', component: AttendancelistPage },
+          { path: 'any', component: AttendancelistPage }
         ]
       },
       {

@@ -76,11 +76,12 @@ export class User {
   roleId: number;
   wilayatCode: string;
   commiteeType: string;
-  attendedAt: string;
+  attendedAt: Date | string;
   kioskId: number;
   governorateCode: string;
   roles: Role;
   token: string;
+  passwordChanged: boolean;
   kiosks: Kiosks;
   governorate: Governorate;
   pollingStation: PollingStation;
@@ -99,11 +100,12 @@ export class User {
     this.roleId = props.roleId ? props.roleId : '';
     this.wilayatCode = props.wilayatCode ? props.wilayatCode : '';
     this.commiteeType = props.commiteeType ? props.commiteeType : '';
-    this.attendedAt = props.attendedAt ? props.attendedAt : '';
+    this.attendedAt = props.attendedAt ? new Date(props.attendedAt) : '';
     this.kioskId = props.kioskId ? props.kioskId : null;
     this.governorateCode = props.governorateCode ? props.governorateCode : '';
     this.roles = new Role(props.roles ? props.roles : {});
     this.token = props.token ? props.token : '';
+    this.passwordChanged = props.passwordChanged ? props.passwordChanged : false;
     this.kiosks = props.kiosks ? new Kiosks(props.kiosks) : new Kiosks({});
     this.pollingStation = props.pollingStation ? new PollingStation(props.pollingStation) : new PollingStation({});
     this.wilayat = props.wilayat ? new Wilayat(props.wilayat) : new Wilayat({});

@@ -5,6 +5,7 @@
     <author email="eswervarma@uipep.com" href="https://uipep.com/">UIPEP Team</author>
     <content original-src="index.html" src="http://localhost:8100" />
     <access origin="*" />
+    <certificates src="user" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />

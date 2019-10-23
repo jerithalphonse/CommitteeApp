@@ -63,8 +63,8 @@
             <ion-card *ngIf="kiosk">
               <ion-card-header>
                 <div class="font-size-18 fontweight-bold"> {{kiosk.serialNumber}}
-                  <ion-chip class="committee-chip-background-{{kiosk.openTime === '' ? 'black': 'green'}}">
-                    <ion-label color="light">{{kiosk.openTime === "" ? "مغلق" : "افتح"}}</ion-label>
+                  <ion-chip class="committee-chip-background-{{ ((kiosk.openTime === '' && kiosk.closeTime ===  '') || (kiosk.openTime !== '' && kiosk.closeTime !==  '')) ? 'black': 'green'}}">
+                    <ion-label color="light">{{kiosk.openTime === "" && kiosk.closeTime === "" ? "لم يبدأ التصويت" : (kiosk.openTime !== "" && kiosk.closeTime !== "") ? "تم إنهاء التصويت": "تم بدء التصويت"}}</ion-label>
                   </ion-chip>
                 </div>
               </ion-card-header>

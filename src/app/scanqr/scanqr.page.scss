@@ -24,3 +24,6 @@ button{
 .margin-custom-top-center{
   margin: 5px 8%
 }
+.transparent-ion-content{
+  --ion-background-color: none transparent !important;
+}

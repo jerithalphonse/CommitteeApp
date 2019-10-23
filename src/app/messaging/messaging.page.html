@@ -44,7 +44,7 @@
             </ion-grid>
           </ion-card>
 
-          <ion-card *ngIf="(user && user.roles && user.roles.messageTabHeadCommittees)" (click)="goto('messaging/chat/tocommitteehead')">
+          <ion-card *ngIf="(user && user.roles && (user.roles.id !== 2 && user.roles.id !== 3) &&  user.roles.messageTabHeadCommittees)" (click)="goto('messaging/chat/tocommitteehead')">
             <ion-grid>
               <ion-row class="ion-padding-bottom">
                 <ion-col size="12" class="ion-padding-left-16">
@@ -55,7 +55,17 @@
               </ion-row>
             </ion-grid>
           </ion-card>
-
+          <ion-card *ngIf="(user && user.roles && (user.roles.id === 2 || user.roles.id === 3) && user.roles.messageTabHeadCommittees)" (click)="goto('messaging/chat/tocommitteehead')">
+            <ion-grid>
+              <ion-row class="ion-padding-bottom">
+                <ion-col size="12" class="ion-padding-left-16">
+                  <h4 class="width-95 line-height-one" [translate]="'messages.committee_head_by_wali'"></h4>
+                  <!--                  <div class="ion-padding-right-5" [translate]="'messages.commitee_head_message'"></div>-->
+                  <ion-icon name="arrow-forward" item-right class="message-page-card-icon-right font-size-32"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card>
           <ion-card *ngIf="(user && user.roles && user.roles.messageTabToHeadCommittee)" (click)="goto('messaging/chat/toheadcommittee')">
             <ion-grid>
               <ion-row class="ion-padding-bottom">
@@ -75,7 +85,7 @@
               <ion-row class="ion-padding-bottom">
                 <ion-col size="12" class="ion-padding-left-16">
                   <h4 class="width-95 line-height-one" [translate]="'messages.restrict_message'"></h4>
-                  <div class="ion-padding-right-5" [translate]="'messages.restrict_message_text'"><ion-toggle color="success" class="message-restrict-icon"></ion-toggle></div>
+                  <div class="ion-padding-right-5" [translate]="'messages.restrict_message_text'"><ion-toggle color="success" class="message-restrict-icon" [(ngModel)]="restrictmessage" (ionChange)="restrictMessageWali($event)"></ion-toggle></div>
                 </ion-col>
               </ion-row>
             </ion-grid>

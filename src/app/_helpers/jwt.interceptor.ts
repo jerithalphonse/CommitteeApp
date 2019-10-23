@@ -37,19 +37,22 @@ export class JwtInterceptor implements HttpInterceptor {
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-        this.requests.push(req);
         const currentUser = this.authenticationService.currentUserValue;
         if (currentUser && currentUser.token) {
-            req = req.clone({
+            let temp = {
                 setHeaders: {
                     'Access-Control-Allow-Origin' : '*',
                     'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS, PUT, DELETE',
                     Accept : 'application/json',
-                    'content-type' : 'application/json',
                     Authorization: `Bearer ${currentUser.token}`
                 }
-            });
+            }
+            if (req.url.indexOf('/users/UploadFiles') !== -1) {
+                req = req.clone(temp);
+            } else {
+               temp.setHeaders['content-type'] =  'application/json';
+               req = req.clone(temp);
+            }
         }
         // this.loaderService.isLoading.next(true);
         return Observable.create(observer => {

@@ -20,7 +20,7 @@ export class LoginPage implements OnInit {
     private authenticationService: AuthenticationService,
   ) {
     this.authenticationService.currentUser.subscribe(value => {
-      if (value && value.nameArabic) {
+      if (value && value.nameArabic && value.passwordChanged) {
         // this.goto('login');
         this.navCtrl.navigateRoot('/dashboard');
       }
@@ -54,15 +54,18 @@ export class LoginPage implements OnInit {
   async login(onLoginForm: any) {
     this.error = '';
     const processAttendance = (res, data) => {
-      console.log(data);
       if (data && !data.attendedAt && data.roles && (data.roles.name === 'high_committee' || data.roles.name === 'main_committee' || data.roles.name === 'wali_officer' ||
         data.roles.name === 'wali_assistant' || data.roles.name === 'committee_head_voting' ||
         data.roles.name === 'committee_head_organizing' || data.roles.name === 'minister' || data.roles.name === 'high_committee' || data.roles.name === 'main_committee')) {
         data.attendedAt = new Date().toISOString();
-        this.authenticationService.updateUser(data).subscribe(
+        this.authenticationService.updateUser(res).subscribe(
           updateattendance => {
-            this.navCtrl.navigateRoot('/dashboard');
-            dismissLoader(res);
+            if (data.passwordChanged === false) {
+              this.navCtrl.navigateRoot('/password');
+            } else {
+              this.navCtrl.navigateRoot('/dashboard');
+              dismissLoader(res);
+            }
           },
           error => {
             if (error) {
@@ -71,7 +74,11 @@ export class LoginPage implements OnInit {
             dismissLoader(res);
           });
       } else {
-        this.navCtrl.navigateRoot('/dashboard');
+        if (data.passwordChanged === false) {
+          this.navCtrl.navigateRoot('/password');
+        } else {
+          this.navCtrl.navigateRoot('/dashboard');
+        }
         dismissLoader(res);
       }
     };

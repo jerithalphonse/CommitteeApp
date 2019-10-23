@@ -40,9 +40,12 @@ export class KioskPage implements OnInit {
       this.user.roles.name === 'main_committee' ||
       this.user.roles.name === 'polling_station_supervisor_voting')) {
       return 'voting';
-    } else if (this.user.roles && this.user.roles.name === 'committee_head_counting_organizing' ||
-      this.user.roles.name === 'polling_station_supervisor_couting_organizing') {
+    } else if (this.user.roles && (this.user.roles.name === 'committee_head_counting' ||
+      this.user.roles.name === 'polling_station_supervisor_counting')) {
       return 'counting';
+    } else if (this.user.roles && (this.user.roles.name === 'committee_head_organizing' ||
+      this.user.roles.name === 'polling_station_supervisor_organizing')) {
+      return 'organizing';
     }
   }
   goto(url: string) {

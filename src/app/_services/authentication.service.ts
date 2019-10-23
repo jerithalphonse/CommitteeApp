@@ -191,6 +191,7 @@ export class AssignPollingStationModel {
   public nonsupervisorusers: Array<UserModel> = [];
   public nonsupervisorusersorginal = {};
   public supervisor: UserModel;
+  public supervisororiginal: UserModel;
 
   constructor(props) {
     this.assignedsupervisor(props);
@@ -222,6 +223,7 @@ export class AssignPollingStationModel {
     if (data && data.supervisor) {
       data.supervisor.selected = false;
       this.supervisor = new UserModel(data.supervisor);
+      this.supervisororiginal = new UserModel(data.supervisor);
     }
   }
 
@@ -233,18 +235,25 @@ export class AssignPollingStationModel {
   }
 
   getSelectedMembers() {
-    let selectedusers = [];
+    let selectedusers: any = [];
+    let unselectedusers: any = [];
+    let previousSupervisor: any;
     for (const i in this.nonsupervisorusers) {
-      if (this.nonsupervisorusers[i] && this.nonsupervisorusers[i].selected && this.nonsupervisorusersorginal) {
-        // check if the nonsupervisoruser is previously selected
-        let temp = this.nonsupervisorusersorginal[this.nonsupervisorusers[i].id];
-        if (temp && temp.selected) {
-
-        }
+      if (this.nonsupervisorusers[i] && this.nonsupervisorusers[i].selected) {
         selectedusers.push(this.nonsupervisorusers[i]);
+      } else if (this.nonsupervisorusers[i] && !this.nonsupervisorusers[i].selected && this.nonsupervisorusersorginal) {
+        // check if the nonsupervisoruser is previously selected
+        const temp = this.nonsupervisorusersorginal[this.nonsupervisorusers[i].id];
+        if (temp && temp.selected && !this.nonsupervisorusers[i].selected) {
+          unselectedusers.push(temp);
+        }
       }
     }
-    return selectedusers;
+    // check if previous selected supervisor changed
+    if (this.supervisor && this.supervisororiginal && this.supervisor.id !== this.supervisororiginal.id ) {
+      previousSupervisor = this.supervisororiginal;
+    }
+    return {unselectedusers, selectedusers, previousSupervisor};
   }
 
   assignMember(event, user: UserModel) {
@@ -880,24 +889,63 @@ export class APIService {
   }
 
   assignPollingStationToUsers(pollingstation, assignpollingstation, user) {
+    const decideNewRole = (issupervisor) => {
+      if (issupervisor) {
+        if (user.roleId === 4) {
+          return 6;
+        } else if (user.roleId === 5) {
+          return 7;
+        } else if (user.roleId === 1002) {
+          return 1003;
+        }
+      } else {
+        if (user.roleId === 4) {
+          return 8;
+        } else if (user.roleId === 5) {
+          return 9;
+        } else if (user.roleId === 1002) {
+          return 1004;
+        }
+      }
+    }
     const processUsers = () => {
       let users = [];
-      user.roleId === 4 ? assignpollingstation.supervisor.roleId = 6 : user.roleId === 5 ?
-        assignpollingstation.supervisor.roleId = 7 : '';
+      // Get changes for the users
+      let tempusers = assignpollingstation.getSelectedMembers();
+      const setPollingStationForUser = (userbyindex, pollingstationid) => {
+        userbyindex.roleId = decideNewRole(false);
+        userbyindex.pollingStationId = pollingstationid;
+        tempuser = new UserModel(userbyindex);
+        tempuser.removeKeys(['kiosks', 'roles', 'wilayat', 'pollingStation', 'kiosksAssigned', 'governorate']);
+        users.push(tempuser);
+        return users;
+      }
+      // remove previous supervisor incase if its alloted
+      if (tempusers.previousSupervisor && tempusers.previousSupervisor.roleId) {
+        tempusers.previousSupervisor.roleId = decideNewRole(false);
+        tempusers.previousSupervisor.pollingStationId = 111; // pollingstation 111 is added in database as None
+        let tempuser = new UserModel(tempusers.previousSupervisor);
+        tempuser.removeKeys(['kiosks', 'roles', 'wilayat', 'pollingStation', 'kiosksAssigned', 'governorate']);
+        users.push(tempuser);
+      }
+      // remove pollingstation for users who are previously alloted for the same pollingstation 111 is added in database as None
+      for (const i in tempusers.unselectedusers) {
+        if (tempusers.unselectedusers[i]) {
+          users = setPollingStationForUser(tempusers.unselectedusers[i], 111);
+        }
+      }
+      // set pollingstation for the users;
+      for (const i in tempusers.selectedusers) {
+        if (tempusers.selectedusers[i]) {
+          users = setPollingStationForUser(tempusers.selectedusers[i], pollingstation.id);
+        }
+      }
+      // set the new supervisor
+      assignpollingstation.supervisor.roleId = decideNewRole(true);
       assignpollingstation.supervisor.pollingStationId = pollingstation.id;
       let tempuser = new UserModel(assignpollingstation.supervisor);
       tempuser.removeKeys(['kiosks', 'roles', 'wilayat', 'pollingStation', 'kiosksAssigned', 'governorate']);
       users.push(tempuser);
-      let temp = assignpollingstation.getSelectedMembers();
-      for (const i in temp) {
-        if (temp[i]) {
-          user.roleId === 4 ? temp[i].roleId = 8 : user.roleId === 5 ? temp[i].role = 9 : '';
-          temp[i].pollingStationId = pollingstation.id;
-          tempuser = new UserModel(temp[i]);
-          tempuser.removeKeys(['kiosks', 'roles', 'wilayat', 'pollingStation', 'kiosksAssigned', 'governorate']);
-          users.push(tempuser);
-        }
-      }
       return users;
     };
     const subscriberFunc = (observer) => {
@@ -1448,7 +1496,7 @@ export class DataService {
   getWilayatFromGovernorateId(governorate: Governorate) {
     const subscriberFunc = (observer) => {
       this.apiService.getWilayats(governorate).subscribe((success) => {
-        this.currentDataServiceSubject.value.addWilayats(success, {all: false});
+        this.currentDataServiceSubject.value.addWilayats(success, {all: true});
         this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
         observer.next(success);
       }, (errors) => {
@@ -1761,28 +1809,24 @@ export class AuthenticationService {
   }
 
   converttoBlob(imagebase64data, cb) {
-    const base64ToBlob = (base64, mime) => {
-      mime = mime || '';
-      let sliceSize = 1024;
-      let byteChars = window.atob(base64);
-      let byteArrays = [];
+    const base64ToBlob = (b64Data, contentType = '', sliceSize = 1024) => {
+      const byteCharacters = atob(b64Data);
+      const byteArrays = [];
 
-      for (var offset = 0, len = byteChars.length; offset < len; offset += sliceSize) {
-        let slice = byteChars.slice(offset, offset + sliceSize);
+      for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        const slice = byteCharacters.slice(offset, offset + sliceSize);
 
-        let byteNumbers = new Array(slice.length);
+        const byteNumbers = new Array(slice.length);
         for (let i = 0; i < slice.length; i++) {
           byteNumbers[i] = slice.charCodeAt(i);
         }
 
-        let byteArray = new Uint8Array(byteNumbers);
-
+        const byteArray = new Uint8Array(byteNumbers);
         byteArrays.push(byteArray);
       }
-      return new Blob(byteArrays, {type: mime});
+      return new Blob(byteArrays, {type: contentType});
     };
-    let blob = base64ToBlob(imagebase64data, 'image/png');
-    cb(blob, imagebase64data);
+    cb(base64ToBlob(imagebase64data, 'image/png'), imagebase64data);
   }
 
   getImageFromPicker(cb) {

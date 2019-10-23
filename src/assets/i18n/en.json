@@ -32,6 +32,7 @@
     "all": "All Members to Governates",
     "all_wali": "All Members to wilayat",
     "committee_head": "Committee Head",
+    "committee_head_by_wali": "Commitee heads by wali",
     "commitee_head_message": "Send message to all committee heads",
     "high_committee": "High Committee",
     "high_committee_message": "Send message to High committee",
@@ -43,7 +44,14 @@
     "restrict_message_text": "Restrict wali officer's to reply back ",
     "nowaliuser": "No user assigned to the wilayat",
     "sendtoonly": "Sent only to",
-    "sendtoonlyby": "by"
+    "sendtoonlyby": "by",
+    "by_1": "اللجنة العليا",
+    "by_2002": " اللجنة الرئيسية",
+    "by_2": "رئيس اللجنة الانتخابية بالولاية (الوالي)",
+    "by_3": "مقرر اللجنة الانتخابية بالولاية (نائب الوالي)",
+    "by_4": "رئيس لجنة التصويت",
+    "by_5": "رئيس لجنة الفرز",
+    "by_1002": "رئيس لجنة التنظيم"
   },
   "assignpollingstation": {
     "title": "Assign Polling Station",
