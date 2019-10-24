@@ -59,6 +59,10 @@ const routes = [
   {
     path: 'password',
     loadChildren: './password/password.module#PasswordModule', canActivate: [AuthGuard]
+  },
+  {
+    path: 'bankdetails',
+    loadChildren: './bankdetails/bankdetails.module#BankDetailsModule', canActivate: [AuthGuard]
   }
 ];
 

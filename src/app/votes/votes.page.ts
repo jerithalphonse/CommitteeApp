@@ -67,22 +67,38 @@ export class VotesPage implements AfterViewInit {
   onChangeWilayat(event: any) {
     this.dataService.onChangeWilayat(event);
     d3.select('#chart').selectAll('svg').remove();
-    for (const i in this.kiosksmodel.wilayats) {
-      if (event.target && this.kiosksmodel.wilayats && this.kiosksmodel.wilayats[i] && this.kiosksmodel.wilayats[i].name === event.target.value) {
-        this.getDataFromWilayatId(this.kiosksmodel.wilayats[i].code);
+    if (event.target.value === 'all') {
+      this.getDataFromWilayatId(undefined);
+    } else {
+      for (const i in this.kiosksmodel.wilayats) {
+        if (event.target && this.kiosksmodel.wilayats && this.kiosksmodel.wilayats[i] && this.kiosksmodel.wilayats[i].name === event.target.value) {
+          this.getDataFromWilayatId(this.kiosksmodel.wilayats[i].code);
+        }
       }
     }
   }
   getDataFromWilayatId(id) {
-    this.votingStatusService.getWilayatByCode(id).subscribe((success) => {
-      this.votingStatusService.getKiosksStatusByWilayatId(id, new PollingStation({}), '').subscribe((data: VotingStatusModel) => {
-        this.renderChart(data.votingpercentage);
+    if (id) {
+      this.votingStatusService.getWilayatByCode(id).subscribe((success) => {
+        this.votingStatusService.getKiosksStatusByWilayatId(id, new PollingStation({}), '').subscribe((data: VotingStatusModel) => {
+          this.renderChart(data.votingpercentage);
+        }, errors => {
+          console.log(errors);
+        });
       }, errors => {
         console.log(errors);
       });
-    }, errors => {
-      console.log(errors);
-    });
+    } else {
+      this.votingStatusService.getWilayatByCode(null).subscribe((success) => {
+        this.votingStatusService.getKiosksStatusByWilayatId(null, new PollingStation({}), '').subscribe((data: VotingStatusModel) => {
+          this.renderChart(data.votingpercentage);
+        }, errors => {
+          console.log(errors);
+        });
+      }, errors => {
+        console.log(errors);
+      });
+    }
   }
 
   renderChart(votingpercentage: number) {

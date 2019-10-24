@@ -44,7 +44,7 @@
       </ion-col>
       <ion-col size="6">
         <div class="vote-padding-stats-2" >
-          <h6 class="vote-header-1" [translate]="'common.wilayat'"></h6>
+          <h6 class="vote-header-1" [translate]="'common.wilayat'" *ngIf="votingstatus.wilayat"></h6>
           <h3 class="vote-subheader-1" *ngIf="votingstatus.wilayat">{{votingstatus.wilayat.arabicName}}</h3>
           <div id="chart" style="text-align: center;"></div>
         </div>

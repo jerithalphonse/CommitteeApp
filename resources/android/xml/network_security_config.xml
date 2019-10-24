@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
-        <domain>192.168.21.167</domain>
+        <domain>10.0.1.48</domain>
         <domain>capp.elections.om</domain>
     </domain-config>
 </network-security-config>

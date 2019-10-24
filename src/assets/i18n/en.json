@@ -149,8 +149,9 @@
     "startin": "Voting will start in",
     "endin": "Voting will end in",
     "voting": "Votes status",
-    "voting_text": "Status of the votes registered in wilayat, kiosks"
-
+    "voting_text": "Status of the votes registered in wilayat, kiosks",
+    "bank_text": "",
+    "bank": "Banking Details"
   },
   "login": {
     "greetingsub": "Comittee Application",
@@ -191,5 +192,14 @@
   "votes": {
     "title": "Votes Dashboard",
     "votes": "Votes Registered"
+  },
+  "bankdetails": {
+    "title": "Bank Details",
+    "subtitle": "Enter your details",
+    "bankname": "Bank name",
+    "branchname": "Branch Name",
+    "accountno": "Account No",
+    "civilid": "Civil Id",
+    "civilidurl": "Upload your Civil Card"
   }
 }

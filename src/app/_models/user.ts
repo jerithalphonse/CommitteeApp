@@ -245,3 +245,28 @@ export class KiosksAssign {
     this.PollingStation = props.pollingStation ? new PollingStation(props.pollingStation) : new PollingStation({});
   }
 }
+
+export class BankDetails {
+  public id: number;
+  public userId: number;
+  public bankName: string;
+  public branchName: string;
+  public accountNo: string;
+  public civilId: number;
+  public civilIdUrl: string;
+  constructor(props) {
+    this.id = props.id ? props.id : '';
+    this.userId = props.userId ? props.userId : undefined;
+    this.bankName = props.bankName ? props.bankName : '';
+    this.branchName = props.branchName ? props.branchName : '';
+    this.accountNo = props.accountNo ? props.accountNo : '';
+    this.civilId = props.civilId ? props.civilId : undefined;
+    this.civilIdUrl = props.civilIdUrl ? props.civilIdUrl : '';
+  }
+
+  onChange(value, key: string) {
+    if (key in this) {
+      this[key] = value;
+    }
+  }
+}

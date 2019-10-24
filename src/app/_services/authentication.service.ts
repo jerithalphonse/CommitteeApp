@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {config, Governorate, PollingStation, User, Wilayat, KiosksAssign, Kiosks} from '../_models';
+import {config, Governorate, PollingStation, User, Wilayat, KiosksAssign, Kiosks, BankDetails} from '../_models';
 import {ImagePicker} from '@ionic-native/image-picker/ngx';
 import {
   CameraPreview, CameraPreviewPictureOptions, CameraPreviewOptions,
@@ -68,7 +68,7 @@ export class WitnessStatusModel {
   }
 
   updateWitnessData(success: any) {
-    let pollingstations = {};
+    const pollingstations = {};
     this.clearPollingStationsWitnessInfo();
     for (const i in success) {
       if (success[i] && success[i].pollingStation) {
@@ -235,8 +235,8 @@ export class AssignPollingStationModel {
   }
 
   getSelectedMembers() {
-    let selectedusers: any = [];
-    let unselectedusers: any = [];
+    const selectedusers: any = [];
+    const unselectedusers: any = [];
     let previousSupervisor: any;
     for (const i in this.nonsupervisorusers) {
       if (this.nonsupervisorusers[i] && this.nonsupervisorusers[i].selected) {
@@ -339,7 +339,7 @@ export class AttendanceStatusModel {
           users.push(pollingStation.users[i]);
         }
       };
-      let users = [];
+      const users = [];
       for (const i in pollingStationinfo.users) {
         if (pollingStationinfo.users[i] && pollingStationinfo.users[i].roles) {
           const name = pollingStationinfo.users[i].roles.name;
@@ -361,7 +361,7 @@ export class AttendanceStatusModel {
       this.setPollingStationKeys(undefined);
       for (const i in this.pollingstationsAll) {
         if (this.pollingstationsAll && this.pollingstationsAll[i].name) {
-          let temp = filterData(this.pollingstationsAll[i], committeetype, assignedstatus);
+          const temp = filterData(this.pollingstationsAll[i], committeetype, assignedstatus);
           for (const j in this.pollingstations) {
             if (this.pollingstations[i] && this.pollingstations[i].name === temp.name) {
               this.pollingstations[i].users = temp.users;
@@ -374,7 +374,7 @@ export class AttendanceStatusModel {
       this.setPollingStationKeys(pollingStationName);
       for (const i in this.pollingstationsAll) {
         if (this.pollingstationsAll && this.pollingstationsAll[i].name === pollingStationName) {
-          let temp = filterData(this.pollingstationsAll[i], committeetype, assignedstatus);
+          const temp = filterData(this.pollingstationsAll[i], committeetype, assignedstatus);
           for (const j in this.pollingstations) {
             if (this.pollingstations[j] && this.pollingstations[j].name === temp.name) {
               this.pollingstations[j].users = temp.users;
@@ -494,9 +494,11 @@ export class KiosksModel {
   public users: Array<UserModel> = [];
   public filteredusers: Array<UserModel> = [];
   public user: User;
-  public languageselected: string = 'ar';
+  public bankDetails: BankDetails;
+  public languageselected = 'ar';
 
   constructor() {
+    this.bankDetails = new BankDetails({});
   }
 
   setGovernate(governorate: Governorate) {
@@ -517,6 +519,9 @@ export class KiosksModel {
 
   setUserSelected(user) {
     this.user = user;
+  }
+  setBankDetails(bankDetails) {
+    this.bankDetails = bankDetails;
   }
 
   addGovernorates(governorates, options) {
@@ -664,6 +669,38 @@ export class APIService {
   constructor(private http: HttpClient) {
   }
 
+  getAllWilayats() {
+    const subscriberFunc = (observer) => {
+      let url = ``;
+      url = `${config.apiUrl}/wilayats`;
+      return this.http.get<any>(url)
+        .subscribe(wilayats => {
+          // store user details and jwt token in local storage to keep user logged in between page refreshes
+          observer.next(wilayats);
+          return observer.complete();
+        }, errors => {
+          observer.error(errors);
+        });
+    };
+    return new Observable(subscriberFunc);
+  }
+
+  getBankingDetails(userid) {
+    const subscriberFunc = (observer) => {
+      let url = ``;
+      url = `${config.apiUrl}/bankingdetails/` + userid;
+      return this.http.get<any>(url)
+        .subscribe(bankingdetails => {
+          // store user details and jwt token in local storage to keep user logged in between page refreshes
+          observer.next(bankingdetails);
+          return observer.complete();
+        }, errors => {
+          observer.error(errors);
+        });
+    };
+    return new Observable(subscriberFunc);
+  }
+
   getWilayats(governorate) {
     const subscriberFunc = (observer) => {
       let url = ``;
@@ -763,7 +800,21 @@ export class APIService {
 
   getVotingStatusByWilayatId(id: string) {
     const subscriberFunc = (observer) => {
-      let temp = `${config.apiUrl}/kiosks/voting/wilayat/` + id;
+      const temp = `${config.apiUrl}/kiosks/voting/wilayat/` + id;
+      this.http.get(temp)
+        .subscribe(kiosks => {
+          // store user details and jwt token in local storage to keep user logged in between page refreshes
+          observer.next(kiosks);
+          return observer.complete();
+        }, errors => {
+          observer.error(errors);
+        });
+    };
+    return new Observable(subscriberFunc);
+  }
+  getVotingStatusAll() {
+    const subscriberFunc = (observer) => {
+      const temp = `${config.apiUrl}/kiosks/voting/all`;
       this.http.get(temp)
         .subscribe(kiosks => {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -875,6 +926,7 @@ export class APIService {
   }
 
   getKioskById(id: any) {
+    // alert(`${config.apiUrl}/kiosks/serial/` + id);
     const subscriberFunc = (observer) => {
       this.http.get(`${config.apiUrl}/kiosks/serial/` + id)
         .subscribe(kiosks => {
@@ -907,11 +959,11 @@ export class APIService {
           return 1004;
         }
       }
-    }
+    };
     const processUsers = () => {
       let users = [];
       // Get changes for the users
-      let tempusers = assignpollingstation.getSelectedMembers();
+      const tempusers = assignpollingstation.getSelectedMembers();
       const setPollingStationForUser = (userbyindex, pollingstationid) => {
         userbyindex.roleId = decideNewRole(false);
         userbyindex.pollingStationId = pollingstationid;
@@ -919,12 +971,12 @@ export class APIService {
         tempuser.removeKeys(['kiosks', 'roles', 'wilayat', 'pollingStation', 'kiosksAssigned', 'governorate']);
         users.push(tempuser);
         return users;
-      }
+      };
       // remove previous supervisor incase if its alloted
       if (tempusers.previousSupervisor && tempusers.previousSupervisor.roleId) {
         tempusers.previousSupervisor.roleId = decideNewRole(false);
         tempusers.previousSupervisor.pollingStationId = 111; // pollingstation 111 is added in database as None
-        let tempuser = new UserModel(tempusers.previousSupervisor);
+        const tempuser = new UserModel(tempusers.previousSupervisor);
         tempuser.removeKeys(['kiosks', 'roles', 'wilayat', 'pollingStation', 'kiosksAssigned', 'governorate']);
         users.push(tempuser);
       }
@@ -1157,6 +1209,31 @@ export class APIService {
     return new Observable(subscriberFunc);
   }
 
+  createOrUpdateBankDetails(data) {
+    const subscriberFunc = (observer) => {
+      if (data.id) {
+        return this.http.put<any>(`${config.apiUrl}/bankingdetails`, data)
+          .subscribe(success => {
+            // store user details and jwt token in local storage to keep user logged in between page refreshes
+            observer.next(success);
+            return observer.complete();
+          }, errors => {
+            observer.error(errors);
+          });
+      } else {
+        delete data.id;
+        return this.http.post<any>(`${config.apiUrl}/bankingdetails`, data)
+          .subscribe(success => {
+            // store user details and jwt token in local storage to keep user logged in between page refreshes
+            observer.next(success);
+            return observer.complete();
+          }, errors => {
+            observer.error(errors);
+          });
+      }
+    };
+    return new Observable(subscriberFunc);
+  }
 
   getUsersForPollingStation(user: User, pollingStation: PollingStation) {
     const seggregateUsers = (user: any, usersfetched: any) => {
@@ -1214,6 +1291,7 @@ export class APIService {
 export class VotingStatusModel {
   public pollingstations: any = [];
   public wilayat: Wilayat;
+  public wilayats: Array<Wilayat> = [];
   public votingpercentage = 0.0;
   public registeredVoters = 0;
   public totalvotescasted = 0;
@@ -1222,7 +1300,19 @@ export class VotingStatusModel {
 
   addWilayat(wilayat) {
     this.wilayat = new Wilayat(wilayat);
+    this.wilayats = [];
   }
+
+  addWilayats(wilayats) {
+    this.wilayats = [];
+    this.wilayat = undefined;
+    for (const i in wilayats) {
+      if (wilayats && wilayats[i]) {
+        this.wilayats.push(new Wilayat(wilayats[i]));
+      }
+    }
+  }
+
   addVotingKiosks(kiosklist, pollingstation, type) {
     const pollingStations = {};
     this.votingpercentage = 0.0;
@@ -1251,7 +1341,17 @@ export class VotingStatusModel {
           kiosks: pollingStations[j].kiosks});
       }
     }
-    this.registeredVoters = this.wilayat.RegisteredFemaleVoters + this.wilayat.RegisteredMaleVoters;
+    this.registeredVoters = 0;
+    if (this.wilayats && this.wilayats.length) {
+      for (const i in this.wilayats) {
+        if (this.wilayats && this.wilayats[i]) {
+          this.registeredVoters += (this.wilayats[i].RegisteredFemaleVoters + this.wilayats[i].RegisteredMaleVoters);
+        }
+      }
+    } else {
+      this.registeredVoters = this.wilayat.RegisteredFemaleVoters + this.wilayat.RegisteredMaleVoters;
+    }
+
     this.votingpercentage = this.registeredVoters ? (this.totalvotescasted / this.registeredVoters) * 100 : 0;
   }
 
@@ -1273,32 +1373,58 @@ export class VotingStatusService {
 
   getWilayatByCode(code: string) {
     const subscriberFunc = (observer) => {
-      this.apiService.getWilayatsById(code).subscribe((success: any) => {
-        if (success && success.length) {
-          this.currentDataServiceSubject.value.addWilayat(success[0]);
-          this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
-        }
-        observer.next(success);
-      }, (errors) => {
-        observer.error(errors);
-      }, () => {
-        return observer.complete();
-      });
+      if (code) {
+        this.apiService.getWilayatsById(code).subscribe((success: any) => {
+          if (success && success.length) {
+            this.currentDataServiceSubject.value.addWilayat(success[0]);
+            this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
+          }
+          observer.next(success);
+        }, (errors) => {
+          observer.error(errors);
+        }, () => {
+          return observer.complete();
+        });
+      } else {
+        this.apiService.getAllWilayats().subscribe((success: any) => {
+          if (success && success.length) {
+            this.currentDataServiceSubject.value.addWilayats(success);
+            this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
+          }
+          observer.next(success);
+        }, (errors) => {
+          observer.error(errors);
+        }, () => {
+          return observer.complete();
+        });
+      }
     };
     return new Observable(subscriberFunc);
   }
 
   getKiosksStatusByWilayatId(id: string, pollingstation, type: string) {
     const subscriberFunc = (observer) => {
-      this.apiService.getVotingStatusByWilayatId(id).subscribe((success) => {
-        this.currentDataServiceSubject.value.addVotingKiosks(success, pollingstation, type);
-        this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
-        observer.next(this.currentDataServiceSubject.value);
-      }, (errors) => {
-        observer.error(errors);
-      }, () => {
-        return observer.complete();
-      });
+      if (id === null) {
+        this.apiService.getVotingStatusAll().subscribe((success) => {
+          this.currentDataServiceSubject.value.addVotingKiosks(success, pollingstation, type);
+          this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
+          observer.next(this.currentDataServiceSubject.value);
+        }, (errors) => {
+          observer.error(errors);
+        }, () => {
+          return observer.complete();
+        });
+      } else {
+        this.apiService.getVotingStatusByWilayatId(id).subscribe((success) => {
+          this.currentDataServiceSubject.value.addVotingKiosks(success, pollingstation, type);
+          this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
+          observer.next(this.currentDataServiceSubject.value);
+        }, (errors) => {
+          observer.error(errors);
+        }, () => {
+          return observer.complete();
+        });
+      }
     };
     return new Observable(subscriberFunc);
   }
@@ -1376,7 +1502,7 @@ export class KiosksStatusModel {
 
   applyFiltersPollingStation(pollingStationName, committeetype, assignedstatus) {
     const filterData = (pollingStation, type, assigned) => {
-      let kiosks = [];
+      const kiosks = [];
       for (const i in pollingStation.kiosks) {
         if (assigned === 'assigned' && pollingStation.kiosks[i].kioskassigned && pollingStation.kiosks[i].kioskassigned.length) {
           kiosks.push(pollingStation.kiosks[i]);
@@ -1392,7 +1518,7 @@ export class KiosksStatusModel {
       this.setPollingStationKeys(undefined);
       for (const i in this.pollingstationsAll) {
         if (this.pollingstationsAll && this.pollingstationsAll[i].name) {
-          let temp = filterData(this.pollingstationsAll[i], committeetype, assignedstatus);
+          const temp = filterData(this.pollingstationsAll[i], committeetype, assignedstatus);
           for (const j in this.pollingstations) {
             if (this.pollingstations[i] && this.pollingstations[i].name === temp.name) {
               this.pollingstations[i].kiosks = temp.kiosks;
@@ -1405,7 +1531,7 @@ export class KiosksStatusModel {
       this.setPollingStationKeys(pollingStationName);
       for (const i in this.pollingstationsAll) {
         if (this.pollingstationsAll && this.pollingstationsAll[i].name === pollingStationName) {
-          let temp = filterData(this.pollingstationsAll[i], committeetype, assignedstatus);
+          const temp = filterData(this.pollingstationsAll[i], committeetype, assignedstatus);
           for (const j in this.pollingstations) {
             if (this.pollingstations[j] && this.pollingstations[j].name === temp.name) {
               this.pollingstations[j].kiosks = temp.kiosks;
@@ -1421,10 +1547,10 @@ export class KiosksStatusModel {
     this.clearPollingStationsWitnessInfo();
     kiosksAssigned = _.groupBy(kiosksAssigned, 'id');
     // group list of kiosks memebers
-    let kiosklist = [];
+    const kiosklist = [];
     for (const i in kiosksAssigned) {
       if (kiosksAssigned[i] && kiosksAssigned[i].length) {
-        let temp = new KiosksStatusViewModel(kiosksAssigned[i][0]);
+        const temp = new KiosksStatusViewModel(kiosksAssigned[i][0]);
         if (kiosksAssigned[i][0].kiosksAssigned) {
           temp.kioskassigned = [new KiosksAssign(kiosksAssigned[i][0].kiosksAssigned)];
           for (let j = 1; j < kiosksAssigned[i].length; j++) {
@@ -1729,6 +1855,32 @@ export class DataService {
     this.currentDataServiceSubject.value.setUserSelected(user);
     this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
   }
+  changeBankDetails(bankDetails) {
+    const subscriberFunc = (observer) => {
+      this.apiService.createOrUpdateBankDetails(bankDetails).subscribe((success) => {
+        observer.next(success);
+      }, (errors) => {
+        observer.error(errors);
+      }, () => {
+        return observer.complete();
+      });
+    };
+    return new Observable(subscriberFunc);
+  }
+  getBankingDetails(userid) {
+    const subscriberFunc = (observer) => {
+      this.apiService.getBankingDetails(userid).subscribe((success) => {
+        this.currentDataServiceSubject.value.setBankDetails(new BankDetails(success));
+        this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
+        observer.next(success);
+      }, (errors) => {
+        observer.error(errors);
+      }, () => {
+        return observer.complete();
+      });
+    };
+    return new Observable(subscriberFunc);
+  }
 }
 
 
@@ -1774,7 +1926,7 @@ export class AuthenticationService {
 
   updateUser(user: User) {
     const subscriberFunc = (observer) => {
-      let tempuser = new UserModel(user);
+      const tempuser = new UserModel(user);
       tempuser.removeKeys(['kiosks', 'roles', 'wilayat', 'pollingStation', 'selected']);
       return this.http.put<any>(`${config.apiUrl}/users/` + tempuser.id, {...tempuser})
         .subscribe(() => {
@@ -2291,7 +2443,17 @@ export class AssignKiosksService {
 
   getKiosksById(scandata) {
     const subscriberFunc = (observer) => {
-      this.apiService.getKioskById(scandata.result).subscribe((success) => {
+      // broswer on qr scan returns .result while in android its string process accordingly
+      const dataQRProcesser = (data) => {
+        // alert(JSON.stringify(data) + typeof data);
+        if (typeof data === 'string') {
+          return data;
+        } else if (data && data.result) {
+          return data.result;
+        }
+      };
+      this.apiService.getKioskById(dataQRProcesser(scandata)).subscribe((success) => {
+        // alert(JSON.stringify(success));
         if (success) {
           this.currentDataServiceSubject.value.addKiosks(success);
         }

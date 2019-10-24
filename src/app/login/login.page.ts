@@ -58,14 +58,14 @@ export class LoginPage implements OnInit {
         data.roles.name === 'wali_assistant' || data.roles.name === 'committee_head_voting' ||
         data.roles.name === 'committee_head_organizing' || data.roles.name === 'minister' || data.roles.name === 'high_committee' || data.roles.name === 'main_committee')) {
         data.attendedAt = new Date().toISOString();
-        this.authenticationService.updateUser(res).subscribe(
+        this.authenticationService.updateUser(data).subscribe(
           updateattendance => {
             if (data.passwordChanged === false) {
               this.navCtrl.navigateRoot('/password');
             } else {
               this.navCtrl.navigateRoot('/dashboard');
-              dismissLoader(res);
             }
+            dismissLoader(res);
           },
           error => {
             if (error) {

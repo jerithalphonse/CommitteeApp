@@ -69,7 +69,7 @@ export class JwtInterceptor implements HttpInterceptor {
                         }
                     },
                     err => {
-                        alert('Failed to process, Please try again after sometime' + err);
+                        // alert('Failed to process, Please try again after sometime' + err);
                         this.removeRequest(req, loaderres);
                         observer.error(err);
                     },

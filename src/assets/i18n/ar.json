@@ -149,7 +149,9 @@
     "startin": "الوقت المتبقي لبدء التصويت",
     "endin": "الوقت المتبقي لإنتهاء وقت التصويت",
     "voting": "مؤشرات إثبات الحضور",
-    "voting_text": "اعداد الناخبين المثبت حضورهم"
+    "voting_text": "اعداد الناخبين المثبت حضورهم",
+    "bank_text": "",
+    "bank": "Banking Details"
   },
   "login": {
     "greetingsub": "تطبيق اللجان",
@@ -193,5 +195,14 @@
     "voter_registered_wilayat": "إجمالي عدد الناخبين المسجلين لهذه الولاية",
     "total_votes_recieved": "إجمالي عدد الناخبين المثبت حضورهم",
     "votes": "عدد الناخبين المثبت حضورهم في هذا الجهاز"
+  },
+  "bankdetails": {
+    "title": "Bank Details",
+    "subtitle": "Enter your details",
+    "bankname": "Bank name",
+    "branchname": "Branch Name",
+    "accountno": "Account No",
+    "civilid": "Civil Id",
+    "civilidurl": "Upload your Civil Card"
   }
 }

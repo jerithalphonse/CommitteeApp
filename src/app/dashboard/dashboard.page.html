@@ -201,6 +201,21 @@
               </ion-row>
             </ion-grid>
           </ion-card>
+
+          <ion-card (click)="goto('bankdetails')" *ngIf="showbankdetails">
+            <ion-grid>
+              <ion-row class="ion-padding-bottom">
+                <ion-col size="3">
+                  <ion-img src="/assets/main_screen/bank.png" class="image-common-64"></ion-img>
+                </ion-col>
+                <ion-col size="9">
+                  <h5 class="width-95 line-height-one" [translate]="'dashboard.bank'"></h5>
+                  <div class="width-95 ion-margin-top-12" [translate]="'dashboard.bank_text'"></div>
+                  <ion-icon name="arrow-forward" item-right class="home-page-card-icon-right"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card>
         </ion-list>
       </ion-col>
     </ion-row>

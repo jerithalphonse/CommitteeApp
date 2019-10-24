@@ -93,6 +93,7 @@ export class ScanQrPage {
       this.assignkiosksservice.getUsersAssignedToPollingStation(success).subscribe(data => {
         validateTheUserScannedData(data);
       }, errors => {
+        // alert('error' + JSON.stringify(errors));
         // TODO Handle errors for no kiosks assigned issues
       });
       this.hideCamera();

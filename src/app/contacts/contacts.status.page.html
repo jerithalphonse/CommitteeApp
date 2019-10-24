@@ -20,18 +20,18 @@
               <ion-col size="8">
                 <h5 class="width-95 line-height-one" style="width: 50vw !important;">{{data.nameArabic}}</h5>
               </ion-col>
-              <ion-col size="1">
+              <ion-col size="1" *ngIf="data.gender === 'male'">
                 <div class="width-95 ion-margin-top-12">
                   <ion-row class="ion-margin-0">
                     <h6 class="width-95 line-height-one ion-margin-0">
-                      <a href="mailto:{{data.gender === 'male' ? data.email: 'aakmamari@moi.gov.om'}}" class="button button-positive" style="
+                      <a href="mailto:{{data.email}}" class="button button-positive" style="
                         font-size: 24px;color: #23b5c8;">
                         <ion-icon name="mail"></ion-icon>
                       </a>
                     </h6>
 
                     <h6 class="width-95 line-height-one ion-margin-0">
-                      <a href="tel:{{data.gender === 'male' ? data.phone: '+96895966961'}}" class="button button-positive" style="
+                      <a href="tel:{{data.phone}}" class="button button-positive" style="
                         font-size: 24px;color: #23b5c8;">
                         <ion-icon name="call"></ion-icon>
                       </a>
@@ -42,15 +42,15 @@
             </ion-row>
           </ion-grid>
         </ion-item>
-        <ion-item-options side="start">
-          <a href="mailto:{{data.gender === 'male' ? data.email: 'aakmamari@moi.gov.om'}}" class="button button-positive" style="padding: 8px;
+        <ion-item-options side="start" *ngIf="data.gender === 'male'">
+          <a href="mailto:{{data.email}}" class="button button-positive" style="padding: 8px;
     font-size: 42px;
     margin-top: 6%;
     margin-bottom: 6%;
     color: #23b5c8;">
             <ion-icon name="mail"></ion-icon>
           </a>
-          <a href="tel:{{data.gender === 'male' ? data.phone: '+96895966961'}}" class="button button-positive" style="padding: 8px;
+          <a href="tel:{{data.phone}}" class="button button-positive" style="padding: 8px;
     font-size: 42px;
     margin-top: 6%;
     margin-bottom: 6%;

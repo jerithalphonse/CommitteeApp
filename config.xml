@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.committeeapp.moi" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="io.committeeapp.moi" version="0.0.5" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>تطبيق اللجان</name>
     <description>Majlis Al-Shura Elections 2019 - Minitry of interior</description>
     <author email="eswervarma@uipep.com" href="https://uipep.com/">UIPEP Team</author>
@@ -105,4 +105,5 @@
     </plugin>
     <plugin name="cordova-plugin-qrscanner" spec="^3.0.1" />
     <plugin name="cordova-plugin-add-swift-support" spec="1.7.2" />
+    <allow-navigation href="https://localhost:8100" sessionid="601fee12" />
 </widget>
