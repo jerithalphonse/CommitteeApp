@@ -15,19 +15,29 @@
       </ion-row>
       <ion-row>
         <ion-col size="3" class="padding-0 ion-margin-top-12">
-          <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast" [translate]="'kiosks.totalkiosks'"></div>
+          <div class="font-size-14 ion-padding-bottom-8 ion-padding-right-8 committee-color-contrast" [translate]="'kiosks.totalkiosks'"></div>
+        </ion-col>
+        <ion-col size="3" class="padding-0 ion-margin-top-12">
+          <div class="font-size-14 ion-padding-bottom-8 ion-padding-right-8 committee-color-contrast" [translate]="'kiosks.locked'"></div>
+        </ion-col>
+        <ion-col size="3" class="padding-0 ion-margin-top-12">
+          <div class="font-size-14 ion-padding-bottom-8 ion-padding-right-8 committee-color-contrast" [translate]="'kiosks.opened'"></div>
+        </ion-col>
+        <ion-col size="3" class="padding-0 ion-margin-top-12">
+          <div class="font-size-14 ion-padding-bottom-8 ion-padding-right-8 committee-color-contrast" [translate]="'kiosks.closed'"></div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="3" class="padding-0 ion-margin-top-12">
           <div><strong>{{this.kioksstatus.kiosksStatus.total}}</strong></div>
         </ion-col>
         <ion-col size="3" class="padding-0 ion-margin-top-12">
-          <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast" [translate]="'kiosks.locked'"></div>
           <div><strong>{{this.kioksstatus.kiosksStatus.locked}}</strong></div>
         </ion-col>
         <ion-col size="3" class="padding-0 ion-margin-top-12">
-          <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast" [translate]="'kiosks.opened'"></div>
           <div><strong>{{this.kioksstatus.kiosksStatus.opened}}</strong></div>
         </ion-col>
         <ion-col size="3" class="padding-0 ion-margin-top-12">
-          <div class="font-size-14 ion-padding-bottom-8 committee-color-contrast" [translate]="'kiosks.closed'"></div>
           <div><strong>{{this.kioksstatus.kiosksStatus.closed}}</strong></div>
         </ion-col>
       </ion-row>

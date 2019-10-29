@@ -1318,6 +1318,7 @@ export class VotingStatusModel {
     this.votingpercentage = 0.0;
     this.registeredVoters = 0;
     this.totalvotescasted = 0;
+    this.pollingstations = [];
     for (const i in kiosklist) {
       if (kiosklist[i] && kiosklist[i].id) {
         if (kiosklist[i].noOfVotes) {
@@ -1856,6 +1857,7 @@ export class DataService {
     this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
   }
   changeBankDetails(bankDetails) {
+    // alert(JSON.stringify(bankDetails));
     const subscriberFunc = (observer) => {
       this.apiService.createOrUpdateBankDetails(bankDetails).subscribe((success) => {
         observer.next(success);
@@ -1869,8 +1871,12 @@ export class DataService {
   }
   getBankingDetails(userid) {
     const subscriberFunc = (observer) => {
-      this.apiService.getBankingDetails(userid).subscribe((success) => {
-        this.currentDataServiceSubject.value.setBankDetails(new BankDetails(success));
+      this.apiService.getBankingDetails(userid).subscribe((success: any) => {
+        if (success && success.length) {
+          this.currentDataServiceSubject.value.setBankDetails(new BankDetails(success[0]));
+        } else {
+          this.currentDataServiceSubject.value.setBankDetails(new BankDetails({}));
+        }
         this.currentDataServiceSubject.next(this.currentDataServiceSubject.value);
         observer.next(success);
       }, (errors) => {

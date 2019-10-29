@@ -3,4 +3,16 @@ ion-card{
   background: white;
   margin-top: 15px;
   margin-bottom: 0;
+  width: 100%;
+}
+
+.left-24{
+  left: 16px;
+  position: absolute;
+  z-index: 100;
+}
+.item-lines-none {
+  --border-width: 0;
+  --inner-border-width: 0;
+  --padding-start: 0;
 }

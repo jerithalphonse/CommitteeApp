@@ -151,7 +151,7 @@
     "voting": "مؤشرات إثبات الحضور",
     "voting_text": "اعداد الناخبين المثبت حضورهم",
     "bank_text": "",
-    "bank": "Banking Details"
+    "bank": "معلومات رقم الحساب"
   },
   "login": {
     "greetingsub": "تطبيق اللجان",
@@ -197,12 +197,20 @@
     "votes": "عدد الناخبين المثبت حضورهم في هذا الجهاز"
   },
   "bankdetails": {
-    "title": "Bank Details",
-    "subtitle": "Enter your details",
-    "bankname": "Bank name",
-    "branchname": "Branch Name",
-    "accountno": "Account No",
-    "civilid": "Civil Id",
-    "civilidurl": "Upload your Civil Card"
+    "title": "معلومات رقم الحساب",
+    "bankname": "اسم البنك",
+    "branchname": "اسم الفرع",
+    "accountno": "رقم الحساب",
+    "confirmaccountno": " اعادة ادخال رقم الحساب",
+    "civilid": " رقم البطاقة الشخصية",
+    "civilidurl": "ارفاق البطاقةالشخصية",
+    "terms": "اقر بصحة هذه البيانات واتحمل كامل المسؤولية",
+    "banknamerequired":  " اسم البنك مطلوب",
+    "branchnamerequired": "اسم الفرع مطلوب",
+    "accountnorequired":  "رقم الحساب مطلوب",
+    "accountnoconfirmrequired": "اعادة ادخال رقم الحساب مطلوب",
+    "civilidrequired":  " رقم البطاقة الشخصية مطلوب",
+    "civilidurlrequired": " ارفاق البطاقة الشخصية مطلوب",
+    "agree": "موافق"
   }
 }

@@ -199,7 +199,15 @@
     "bankname": "Bank name",
     "branchname": "Branch Name",
     "accountno": "Account No",
+    "confirmaccountno": "Confirm Account No",
     "civilid": "Civil Id",
-    "civilidurl": "Upload your Civil Card"
+    "civilidurl": "Upload your Civil Card",
+    "banknamerequired": "Bank name Required",
+    "branchnamerequired": "Branch Name Required",
+    "accountnorequired": "Account No Required",
+    "accountnoconfirmrequired": "Confirm Account No Required",
+    "civilidrequired": "Civil Id Required",
+    "civilidurlrequired": "Upload your Civil Card Required",
+    "agree": "I agree"
   }
 }

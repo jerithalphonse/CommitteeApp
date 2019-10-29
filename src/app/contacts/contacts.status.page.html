@@ -9,59 +9,63 @@
 
 <ion-content class="committee-background-design">
   <ion-list>
-    <ion-card *ngFor="let data of kiosksmodel.filteredusers">
-      <ion-item-sliding #item>
-        <ion-item lines="none">
-          <ion-grid>
-            <ion-row class="ion-padding-bottom ion-padding-0">
-              <ion-col size="3">
-                <ion-img src="{{data.imageUrl ? data.imageUrl : data.gender === 'male' ? '/assets/contacts/male_1.png': '/assets/contacts/female_1.png'}}" class="image-common-64"></ion-img>
-              </ion-col>
-              <ion-col size="8">
-                <h5 class="width-95 line-height-one" style="width: 50vw !important;">{{data.nameArabic}}</h5>
-              </ion-col>
-              <ion-col size="1" *ngIf="data.gender === 'male'">
-                <div class="width-95 ion-margin-top-12">
-                  <ion-row class="ion-margin-0">
-                    <h6 class="width-95 line-height-one ion-margin-0">
-                      <a href="mailto:{{data.email}}" class="button button-positive" style="
-                        font-size: 24px;color: #23b5c8;">
-                        <ion-icon name="mail"></ion-icon>
-                      </a>
-                    </h6>
+    <ion-virtual-scroll [items]="kiosksmodel.filteredusers" approxItemHeight="100px">
+      <ion-row *virtualItem="let data; let itemBounds = bounds;">
+        <ion-card>
+          <ion-item-sliding #item>
+            <ion-item lines="none">
+              <ion-grid>
+                <ion-row class="ion-padding-bottom ion-padding-0">
+                  <ion-col size="3">
+                    <ion-img src="{{data.imageUrl ? data.imageUrl : data.gender === 'male' ? '/assets/contacts/male_1.png': '/assets/contacts/female_1.png'}}" class="image-common-64"></ion-img>
+                  </ion-col>
+                  <ion-col size="8">
+                    <h5 class="width-95 line-height-one" style="width: 50vw !important;">{{data.nameArabic}}</h5>
+                  </ion-col>
+                  <ion-col size="1" *ngIf="data.gender === 'male'" class="left-24">
+                    <div class="width-95 ion-margin-top-12">
+                      <ion-row class="ion-margin-0">
+                        <h6 class="width-95 line-height-one ion-margin-0">
+                          <a href="mailto:{{data.email}}" class="button button-positive" style="
+                            font-size: 24px;color: #23b5c8;">
+                            <ion-icon name="mail"></ion-icon>
+                          </a>
+                        </h6>
 
-                    <h6 class="width-95 line-height-one ion-margin-0">
-                      <a href="tel:{{data.phone}}" class="button button-positive" style="
-                        font-size: 24px;color: #23b5c8;">
-                        <ion-icon name="call"></ion-icon>
-                      </a>
-                    </h6>
-                  </ion-row>
-                </div>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-item>
-        <ion-item-options side="start" *ngIf="data.gender === 'male'">
-          <a href="mailto:{{data.email}}" class="button button-positive" style="padding: 8px;
-    font-size: 42px;
-    margin-top: 6%;
-    margin-bottom: 6%;
-    color: #23b5c8;">
-            <ion-icon name="mail"></ion-icon>
-          </a>
-          <a href="tel:{{data.phone}}" class="button button-positive" style="padding: 8px;
-    font-size: 42px;
-    margin-top: 6%;
-    margin-bottom: 6%;
-    color: #23b5c8;">
-            <ion-icon name="call"></ion-icon>
-          </a>
-        </ion-item-options>
+                        <h6 class="width-95 line-height-one ion-margin-0">
+                          <a href="tel:{{data.phone}}" class="button button-positive" style="
+                            font-size: 24px;color: #23b5c8;">
+                            <ion-icon name="call"></ion-icon>
+                          </a>
+                        </h6>
+                      </ion-row>
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-item>
+            <ion-item-options side="start" *ngIf="data.gender === 'male'">
+              <a href="mailto:{{data.email}}" class="button button-positive" style="padding: 8px;
+        font-size: 42px;
+        margin-top: 6%;
+        margin-bottom: 6%;
+        color: #23b5c8;">
+                <ion-icon name="mail"></ion-icon>
+              </a>
+              <a href="tel:{{data.phone}}" class="button button-positive" style="padding: 8px;
+        font-size: 42px;
+        margin-top: 6%;
+        margin-bottom: 6%;
+        color: #23b5c8;">
+                <ion-icon name="call"></ion-icon>
+              </a>
+            </ion-item-options>
 
-<!--        <ion-item-options side="end">-->
-<!--        </ion-item-options>-->
-      </ion-item-sliding>
-    </ion-card>
+    <!--        <ion-item-options side="end">-->
+    <!--        </ion-item-options>-->
+          </ion-item-sliding>
+        </ion-card>
+      </ion-row>
+    </ion-virtual-scroll>
   </ion-list>
 </ion-content>

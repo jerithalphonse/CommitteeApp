@@ -15,7 +15,7 @@ declare var $: any;
 export class DashboardScreenPage implements OnInit, AfterViewInit {
   public user = new User({});
   public started = false;
-  public showbankdetails = false;
+  public showbankdetails = true;
 
   constructor(private authenticationService: AuthenticationService, public navCtrl: NavController, public platform: Platform, public chatservice: ChatService) {
     this.authenticationService.currentUser.subscribe(value => {

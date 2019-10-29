@@ -1,0 +1,170 @@
+<ion-header *ngIf="!cameraopened && !previewmode">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="dashboard" [text]="'عودة'"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="back-button-icon-left" [translate]="'bankdetails.title'"></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="committee-background-design-creds" *ngIf="!cameraopened && !previewmode">
+  <app-shared-userdirective></app-shared-userdirective>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" class="ion-text-left">
+        <form [formGroup]="onBankDetailsForm" class="list-form">
+          <div class="ion-margin">
+            <ion-item lines="none">
+              <ion-label position="stacked"><span class="bold-600" [translate]="'bankdetails.bankname'"></span></ion-label>
+              <ion-input placeholder="" value="{{kiosksmodel.bankDetails.bankName}}" (ionChange)="kiosksmodel.bankDetails.onChange($event.detail.value, 'bankName')" class="committee-color-dark"></ion-input>
+            </ion-item>
+            <ion-item lines="none" *ngIf="this.validationerror === 'bankName'">
+              <p ion-text class="danger">
+                <ion-text color="danger" [translate]="'bankdetails.banknamerequired'">
+                </ion-text>
+              </p>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked"><span class="bold-600" [translate]="'bankdetails.branchname'"></span></ion-label>
+              <ion-input placeholder="" value="{{kiosksmodel.bankDetails.branchName}}" (ionChange)="kiosksmodel.bankDetails.onChange($event.detail.value, 'branchName')" class="committee-color-dark"></ion-input>
+            </ion-item>
+            <ion-item lines="none"  *ngIf="this.validationerror === 'branchName'">
+              <p ion-text color="danger" class="text08">
+                <ion-text color="danger" [translate]="'bankdetails.branchnamerequired'">
+                </ion-text>
+              </p>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked"><span class="bold-600" [translate]="'bankdetails.accountno'"></span></ion-label>
+              <ion-input placeholder="" value="{{kiosksmodel.bankDetails.accountNo}}" (ionChange)="kiosksmodel.bankDetails.onChange($event.detail.value, 'accountNo')" class="committee-color-dark"></ion-input>
+            </ion-item>
+            <ion-item lines="none"  *ngIf="this.validationerror === 'accountNo'">
+              <p ion-text color="danger" class="text08">
+                <ion-text color="danger" [translate]="'bankdetails.accountnorequired'">
+                </ion-text>
+              </p>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked"><span class="bold-600" [translate]="'bankdetails.confirmaccountno'"></span></ion-label>
+              <ion-input placeholder="" value="{{kiosksmodel.bankDetails.accountNoConfirm}}" (ionChange)="kiosksmodel.bankDetails.onChange($event.detail.value, 'accountNoConfirm')" class="committee-color-dark"></ion-input>
+            </ion-item>
+            <ion-item lines="none"  *ngIf="this.validationerror === 'accountNoConfirm'">
+              <p ion-text color="danger" class="text08">
+                <ion-text color="danger" [translate]="'bankdetails.accountnoconfirmrequired'">
+                </ion-text>
+              </p>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked"><span class="bold-600" [translate]="'bankdetails.civilid'"></span></ion-label>
+              <ion-text class="committee-color-dark">{{this.user.username}}</ion-text>
+            </ion-item>
+            <ion-item lines="none"  *ngIf="this.validationerror === 'civilId'">
+              <p ion-text color="danger" class="text08">
+                <ion-text color="danger" [translate]="'bankdetails.civilidrequired'">
+                </ion-text>
+              </p>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked"><span class="bold-600" [translate]="'bankdetails.civilidurl'"></span></ion-label>
+              <ion-avatar class="width-height-100 margin-auto-bank">
+                <img src="{{kiosksmodel && kiosksmodel.bankDetails &&  kiosksmodel.bankDetails.civilIdUrl ? kiosksmodel.bankDetails.civilIdUrl : '../../assets/main_screen/id-card.svg'}}" (click)="openImageFullView(kiosksmodel.bankDetails.civilIdUrl)">
+                <ion-button size="small" class="uploadimage1" (click)="addBankingImage()" [translate]="'common.upload_image'"></ion-button>
+              </ion-avatar>
+            </ion-item>
+            <ion-item lines="none"  *ngIf="this.validationerror === 'civilIdUrl'">
+              <p ion-text color="danger" class="text08">
+                <ion-text color="danger" [translate]="'bankdetails.civilidurlrequired'">
+                </ion-text>
+              </p>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked"><span class="bold-600" [translate]="'bankdetails.terms'"></span></ion-label>
+              <ion-checkbox slot="start" [(ngModel)]="kiosksmodel.bankDetails.agreement" [ngModelOptions]="{standalone: true}" (ionChange)="kiosksmodel.bankDetails.onSelect($event, 'agreement')"></ion-checkbox>
+            </ion-item>
+            <ion-item lines="none"  *ngIf="this.validationerror === 'agreement'">
+              <p ion-text color="danger" class="text08">
+                <ion-text color="danger" [translate]="'bankdetails.terms'">
+                </ion-text>
+              </p>
+            </ion-item>
+            <ion-row class="ion-margin-top">
+              <ion-col size="12" class="ion-text-center">
+                <ion-item lines="none" *ngIf="this.error">
+                  <p ion-text color="danger" class="text08">
+                    <ion-text color="danger">
+                      {{this.error}}
+                    </ion-text>
+                  </p>
+                </ion-item>
+                <ion-button expand="block" color="success" shape="round" (click)="changeBankDetails(onBankDetailsForm)">
+                  <ion-ripple-effect></ion-ripple-effect>
+                  <span [translate]="'bankdetails.agree'"></span>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </div>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-header *ngIf="cameraopened || previewmode">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="witness" (click)="closeCamera()" [text]="'عودة'"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="back-button-icon-left" [translate]="'witness.title'"> </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content style="background: none transparent;" *ngIf="cameraopened" class="camera">
+  <div class="scan-area">
+  </div>
+  <div class="button-capture-bottom">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="1"></ion-col>
+        <ion-col size="3">
+          <button (click)="toggleFlash()" ion-fab class="text-uppercase">
+            <ion-icon name="flash"></ion-icon>
+          </button>
+        </ion-col>
+        <ion-col size="4">
+          <ion-button color="success" size="default" class="committee-button-size-medium" shape="round" (click)="captureImage()">
+            <ion-ripple-effect></ion-ripple-effect>
+            <span [translate]="'common.capture'"></span>
+          </ion-button>
+        </ion-col>
+        <ion-col size="3">
+          <button (click)="toggleCamera()" ion-fab class="text-uppercase">
+            <ion-icon name="reverse-camera"></ion-icon>
+          </button>
+        </ion-col>
+        <ion-col size="1"></ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>
+<ion-content *ngIf="previewmode" fullscreen="true" class="committee-background-design">
+  <div class="image-area" >
+    <ion-img src="{{blob.image}}" class="image-preview"></ion-img>
+    <div class="button-bottom">
+      <ion-grid class="transparent">
+        <ion-row class="transparent ion-text-center">
+          <ion-col size="6" class="transparent">
+            <ion-button color="success" size="default" class="committee-button-size-medium" shape="round" (click)="saveImage()">
+              <ion-ripple-effect></ion-ripple-effect>
+              <span [translate]="'common.save'"></span>
+            </ion-button>
+          </ion-col>
+          <ion-col size="6" class="transparent">
+            <ion-button color="success" size="default" class="committee-button-size-medium ion-color-danger" shape="round" (click)="closeCamera()">
+              <ion-ripple-effect></ion-ripple-effect>
+              <span [translate]="'common.delete'"></span>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,119 @@
+ion-item.committee-background-white{
+  --ion-background-color: rgba(255, 255, 255, 0.6);
+  --inner-border-width: 0px;
+}
+ion-item.committee-background-transparent{
+  --ion-background-color: trasparent;
+  --inner-border-width: 0px;
+}
+ion-card{
+  margin: 5px 0px 10px 0px;
+  box-shadow: 0px 2px 13px 1px rgba(0, 0, 0, 0.05);
+}
+ion-card ion-card-header {
+  background: white;
+}
+ion-card ion-card-content {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.tab-selected ion-label{
+  padding: 8px 2.5em 8px 2.5em;
+  border: 1px solid #25B745;
+  border-radius: 7px;
+  background: #E6FFEB;
+  color: #25B745;
+}
+
+.card-content-ios{
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.card-content-md{
+
+}
+
+div.masonry {
+  //display: -webkit-box;
+  //display: -webkit-flex;
+  //display: -ms-flexbox;
+  //display: flex;
+  margin-left: 5px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  height: auto;
+}
+div.masonry img {
+  width: 50px;
+  height: auto;
+  overflow: hidden;
+  -webkit-transition: .5s opacity;
+  transition: .5s opacity;
+  margin-right: 5px;
+}
+
+div.masonry:hover img { opacity: 0.3; }
+div.masonry:hover img:hover { opacity: 1; }
+
+/* fallback for earlier versions of Firefox */
+
+@supports not ((-webkit-flex-wrap: wrap) or (-ms-flex-wrap: wrap) or (flex-wrap: wrap)) {
+  div.masonry { display: block; }
+  div.masonry img {
+    display: inline-block;
+    vertical-align: top;
+  }
+}
+.scan-area {
+  width: 100%;
+  height: 85%;
+  background: url(../../assets/scanner.svg) no-repeat center center;
+  background-size: contain;
+}
+.image-area {
+  width: 100%;
+  height: 85%;
+  //background: url(../../assets/scanner.svg) no-repeat center center;
+  background-size: contain;
+}
+
+.button-bottom {
+  bottom: 20px;
+  position: absolute;
+  z-index: 100;
+  margin-left: 21%;
+  margin-right: 21%;
+  background: transparent;
+}
+.button-capture-bottom {
+  bottom: 20px;
+  position: absolute;
+  z-index: 100;
+  width: 100%;
+  background: transparent;
+}
+.transparent{
+  background: transparent !important;
+}
+button{
+  font-size: 40px;
+  background: transparent;
+  color: white;
+}
+
+.image-preview{
+  height: 93vh;
+  width: 100vw;
+  object-fit: cover;
+}
+.margin-auto-bank{
+  margin: auto;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}

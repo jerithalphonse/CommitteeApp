@@ -252,21 +252,48 @@ export class BankDetails {
   public bankName: string;
   public branchName: string;
   public accountNo: string;
+  public accountNoConfirm: string;
   public civilId: number;
   public civilIdUrl: string;
+  public agreement: boolean;
   constructor(props) {
     this.id = props.id ? props.id : '';
     this.userId = props.userId ? props.userId : undefined;
     this.bankName = props.bankName ? props.bankName : '';
     this.branchName = props.branchName ? props.branchName : '';
     this.accountNo = props.accountNo ? props.accountNo : '';
+    this.accountNoConfirm = props.accountNoConfirm ? props.accountNoConfirm : '';
     this.civilId = props.civilId ? props.civilId : undefined;
     this.civilIdUrl = props.civilIdUrl ? props.civilIdUrl : '';
+    this.agreement = props.agreement ? props.agreement : false;
   }
 
   onChange(value, key: string) {
+    this.agreement = false;
     if (key in this) {
       this[key] = value;
     }
+  }
+  onSelect(event, key) {
+    // this.agreement = !this.agreement;
+  }
+  getbankDetails() {
+    return {
+      id: this.id,
+      userId: this.userId,
+      bankName: this.bankName,
+      branchName: this.branchName,
+      accountNo: this.accountNo,
+      civilId: this.civilId,
+      civilIdUrl: this.civilIdUrl
+    };
+  }
+  validateData() {
+    for (const i in this) {
+      if (!this[i] && (i !== 'id' && i !== 'userId' && i !== 'civilId')) {
+        return i;
+      }
+    }
+    return '';
   }
 }
